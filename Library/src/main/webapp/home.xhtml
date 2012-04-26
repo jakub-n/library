@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.org/seam/faces">
+
+<ui:composition template="template.xhtml">
+	<br /><br />
+	<ui:define name="mainarea">
+		    Add default book (we are in a apocalyptic world an we know only one book).
+		    <br />
+        <h:commandLink value="Add" action="#{testWebBean.addDefaultBook}" />
+        <br /><br />
+        <h:commandLink value="Delete all books" action="#{testWebBean.deleteBooks}" />
+         <br /><br />
+        All books:<br />
+        
+               <h:dataTable var="book" value="#{testWebBean.books}" id="customerList"
+                         paginator="true" rows="10">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Id"/>
+                    </f:facet>
+                    <h:outputText value="#{book.bookId}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Title"/>
+                    </f:facet>
+                    <h:outputText value="#{book.title}"/>
+                </h:column>
+            </h:dataTable>
+	</ui:define>
+	
+</ui:composition>
+
+</html>
