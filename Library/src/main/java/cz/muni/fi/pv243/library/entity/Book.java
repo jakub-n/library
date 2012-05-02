@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -36,56 +38,41 @@ public class Book implements Serializable {
     private Calendar publicationDate;
     private Locale language;
     private int pagesNumber;
+    @OneToMany
     private Set<BookCopy> copies;
+    @ManyToMany
     private Set<Tag> tags;
-    
 
     public Book() {
     }
     
-    
-
     public Set<BookCopy> getCopies() {
         return copies;
     }
-    
-    
 
     public Set<Tag> getTags() {
         return tags;
     }
 
-
-
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
-
-
 
     public void setCopies(Set<BookCopy> copies) {
         this.copies = copies;
     }
 
-
-
     public String getAuthor() {
         return author;
     }
-
-
 
     public void setAuthor(String author) {
         this.author = author;
     }
 
-
-
     public String getIsbn() {
         return isbn;
     }
-
-
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
@@ -95,31 +82,21 @@ public class Book implements Serializable {
         return publicationDate;
     }
 
-
-
     public void setPublicationDate(Calendar publicationDate) {
         this.publicationDate = publicationDate;
     }
-
-
 
     public Locale getLanguage() {
         return language;
     }
 
-
-
     public void setLanguage(Locale language) {
         this.language = language;
     }
 
-
-
     public int getPagesNumber() {
         return pagesNumber;
     }
-
-
 
     public void setPagesNumber(int pagesNumber) {
         this.pagesNumber = pagesNumber;

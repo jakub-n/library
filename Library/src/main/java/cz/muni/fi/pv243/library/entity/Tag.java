@@ -7,6 +7,8 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -17,6 +19,7 @@ public class Tag implements Serializable {
     @Id
     private Long id;
     private String name;
+    @ManyToMany
     private Set<Book> books;
 
     
