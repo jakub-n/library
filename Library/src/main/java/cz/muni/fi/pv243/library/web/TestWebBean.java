@@ -1,4 +1,4 @@
-package pv243.library.web;
+package cz.muni.fi.pv243.library.web;
 
 import java.util.List;
 
@@ -6,8 +6,9 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import pv243.library.ejb.RequestBean;
-import pv243.library.entity.Book;
+import cz.muni.fi.pv243.library.ejb.RequestBean;
+import cz.muni.fi.pv243.library.entity.Book;
+
 
 @ManagedBean
 @SessionScoped

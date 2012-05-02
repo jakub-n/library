@@ -1,4 +1,4 @@
-package pv243.library.ejb;
+package cz.muni.fi.pv243.library.ejb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import pv243.library.entity.Book;
+import cz.muni.fi.pv243.library.entity.Book;
+
 
 /**
  * A stateless bean handling the library entities.

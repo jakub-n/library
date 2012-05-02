@@ -1,4 +1,4 @@
-package pv243.library.entity;
+package cz.muni.fi.pv243.library.entity;
 
 import java.io.Serializable;
 
