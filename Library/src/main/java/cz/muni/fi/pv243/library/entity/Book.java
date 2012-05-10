@@ -7,7 +7,10 @@ import java.util.Set;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,6 +30,7 @@ public class Book implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @Column(name="BOOK_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookId;
 
@@ -38,7 +42,7 @@ public class Book implements Serializable {
     private Calendar publicationDate;
     private Locale language;
     private int pagesNumber;
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="book")
     private Set<BookCopy> copies;
     @ManyToMany
     private Set<Tag> tags;

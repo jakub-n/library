@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import cz.muni.fi.pv243.library.entity.Book;
+import cz.muni.fi.pv243.library.entity.BookCopy;;
 
 
 /**
@@ -34,6 +35,16 @@ public class RequestBean {
 		System.out.println("Book was added.");
 	}
 	
+	public void addBookCopy(BookCopy copy) {
+		entityManager.persist(copy);
+		System.out.println("BookCopy was added");
+	}
+	
+	public List<BookCopy> getAllBookCopies() {
+		Query query = entityManager.createQuery("SELECT c FROM BookCopy c");
+		return query.getResultList();
+	}
+	
 
 
 	public List<Book> getAllBooks() {
@@ -53,8 +64,10 @@ public class RequestBean {
 	
     public void deleteAllBooks()
     {
-    	Query query = entityManager.createQuery("DELETE FROM Book");
-		query.executeUpdate();
+    	Query query1  = entityManager.createQuery("DELETE FROM BookCopy");
+    	Query query = entityManager.createQuery("DELETE FROM Book ");
+    	query1.executeUpdate();
+    	query.executeUpdate();		
     }
 
 }
