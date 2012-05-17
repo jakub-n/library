@@ -2,11 +2,19 @@ package cz.muni.fi.pv243.library.entity;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Set;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 
 @Entity
 @Access(AccessType.FIELD)
@@ -15,7 +23,9 @@ public class Reader implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private Long id;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="READER_ID")
+    private Long readerId;
     private Credentials credentials;
     private String firstName;
     private String lastName;
@@ -26,13 +36,16 @@ public class Reader implements Serializable {
     private String cellNumber;
     private Calendar birthDate;
     private Calendar paidTillDate;
+    
+    @OneToMany(mappedBy="reader",orphanRemoval=true,fetch = FetchType.LAZY)
+    private Set<Booking> bookings;
 
     public Long getId() {
-        return id;
+        return readerId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.readerId = id;
     }
 
     public Credentials getCredentials() {
@@ -114,5 +127,14 @@ public class Reader implements Serializable {
     public void setPaidTillDate(Calendar paidTillDate) {
         this.paidTillDate = paidTillDate;
     }
+
+	public Set<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(Set<Booking> bookings) {
+		this.bookings = bookings;
+	}
+
 
 }

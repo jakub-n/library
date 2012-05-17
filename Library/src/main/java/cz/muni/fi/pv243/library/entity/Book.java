@@ -2,6 +2,7 @@ package cz.muni.fi.pv243.library.entity;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
@@ -14,9 +15,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 
 /**
  * Class representing a single book.
@@ -27,99 +29,132 @@ import javax.validation.constraints.NotNull;
 @Access(AccessType.FIELD)
 public class Book implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name="BOOK_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bookId;
+	@Id
+	@Column(name = "BOOK_ID", nullable = false, unique = true)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long bookId;
 
-    @NotNull
-    private String title;
-    
-    private String author;
-    private String isbn;
-    private Calendar publicationDate;
-    private Locale language;
-    private int pagesNumber;
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="book")
-    private Set<BookCopy> copies;
-    @ManyToMany
-    private Set<Tag> tags;
+	@Column(nullable = false)
+	private String title;
 
-    public Book() {
-    }
-    
-    public Set<BookCopy> getCopies() {
-        return copies;
-    }
+	// @Column(nullable=false)
+	private String author;
 
-    public Set<Tag> getTags() {
-        return tags;
-    }
+	// @Column(nullable=false)
+	private String isbn;
 
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
+	// @Column(nullable=false)
+	private Calendar publicationDate;
 
-    public void setCopies(Set<BookCopy> copies) {
-        this.copies = copies;
-    }
+	// @Column(nullable=false)
+	private Locale language;
 
-    public String getAuthor() {
-        return author;
-    }
+	// @Column(nullable=false)
+	private int pagesNumber;
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "book")
+	private Set<BookCopy> copies;
 
-    public String getIsbn() {
-        return isbn;
-    }
+	@ManyToMany
+	@JoinTable(name = "BOOK_TAG", 
+	joinColumns = { @JoinColumn(name = "BOOK_ID", referencedColumnName = "BOOK_ID") }, 
+	inverseJoinColumns = { @JoinColumn(name = "TAG_ID", referencedColumnName = "TAG_ID") })
+	private Set<Tag> tags;
+	
+	@OneToMany(mappedBy="book", orphanRemoval=true, fetch = FetchType.LAZY)
+	private Set<Booking> bookings;
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
+	public Set<BookCopy> getCopies() {
+		return copies;
+	}
 
-    public Calendar getPublicationDate() {
-        return publicationDate;
-    }
+	public Set<Tag> getTags() {
+		return tags;
+	}
 
-    public void setPublicationDate(Calendar publicationDate) {
-        this.publicationDate = publicationDate;
-    }
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
 
-    public Locale getLanguage() {
-        return language;
-    }
+	//test
+	public void addTag(Tag tag) {
+		if (this.tags != null) {
+			this.tags.add(tag);
+		} else {
+			Set<Tag> tags = new HashSet<Tag>();
+			tags.add(tag);
+			this.tags = tags;
+		}
+	}
 
-    public void setLanguage(Locale language) {
-        this.language = language;
-    }
+	public void setCopies(Set<BookCopy> copies) {
+		this.copies = copies;
+	}
 
-    public int getPagesNumber() {
-        return pagesNumber;
-    }
+	public String getAuthor() {
+		return author;
+	}
 
-    public void setPagesNumber(int pagesNumber) {
-        this.pagesNumber = pagesNumber;
-    }
+	public void setAuthor(String author) {
+		this.author = author;
+	}
 
-    public Long getBookId() {
-        return bookId;
-    }
+	public String getIsbn() {
+		return isbn;
+	}
 
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
-    }
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public Calendar getPublicationDate() {
+		return publicationDate;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public void setPublicationDate(Calendar publicationDate) {
+		this.publicationDate = publicationDate;
+	}
+
+	public Locale getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(Locale language) {
+		this.language = language;
+	}
+
+	public int getPagesNumber() {
+		return pagesNumber;
+	}
+
+	public void setPagesNumber(int pagesNumber) {
+		this.pagesNumber = pagesNumber;
+	}
+
+	public Long getBookId() {
+		return bookId;
+	}
+
+	public void setBookId(Long bookId) {
+		this.bookId = bookId;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Set<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(Set<Booking> bookings) {
+		this.bookings = bookings;
+	}
 
 }

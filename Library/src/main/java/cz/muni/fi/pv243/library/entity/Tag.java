@@ -5,10 +5,12 @@ import java.util.Set;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -17,9 +19,12 @@ public class Tag implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="TAG_ID", nullable=false, unique=true)
     private Long id;
     private String name;
-    @ManyToMany
+    
+    @ManyToMany(mappedBy="tags")
     private Set<Book> books;
 
     

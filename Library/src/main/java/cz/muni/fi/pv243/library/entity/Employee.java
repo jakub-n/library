@@ -1,11 +1,17 @@
 package cz.muni.fi.pv243.library.entity;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -14,17 +20,20 @@ public class Employee implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private Long id;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="EMPLOYEE_ID")
+    private Long emiployeeId;
     private String firstName;
     private String lastName;
     private Credentials credentials;
+    
 
     public Long getId() {
-        return id;
+        return emiployeeId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.emiployeeId = id;
     }
 
     public String getFirstName() {
@@ -50,5 +59,6 @@ public class Employee implements Serializable {
     public void setCredentials(Credentials credentials) {
         this.credentials = credentials;
     }
+
 
 }

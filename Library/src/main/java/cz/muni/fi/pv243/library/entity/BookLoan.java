@@ -5,8 +5,14 @@ import java.util.Calendar;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -15,34 +21,53 @@ public class BookLoan implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private Long id;
-    private Calendar beginDate;
-    private Calendar endDate;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="BOOK_LOAN_ID", unique=true, nullable=false)
+    private Long bookLoanId;
+    
+    // datum som dal pre testovacie potreby ako string. neskor zmenim
+    //@Column(nullable=false)
+    private String beginDate;
+    
+    //@Column(nullable=false)
+    private String endDate;
+    
+    //@Column(nullable=true)
     private Calendar returnDate;
-    private Employee creator;
-    private Reader lender;
+    
+    @ManyToOne
+    @JoinColumn(name="EMPLOYEE_ID")
+    private Employee employee;
+    
+    @ManyToOne(optional=true)
+    @JoinColumn(name="READER_ID", nullable=true)
+    private Reader reader;
+    
+    @ManyToOne
+    @JoinColumn(name="BOOK_COPY_ID")
+    private BookCopy bookCopy;
 
     public Long getId() {
-        return id;
+        return bookLoanId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.bookLoanId = id;
     }
 
-    public Calendar getBeginDate() {
+    public String getBeginDate() {
         return beginDate;
     }
 
-    public void setBeginDate(Calendar beginDate) {
+    public void setBeginDate(String beginDate) {
         this.beginDate = beginDate;
     }
 
-    public Calendar getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Calendar endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -54,20 +79,28 @@ public class BookLoan implements Serializable {
         this.returnDate = returnDate;
     }
 
-    public Employee getCreator() {
-        return creator;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setCreator(Employee creator) {
-        this.creator = creator;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    public Reader getLender() {
-        return lender;
+    public Reader getReader() {
+        return reader;
     }
 
-    public void setLender(Reader lender) {
-        this.lender = lender;
+    public void setReader(Reader reader) {
+        this.reader = reader;
     }
+
+	public BookCopy getBookCopy() {
+		return bookCopy;
+	}
+
+	public void setBookCopy(BookCopy bookCopy) {
+		this.bookCopy = bookCopy;
+	}
 
 }

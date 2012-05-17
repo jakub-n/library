@@ -1,6 +1,7 @@
 package cz.muni.fi.pv243.library.entity;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -22,17 +24,19 @@ public class BookCopy implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
-	@ManyToOne(fetch=FetchType.EAGER)
+	@Column(name="BOOK_COPY_ID",nullable=false, unique=true)
+	private Long bookCopyId;
+	
+	@ManyToOne
 	@JoinColumn(name="BOOK_ID")
 	private Book book;
 	
 	public Long getId() {
-		return id;
+		return bookCopyId;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.bookCopyId = id;
 	}
 
     public Book getBook() {
@@ -42,5 +46,6 @@ public class BookCopy implements Serializable {
     public void setBook(Book book) {
         this.book = book;
     }
+
 	
 }
