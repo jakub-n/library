@@ -14,6 +14,6 @@
  <welcome-file-list>
   <welcome-file>faces/libraryIndex.xhtml</welcome-file>
 
-<!--   <welcome-file>libraryIndex.jsf</welcome-file> nefunguje -->
+<!--   <welcome-file>libraryIndex.jsf</welcome-file> nefunguje, (I: to je spravne, ze nefunguje, jelikoz pouzivame facelety ) -->
  </welcome-file-list>
 </web-app>

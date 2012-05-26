@@ -1,28 +1,36 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-    <title>Library app</title> <!-- i18n -->
-</h:head> 
+	<title>Library app</title>
+	<!-- i18n -->
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</h:head>
 <h:body>
-    <div class="header">
-        <h1>Super Library App</h1>
-    </div>
-    <div class="mainPart">
-        <ui:insert name="mainPart">
-            ... main part ...
-        </ui:insert>
-    </div>
-    <div class="sideMenu">
-        <ui:insert name="sideMenu">
+	<div id="container">
+		<h:form>
+			<h:outputStylesheet name="layout.css" library="css" />
+		</h:form>
+
+		<div id="header">
+			<h1>Super Library App</h1>
+		</div>
+		<div id="sideMenu">
+			<ui:insert name="sideMenu">
             ... side menu ...
         </ui:insert>
-    </div>
-    <div class="footer">
-        ...
-    </div>
-</h:body> 
+		</div>
+		<div id="mainPart">
+			<ui:insert name="mainPart">
+            ... main part ...
+        </ui:insert>
+		</div>
+
+
+	</div>
+	<div id="footer">Created by a team of witty developers: Emil, Iva, Jakub and Verča</div>
+</h:body>
 </html>
