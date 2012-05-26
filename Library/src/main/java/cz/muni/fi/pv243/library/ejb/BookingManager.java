@@ -1,10 +1,14 @@
 package cz.muni.fi.pv243.library.ejb;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import cz.muni.fi.pv243.library.entity.Booking;
+import cz.muni.fi.pv243.library.entity.Tag;
 
 @Stateless
 public class BookingManager {
@@ -24,4 +28,9 @@ public class BookingManager {
 		em.merge(booking);
 	}
 
+	public List<Booking> getAllBookings() {
+		Query q = em.createQuery("SELECT b FROM Booking b");
+		return q.getResultList();
+	}
+	
 }

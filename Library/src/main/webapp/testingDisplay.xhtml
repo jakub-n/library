@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:s="http://jboss.org/seam/faces">
+
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="mainPart">	
+	
+		Tato stránka by měla sloužit pro zobrazování tabulek (čudlíky na přidávání jsou na jiné testovací stránce), co je v databázi a tím jednodušeji developit. Zatím je zde přidána většina základních entit, ne se všemi atributy. Měnit dle libosti.
+		<br /><br />
+		<b>!</b>Databáze je vždy na začátku vymazána a naplněna daty ze singleton StartupConfigBean. Čím více (smysluplných) dat tam bude. tím lépe.
+	
+       <h3> Books:</h3>
+		<h:dataTable var="book" value="#{testWebBean.books}" id="customerList"
+			paginator="true" rows="10" columnClasses="none,none,center,none">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Id" />
+				</f:facet>
+				<h:outputText value="#{book.bookId}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Title" />
+				</f:facet>
+				<h:outputText value="#{book.title}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Author" />
+				</f:facet>
+				<h:outputText value="#{book.author}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="ISBN" />
+				</f:facet>
+				<h:outputText value="#{book.isbn}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Language" />
+				</f:facet>
+				<h:outputText value="#{book.language}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Pages" />
+				</f:facet>
+				<h:outputText value="#{book.pagesNumber}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Published" />
+				</f:facet>
+				<h:outputText value="#{book.publicationDate.time}" />
+			</h:column>
+		</h:dataTable>
+		<br />
+<h3>BookCopies:</h3>
+	<h:dataTable var="bookCopy" value="#{testWebBean.bookCopies}"
+			id="copyList" rows="10" paginator="true" >
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Id" />
+				</f:facet>
+				<h:outputText value="#{bookCopy.id}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Book Id" />
+				</f:facet>
+				<h:outputText value="#{bookCopy.book.bookId}" />
+			</h:column>
+		</h:dataTable>
+		<br /><h3>Readers:</h3>
+			<h:dataTable var="reader" value="#{testWebBean.readers}">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Reader Id" />
+				</f:facet>
+				<h:outputText value="#{reader.id}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="First name" />
+				</f:facet>
+				<h:outputText value="#{reader.firstName}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Last name" />
+				</f:facet>
+				<h:outputText value="#{reader.lastName}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Birth date" />
+				</f:facet>
+				<h:outputText value="#{reader.birthDate.time}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Cellnumber" />
+				</f:facet>
+				<h:outputText value="#{reader.cellNumber}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Email" />
+				</f:facet>
+				<h:outputText value="#{reader.email}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Street" />
+				</f:facet>
+				<h:outputText value="#{reader.street}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Zip code" />
+				</f:facet>
+				<h:outputText value="#{reader.zipCode}" />
+			</h:column>
+		</h:dataTable>
+		
+		<br /><h3>Bookings</h3>
+		<h:dataTable var="booking" value="#{testWebBean.bookings}">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Booking Id" />
+					</f:facet>
+					<h:outputText value="#{booking.id}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Book Id" />
+					</f:facet>
+					<h:outputText value="#{booking.book.bookId}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Reader Id" />
+					</f:facet>
+					<h:outputText value="#{booking.reader.id}" />
+				</h:column>
+			</h:dataTable>
+		
+		
+		<br /><h3>Book loans</h3>
+		<h:dataTable var="bookLoan" value="#{testWebBean.bookLoans}">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="BookCopy Id" />
+					</f:facet>
+					<h:outputText value="#{bookLoan.id}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="BookCopy Id" />
+					</f:facet>
+					<h:outputText value="#{bookLoan.bookCopy.id}" />
+				</h:column>
+			</h:dataTable>
+		
+		
+		<br />
+<h3>Tags (without book infos):</h3>
+<h:dataTable var="bookTag" value="#{testWebBean.tags}" id="tagList"
+			rows="10" paginator="true" >
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Id" />
+				</f:facet>
+				<h:outputText value="#{bookTag.id}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Name" />
+				</f:facet>
+				<h:outputText value="#{bookTag.name}" />
+			</h:column>
+		</h:dataTable>
+
+
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

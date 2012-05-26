@@ -5,10 +5,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:s="http://jboss.org/seam/faces">
 
-<ui:composition template="template.xhtml">
-	<br />
-	<br />
-	<ui:define name="mainarea">
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="mainPart">
+	 <h:form>
 		    Add default book (we are in a apocalyptic world an we know only one book).
 		    <br />
 		<h:commandLink value="Add" action="#{testWebBean.addDefaultBook}" />
@@ -124,6 +123,7 @@
 		<h:commandLink value="add test book-tag" action="#{testWebBean.createTestTagBookRel}" />
 		<br/>
 		<h:commandLink value="add test booking" action="#{testWebBean.createTestBooking}" />
+		 </h:form>
 	</ui:define>
 
 </ui:composition>

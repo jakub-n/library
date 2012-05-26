@@ -143,5 +143,13 @@ public class TestWebBean {
 		booking.setReader(reader);
 		bookingManager.create(booking);
 	}
+	
+	public List<Tag> getTags(){
+		return tagManager.getAllTags();
+	}
+	
+	public List<Booking> getBookings(){
+		return bookingManager.getAllBookings();
+	}
 
 }

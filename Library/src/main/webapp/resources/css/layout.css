@@ -16,7 +16,7 @@ body {
 	padding: 0 20px 10px 20px;
 	border: 1px solid #666666;
 	width: 865px;
-	height: 700px;
+	min-height: 700px;
 	background: #FFFFFF;
 }
 
@@ -26,12 +26,12 @@ body {
 	background: #C1D4E8;
 	float: left;
 	padding: 5px;
-	width: 150px;
+	width: 170px;
 }
 
 #mainPart {
 	padding: 5px;
-	    margin-left: 170px;
+	    margin-left: 190px;
 }
 
 
@@ -54,4 +54,21 @@ code {
 span.invalid {
 	padding-left: 3px;
 	color: red;
+}
+
+
+#sideMenu a:link, #sideMenu a:visited {
+    color: #06376c;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#sideMenu a:link:hover, #sideMenu a:visited:hover {
+    color: #6A94D4;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+td.center {
+    text-align: center;
 }

@@ -20,8 +20,9 @@
 		</div>
 		<div id="sideMenu">
 			<ui:insert name="sideMenu">
-            ... side menu ...
-        </ui:insert>
+				<!-- TODO: ktere menu - dle roli -->
+				<ui:include src="/WEB-INF/menus/defaultMenu.xhtml" />
+			</ui:insert>
 		</div>
 		<div id="mainPart">
 			<ui:insert name="mainPart">
@@ -31,6 +32,7 @@
 
 
 	</div>
-	<div id="footer">Created by a team of witty developers: Emil, Iva, Jakub and Verča</div>
+	<div id="footer">Created by a team of witty developers: Emil,
+		Iva, Jakub and Verča</div>
 </h:body>
 </html>
