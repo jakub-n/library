@@ -92,7 +92,7 @@ public class StartupConfigBean {
 	    	
 	    	// Books
 	    	Book book1 = new Book();
-	    	book1.setAuthor("Eric Jendrock");
+	    	book1.setAuthor("Jendrock Eric");
 	    	book1.setIsbn("978-0137081851");
 	    	book1.setPagesNumber(600);
 	    	book1.setLanguage(Locale.ENGLISH);
@@ -103,7 +103,7 @@ public class StartupConfigBean {
 	    	book1.setTags(tags1);
 	    	
 	    	Book book2 = new Book();
-	    	book2.setAuthor("Eric Jendrock");
+	    	book2.setAuthor("Jendrock Eric");
 	    	book2.setIsbn("978-0137081868  ");
 	    	book2.setPagesNumber(768);
 	    	book2.setLanguage(Locale.ENGLISH);

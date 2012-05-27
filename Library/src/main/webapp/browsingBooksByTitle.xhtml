@@ -5,22 +5,18 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:dt="http://java.sun.com/jsf/composite/components">
+	xmlns:dt="http://java.sun.com/jsf/composite/components"
+	xmlns:s="http://jboss.org/seam/faces">
 
 <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
 	<ui:define name="mainPart">
-
-		<b><u>Vyhledávání:</u></b>
-		<br /><br />
 		<h:form>
-			<h:inputText id="searched" required="true" value="#{bookSearchController.text}"/>
-			<h:commandButton value="Hledat" />
-		</h:form>
-		<br />
 		
-		<dt:booksResults
-			rendered="#{bookSearchController.text != null}"
-			books="#{bookSearchController.booksContainingSearched}" />
+			<dt:letterPicking />
+
+			<dt:booksResults rendered="#{bookSearchController.text != null}"
+				books="#{bookSearchController.booksStartingWith}" />
+		</h:form>
 	</ui:define>
 </ui:composition>
 </html>

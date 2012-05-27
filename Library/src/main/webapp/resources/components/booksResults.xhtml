@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	>
+
+        <composite:interface>
+            <composite:attribute type="java.util.List" name="books" shortDescription="The list of books that should be displayed" />
+        </composite:interface>
+
+        <composite:implementation>
+            
+            <h:dataTable var="book" value="#{cc.attrs.books}" id="bookList" rendered="#{not empty cc.attrs.books}"
+				styleClass="book-table"
+    			headerClass="book-table-header"
+    			rowClasses="book-table-odd-row,book-table-even-row"  >
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Title" />
+				</f:facet>
+				<h:outputText value="#{book.title}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Author" />
+				</f:facet>
+				<h:outputText value="#{book.author}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Language" />
+				</f:facet>
+				<h:outputText value="#{book.language}" />
+			</h:column>
+
+		</h:dataTable>
+        <h:outputText value="Nebyly nalezeny žádné knihy." rendered="#{empty cc.attrs.books}"/>    
+        </composite:implementation>
+        
+</html>

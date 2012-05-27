@@ -15,7 +15,7 @@ body {
 	margin: 0 auto;
 	padding: 0 20px 10px 20px;
 	border: 1px solid #666666;
-	width: 865px;
+	width: 915px;
 	min-height: 700px;
 	background: #FFFFFF;
 }
@@ -26,12 +26,12 @@ body {
 	background: #C1D4E8;
 	float: left;
 	padding: 5px;
-	width: 170px;
+	width: 200px;
 }
 
 #mainPart {
 	padding: 5px;
-	    margin-left: 190px;
+	margin-left: 230px;
 }
 
 
@@ -71,4 +71,35 @@ span.invalid {
 
 td.center {
     text-align: center;
+}
+
+.letterLink {
+	font-size: ;
+	color: #06376c;
+	margin-left: 5px;
+	font-weight: bold;
+    text-decoration: none;
+}
+
+.book-table{   
+	border-collapse:collapse;
+}
+ 
+.book-table-header{
+	text-align:center;
+	background:none repeat scroll 0 0 #C1D4E8;
+	border:1px solid #C1D4E8;
+	padding:10px;
+}
+ 
+.book-table-odd-row{
+	text-align:center;
+	background:none repeat scroll 0 0 #FFFFFFF;
+	border: 1px solid #C1D4E8
+}
+ 
+.book-table-even-row{
+	text-align:center;
+	background:none repeat scroll 0 0 #EDF2F7;
+	border: 1px solid #C1D4E8
 }

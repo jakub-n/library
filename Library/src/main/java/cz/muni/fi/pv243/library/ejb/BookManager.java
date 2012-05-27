@@ -61,5 +61,28 @@ public class BookManager {
     	
     	
     }
+	
+	public List<Book> getBooksWithTitleContainingGivenText(String text) {
+		Query query = em.createQuery("SELECT b FROM Book b WHERE LOWER(b.title) LIKE '%" + text.toLowerCase() + "%' ");
+		return query.getResultList();
+	}
 
+	public List<Book> getBooksWithTitleStartingWithGivenText(String text) {
+		Query query = em.createQuery("SELECT b FROM Book b WHERE LOWER(b.title) LIKE  '" + text.toLowerCase() + "%' ");
+		return query.getResultList();
+	}
+	
+	public List<Book> getBooksWithAuthorStartingWithGivenText(String text) {
+		Query query = em.createQuery("SELECT b FROM Book b WHERE LOWER(b.author) LIKE  '" + text.toLowerCase() + "%' ");
+		return query.getResultList();
+	}
+	
+	// not yet checked
+	public Book getBookWithGivenId(Long id){
+		Query query = em.createQuery("SELECT b FROM Book b WHERE book.bookId=" + id);
+		return (Book) query.getSingleResult();
+	}
+	
+	
+	
 }
