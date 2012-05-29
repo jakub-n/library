@@ -77,12 +77,10 @@ public class BookManager {
 		return query.getResultList();
 	}
 	
-	// not yet checked
-	public Book getBookWithGivenId(Long id){
-		Query query = em.createQuery("SELECT b FROM Book b WHERE book.bookId=" + id);
+	public Book getBookById(Long id){
+		Query query = em.createQuery("SELECT b FROM Book b WHERE b.bookId=" + id);
 		return (Book) query.getSingleResult();
 	}
-	
 	
 	
 }

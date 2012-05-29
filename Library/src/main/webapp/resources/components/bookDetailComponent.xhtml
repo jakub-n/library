@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+	<composite:attribute type="cz.muni.fi.pv243.library.entity.Book"
+		name="book" shortDescription="Book which should be detailed" />
+</composite:interface>
+
+<composite:implementation>
+
+	<h3>Detail knihy</h3>
+
+	<br />
+	<h:outputText value="Název:" styleClass="detailHeaders" /> #{cc.attrs.book.title}
+		<br />
+	<h:outputText value="Autor:" styleClass="detailHeaders" /> #{cc.attrs.book.author}
+	  	<br />
+	<h:outputText value="ISBN:" styleClass="detailHeaders" /> #{cc.attrs.book.isbn}
+	  	<br />
+	<h:outputText value="Jazyk:" styleClass="detailHeaders" /> #{cc.attrs.book.language}
+	  	<br />
+	<h:outputText value="Počet stran:" styleClass="detailHeaders" /> #{cc.attrs.book.pagesNumber}
+	  	<br />
+	<!-- TODO Informace o tags, rezervacich vypujckach, rozumny format data -->
+</composite:implementation>
+
+</html>

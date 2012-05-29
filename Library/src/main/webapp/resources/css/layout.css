@@ -103,3 +103,19 @@ td.center {
 	background:none repeat scroll 0 0 #EDF2F7;
 	border: 1px solid #C1D4E8
 }
+
+a.booksLink:link, a.booksLink:visited {
+    color: #06376c;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.booksLink:hover, a.booksLink:hover {
+    color: #6A94D4;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+span.detailHeaders{
+    font-weight: bold;
+}

@@ -20,7 +20,9 @@
 				<f:facet name="header">
 					<h:outputText value="Title" />
 				</f:facet>
-				<h:outputText value="#{book.title}" />
+				<h:link outcome="bookDetail.xhtml" value="#{book.title}" styleClass="booksLink">
+	   				<f:param name="book" value="#{book.bookId}"/>
+	   			</h:link>
 			</h:column>
 			<h:column>
 				<f:facet name="header">
