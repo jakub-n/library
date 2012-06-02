@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:dt="http://java.sun.com/jsf/composite/components">
+
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="mainPart">
+
+		<b><u>Přihlášení:</u></b>
+   <h:form>
+   
+   
+     <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Jméno" for="username" />
+                <h:inputText id="username" value="#{userController.username}" />
+
+                <h:outputLabel value="Heslo" for="password" />
+                <h:inputSecret id="password" value="#{userController.password}" />
+                                  
+                <h:commandButton action="#{userController.login}" value="Přihlásit" rendered="#{!userController.logged}" />
+            </h:panelGrid>
+
+        </h:form>
+
+
+        </h:form>
+</ui:define>
+
+
+</ui:composition>
+</html>

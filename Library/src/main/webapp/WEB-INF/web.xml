@@ -12,7 +12,7 @@
   <url-pattern>/faces/*</url-pattern>
  </servlet-mapping>
  <welcome-file-list>
-  <welcome-file>faces/libraryIndex.xhtml</welcome-file>
+  <welcome-file>libraryIndex.xhtml</welcome-file>
 
 <!--   <welcome-file>libraryIndex.jsf</welcome-file> nefunguje, (I: to je spravne, ze nefunguje, jelikoz pouzivame facelety ) -->
  </welcome-file-list>
@@ -20,4 +20,48 @@
     <param-name>com.sun.faces.expressionFactory</param-name>
     <param-value>org.jboss.el.ExpressionFactoryImpl</param-value>   
 </context-param>
+
+    <servlet>
+        <servlet-name>facesServlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>facesServlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>test-only</web-resource-name>
+            <url-pattern>/static/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>READER</role-name>
+            <role-name>LIBRARIAN</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+ <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/login.xhtml</form-login-page>
+            <form-error-page>/browsingBooksByTitle.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+
+
+    <security-role>
+        <description>Reader</description>
+        <role-name>READER</role-name>
+    </security-role>
+    <security-role>
+        <description>Librarian - can manages books and create loans</description>
+        <role-name>LIBRARIAN</role-name>
+    </security-role>
+    <security-role>
+        <description>Manager - can also manage librarians</description>
+        <role-name>MANAGER</role-name>
+    </security-role>
+    
+     
 </web-app>

@@ -20,7 +20,9 @@ import cz.muni.fi.pv243.library.entity.Booking;
 import cz.muni.fi.pv243.library.entity.Employee;
 import cz.muni.fi.pv243.library.entity.Librarian;
 import cz.muni.fi.pv243.library.entity.Reader;
+import cz.muni.fi.pv243.library.entity.Role;
 import cz.muni.fi.pv243.library.entity.Tag;
+import cz.muni.fi.pv243.library.entity.User;
 
 @Singleton
 @Startup
@@ -46,10 +48,16 @@ public class StartupConfigBean {
      
      @Inject
      private BookLoanManager bookLoanManager;
+     
+     @Inject
+	 private UserManager userManager;
+	 
 	
 	 @PersistenceContext
 	 private EntityManager entityManager;
 	 
+		
+
 	    @PostConstruct
 	    public void init() {
 	    	
@@ -70,7 +78,14 @@ public class StartupConfigBean {
 	    	query = entityManager.createQuery("DELETE FROM BookCopy bc");
 	    	query.executeUpdate();
 	    	query = entityManager.createQuery("DELETE FROM Book b");
-	    	query.executeUpdate();/**/
+	    	query.executeUpdate();
+	    	
+	    	
+	    	User user1 = new User();
+	    	user1.setUsername("user");
+	    	user1.setPassword("password");
+	    	user1.setRole(Role.LIBRARIAN.toString());
+
 	    	
 	    	// tagy
 	    	Tag tag1 = new Tag();
@@ -138,6 +153,9 @@ public class StartupConfigBean {
 	    	bookLoan1.setReader(reader1);
 	    	
 	    	// naplneni:
+	    	userManager.create(user1);
+	    	
+	    	
 	    	tagManager.create(tag1);
 	    	tagManager.create(tag2);
 	    	

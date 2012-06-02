@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:s="http://jboss.org/seam/faces">
+
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="mainPart">
+	 <h:form>
+		    Add default book (we are in a apocalyptic world an we know only one book).
+		    <br />
+		<h:commandLink value="Add" action="#{testWebBean.addDefaultBook}" />
+		<br />
+		<br />
+		<h:commandLink value="Delete all books"
+			action="#{testWebBean.deleteBooks}" />
+		<br />
+		<br />
+        All books:<br />
+
+		<h:dataTable var="book" value="#{testWebBean.books}" id="customerList"
+			paginator="true" rows="10">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Id" />
+				</f:facet>
+				<h:outputText value="#{book.bookId}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Title" />
+				</f:facet>
+				<h:outputText value="#{book.title}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Add BookCopy" />
+				</f:facet>
+				<h:commandLink action="#{testWebBean.addDefaultBookCopy(book)}"
+					value="add copy" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Remove Book" />
+				</f:facet>
+				<h:commandLink action="#{testWebBean.removeBook(book)}"
+					value="remove book" />
+			</h:column>
+		</h:dataTable>
+
+		<h:commandLink value="delete all book copies"
+			action="#{testWebBean.deleteAllBookCopies}" />
+		<h:dataTable var="bookCopy" value="#{testWebBean.bookCopies}"
+			id="copyList" rows="10" paginator="true">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="copy id" />
+				</f:facet>
+				<h:outputText value="#{bookCopy.id}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="book id" />
+				</f:facet>
+				<h:outputText value="#{bookCopy.book.bookId}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="remove copy" />
+				</f:facet>
+				<h:commandLink value="remove"
+					action="#{testWebBean.removeCopy(bookCopy)}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="remove copy by id" />
+				</f:facet>
+				<h:commandLink value="remove"
+					action="#{testWebBean.deleteBookCopyById(bookCopy.id)}" />
+			</h:column>
+		</h:dataTable>
+
+
+		<h:commandLink value="add test bookLoan"
+			action="#{testWebBean.addTestBookLoan()}" />
+
+
+		<h:dataTable var="bookLoan" value="#{testWebBean.bookLoans}">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="bookLoan ID" />
+				</f:facet>
+				<h:outputText value="#{bookLoan.id}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="remove loan" />
+				</f:facet>
+				<h:commandLink value="remove"
+					action="#{testWebBean.removeBookLoan(bookLoan)}" />
+			</h:column>
+		</h:dataTable>
+
+		<br />
+		<h:dataTable var="reader" value="#{testWebBean.readers}">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="reader ID" />
+				</f:facet>
+				<h:outputText value="#{reader.id}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="remove reader" />
+				</f:facet>
+				<h:commandLink value="remove"
+					action="#{testWebBean.deleteReader(reader)}" />
+			</h:column>
+		</h:dataTable>
+		
+		<br/>
+		<h:commandLink value="add test book-tag" action="#{testWebBean.createTestTagBookRel}" />
+		<br/>
+		<h:commandLink value="add test booking" action="#{testWebBean.createTestBooking}" />
+		 </h:form>
+	</ui:define>
+
+</ui:composition>
+
+</html>
