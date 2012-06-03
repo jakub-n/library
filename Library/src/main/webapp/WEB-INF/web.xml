@@ -1,67 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
- <display-name>Library</display-name>
- <servlet>
-  <servlet-name>Faces Config</servlet-name>
-  <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
- </servlet>
- <servlet-mapping>
-  <servlet-name>Faces Config</servlet-name>
-  <url-pattern>*.jsf</url-pattern>
-  <url-pattern>/faces/*</url-pattern>
- </servlet-mapping>
- <welcome-file-list>
-  <welcome-file>libraryIndex.xhtml</welcome-file>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	metadata-complete="false">
 
-<!--   <welcome-file>libraryIndex.jsf</welcome-file> nefunguje, (I: to je spravne, ze nefunguje, jelikoz pouzivame facelety ) -->
- </welcome-file-list>
- <context-param>     
-    <param-name>com.sun.faces.expressionFactory</param-name>
-    <param-value>org.jboss.el.ExpressionFactoryImpl</param-value>   
-</context-param>
+	<welcome-file-list>
+		<welcome-file>libraryIndex.xhtml</welcome-file>
+	</welcome-file-list>
 
-    <servlet>
-        <servlet-name>facesServlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>facesServlet</servlet-name>
-        <url-pattern>*.xhtml</url-pattern>
-    </servlet-mapping>
+	<servlet>
+		<servlet-name>facesServlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>facesServlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>test-only</web-resource-name>
-            <url-pattern>/static/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>READER</role-name>
-            <role-name>LIBRARIAN</role-name>
-        </auth-constraint>
-    </security-constraint>
-    
- <login-config>
-        <auth-method>FORM</auth-method>
-        <form-login-config>
-            <form-login-page>/login.xhtml</form-login-page>
-            <form-error-page>/browsingBooksByTitle.xhtml</form-error-page>
-        </form-login-config>
-    </login-config>
+	<display-name>Library</display-name>
+
+	<context-param>
+		<param-name>com.sun.faces.expressionFactory</param-name>
+		<param-value>org.jboss.el.ExpressionFactoryImpl</param-value>
+	</context-param>
 
 
-    <security-role>
-        <description>Reader</description>
-        <role-name>READER</role-name>
-    </security-role>
-    <security-role>
-        <description>Librarian - can manages books and create loans</description>
-        <role-name>LIBRARIAN</role-name>
-    </security-role>
-    <security-role>
-        <description>Manager - can also manage librarians</description>
-        <role-name>MANAGER</role-name>
-    </security-role>
-    
-     
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>reader</web-resource-name>
+			<url-pattern>/reader/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>READER</role-name>
+			<role-name>LIBRARIAN</role-name>
+			<role-name>MANAGER</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>librarian</web-resource-name>
+			<url-pattern>/librarian/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>LIBRARIAN</role-name>
+			<role-name>MANAGER</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>manager</web-resource-name>
+			<url-pattern>/manager/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>MANAGER</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<!-- Prihlasovani pomoci browseru a ne naseho formulare
+	<login-config> <auth-method>BASIC</auth-method> <realm-name>WebSecurityBasic</realm-name> 
+		</login-config> -->
+
+
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login.xhtml</form-login-page>
+			<form-error-page>/login.xhtml</form-error-page>
+		</form-login-config>
+	</login-config>
+
+
+	<security-role>
+		<description>READER</description>
+		<role-name>READER</role-name>
+	</security-role>
+	<security-role>
+		<description>LIBRARIAN</description>
+		<role-name>LIBRARIAN</role-name>
+	</security-role>
+	<security-role>
+		<description>MANAGER</description>
+		<role-name>MANAGER</role-name>
+	</security-role>
+
 </web-app>
+

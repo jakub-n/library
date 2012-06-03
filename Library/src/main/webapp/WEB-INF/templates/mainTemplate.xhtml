@@ -10,11 +10,16 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </h:head>
 <h:body>
+ 	<div id="top">
+
+    </div>
 	<div id="container">
 		<h:form>
 			<h:outputStylesheet name="layout.css" library="css" />
 		</h:form>
-
+           <ui:insert name="top">
+                <ui:include src="/topLogInfo.xhtml" />
+            </ui:insert>
 		<div id="header">
 			<h1>Super Library App</h1>
 		</div>

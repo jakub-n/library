@@ -1,19 +1,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html">
     <h:form>
-        <h:link outcome="libraryIndex" value="Úvodní stránka" />
+        <h:link outcome="/libraryIndex" value="Úvodní stránka" />
         <br />
-        <h:link outcome="browsingBooksByTitle" value="Procházení knih dle názvu" />
+        <h:link outcome="/browsingBooksByTitle" value="Procházení knih dle názvu" />
         <br />
-         <h:link outcome="browsingBooksByAuthor" value="Procházení knih dle autorů" />
+         <h:link outcome="/browsingBooksByAuthor" value="Procházení knih dle autorů" />
         <br />
-        <h:link outcome="home" value="Naše testovací stránka" />
+        <h:link outcome="/home" value="Naše testovací stránka" />
         <br />
-        <h:link outcome="testingDisplay" value="Testovací zobrazovací" />
+        <h:link outcome="/testingDisplay" value="Testovací zobrazovací" />
         <br />
-        <h:link outcome="login" value="Login Test" />
+        <h:link outcome="/reader/readerIndex.xhtml" value="Čtenář" />
         <br />
-         <h:link outcome="static/home" value="Secret" />
+        <h:link outcome="/librarian/librarianIndex.xhtml" value="Knihovník" />
+        <br />
+        <h:link outcome="/manager/managerIndex.xhtml" value="Manager" />
         <br />
     </h:form>
 </html>

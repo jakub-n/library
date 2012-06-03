@@ -10,37 +10,39 @@ import javax.persistence.Query;
 import cz.muni.fi.pv243.library.entity.Book;
 import cz.muni.fi.pv243.library.entity.User;
 
-
 @Stateless
 public class UserManager {
 
-	
 	@PersistenceContext
 	private EntityManager em;
 
 	public void create(User user) {
 		em.persist(user);
 	}
-	
-    public void delete(User user){
-    	em.remove(em.merge(user));
-    }
-    
-    public void update(Book user){
-    	em.merge(user);
-    }
+
+	public void delete(User user) {
+		em.remove(em.merge(user));
+	}
+
+	public void update(Book user) {
+		em.merge(user);
+	}
 
 	public List<User> getAllUsers() {
 		Query query = em.createQuery("SELECT u FROM User u");
 		return query.getResultList();
 	}
-	
 
+	public User getUserByUsername(String username) {
+		Query createQuery = em
+				.createQuery("SELECT u FROM User u WHERE u.username = :username");
+		createQuery.setParameter("username", username);
 
-	public User getUserById(Long id){
-		Query query = em.createQuery("SELECT u FROM User u WHERE u.bookId=" + id);
-		return (User) query.getSingleResult();
+		if (createQuery.getResultList().size() > 0) {
+			return (User) createQuery.getSingleResult();
+		} else {
+			return null;
+		}
 	}
-	
-	
+
 }

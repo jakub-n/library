@@ -1,101 +1,78 @@
 package cz.muni.fi.pv243.library.web.controller;
 
-/*
- * Copyright 2012 Oracle and/or its affiliates.
- * All rights reserved.  You may not modify, use,
- * reproduce, or distribute this software except in
- * compliance with  the terms of the License at:
- * http://developers.sun.com/license/berkeley_license.html
- */
+import java.security.Principal;
 
-//import com.forest.web.util.JsfUtil;
-import java.io.Serializable;
-
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import cz.muni.fi.pv243.library.ejb.UserManager;
 import cz.muni.fi.pv243.library.entity.User;
 
 @SessionScoped
 @ManagedBean
-public class UserController implements Serializable {
-
-	// @Inject
-	// CustomerController customerController;
+public class UserController{
 
 
-	private static final long serialVersionUID = 1L;
+	private String password;
+	private String username;
 
 	User user;
 
-	// @EJB
-	// private com.forest.ejb.UserBean ejbFacade;
-	private String password;
-	private String username;
+	@Inject
+	private UserManager userManager;
 
 	public UserController() {
 	}
 
-	/**
-	 * Login method based on <code>HttpServletRequest</code> and security realm
-	 */
-	public String login() {
+	public void login() {
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpServletRequest request = (HttpServletRequest) context
 				.getExternalContext().getRequest();
-		String result="";
-		
 		try {
-			request.login(this.getUsername(), this.getPassword());
+			Principal userPrincipal = request.getUserPrincipal();
+			if (request.getUserPrincipal() != null) {
+				request.logout();
+			}
+			request.login(username, password);
+			userPrincipal = request.getUserPrincipal();
 			System.out.println("Prihlasen " + username);
+			user = userManager.getUserByUsername(username);
 		} catch (ServletException ex) {
 			// TODO zalogovat
-			System.out.println("Neprihlasen ");
+			System.out.println("Neprihlasen, pokus byl " + username + " "
+					+ password);
 		}
 
-		/*
-		 * try { request.login( this.getUsername(), this.getPassword());
-		 * 
-		 * JsfUtil.addSuccessMessage( JsfUtil.getStringFromBundle(BUNDLE,
-		 * "Login_Success"));
-		 * 
-		 * this.user = ejbFacade.getUserByEmail(getUsername());
-		 * this.getAuthenticatedUser();
-		 * 
-		 * if (isAdmin()) { result = "/admin/index"; } else { result = "/index";
-		 * } } catch (ServletException ex) {
-		 * Logger.getLogger(UserController.class.getName()) .log(Level.SEVERE,
-		 * null, ex); JsfUtil.addErrorMessage(
-		 * JsfUtil.getStringFromBundle(BUNDLE, "Login_Failed"));
-		 * 
-		 * result = "login"; }
-		 */
-
-		return result;
 	}
 
-	/*
-	 * public com.forest.ejb.UserBean getEjbFacade() { return ejbFacade; }
-	 * 
-	 * @Produces
-	 * 
-	 * @LoggedIn public Person getAuthenticatedUser() { return user; }
-	 * 
-	 * 
-	 * 
-	 * public boolean isAdmin() { for (Groups g : user.getGroupsList()) { if
-	 * (g.getName() .equals("ADMINS")) { return true; } }
-	 * 
-	 * return false; }
-	 * 
-	 * public String goAdmin() { if (isAdmin()) { return "/admin/index"; } else
-	 * { return "index"; } }
-	 */
-	
-	public boolean isLogged() { return (getUser() == null) ? false : true; }
+	public String logout() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpServletRequest request = (HttpServletRequest) context
+				.getExternalContext().getRequest();
+
+		try {
+			this.user = null;
+			request.logout();
+			// clear the session
+			((HttpSession) context.getExternalContext().getSession(false))
+					.invalidate();
+
+		} catch (ServletException ex) {
+			// TODO zalogovat
+		}
+		return "/libraryIndex";
+
+	}
+
+	public boolean isLogged() {
+		return (getUser() == null) ? false : true;
+	}
 
 	public String getUsername() {
 		return username;

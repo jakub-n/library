@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.library.ejb;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Locale;
@@ -11,13 +12,11 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import cz.muni.fi.pv243.library.entity.Book;
 import cz.muni.fi.pv243.library.entity.BookCopy;
 import cz.muni.fi.pv243.library.entity.BookLoan;
 import cz.muni.fi.pv243.library.entity.Booking;
-import cz.muni.fi.pv243.library.entity.Employee;
 import cz.muni.fi.pv243.library.entity.Librarian;
 import cz.muni.fi.pv243.library.entity.Reader;
 import cz.muni.fi.pv243.library.entity.Role;
@@ -52,17 +51,17 @@ public class StartupConfigBean {
      @Inject
 	 private UserManager userManager;
 	 
-	
 	 @PersistenceContext
 	 private EntityManager entityManager;
-	 
+
+
 		
 
 	    @PostConstruct
-	    public void init() {
+	    public void init() throws NoSuchAlgorithmException {
 	    	
 	    	// deletovani, kdyztak zakomentovat
-	    	Query query= null;
+	    	/*Query query= null;
 	    	query = entityManager.createQuery("DELETE FROM Tag t");
 	    	query.executeUpdate();
 	    	query = entityManager.createQuery("DELETE FROM Credentials c");
@@ -79,12 +78,11 @@ public class StartupConfigBean {
 	    	query.executeUpdate();
 	    	query = entityManager.createQuery("DELETE FROM Book b");
 	    	query.executeUpdate();
+	    	query = entityManager.createQuery("DELETE FROM User u");
+	    	query.executeUpdate();*/
 	    	
 	    	
-	    	User user1 = new User();
-	    	user1.setUsername("user");
-	    	user1.setPassword("password");
-	    	user1.setRole(Role.LIBRARIAN.toString());
+	    
 
 	    	
 	    	// tagy
@@ -95,15 +93,20 @@ public class StartupConfigBean {
 	    	tag2.setName("Nutnost pro život");
 	    	
 	    	// readers
-	    	Reader reader1 = new Reader();
-	    	reader1.setBirthDate(Calendar.getInstance());
-	    	reader1.setCellNumber("42424242");
-	    	reader1.setCity("Brno");
-	    	reader1.setEmail("reader@mail.muni.cz");
-	    	reader1.setFirstName("Hugo");
-	    	reader1.setLastName("Kokoska");
-	    	reader1.setStreet("Botanicka");
-	    	reader1.setZipCode("60200");
+	    	Reader readerUser1 = new Reader();
+	    	readerUser1.setUsername("readeruser");
+	    	readerUser1.setPassword("password");
+	    	Set<Role> readerUser1Roles = new HashSet<Role>();
+	    	readerUser1Roles.add(Role.READER);
+	    	readerUser1.setRoles(readerUser1Roles);
+	    	readerUser1.setBirthDate(Calendar.getInstance());
+	    	readerUser1.setCellNumber("42424242");
+	    	readerUser1.setCity("Brno");
+	    	readerUser1.setEmail("reader@mail.muni.cz");
+	    	readerUser1.setFirstName("Hugo");
+	    	readerUser1.setLastName("Kokoska");
+	    	readerUser1.setStreet("Botanicka");
+	    	readerUser1.setZipCode("60200");
 	    	
 	    	// Books
 	    	Book book1 = new Book();
@@ -132,12 +135,17 @@ public class StartupConfigBean {
 	    	Booking booking1 = new Booking();
 	    	booking1.setBook(book2);
 	    	booking1.setCreationDate(Calendar.getInstance());
-	    	booking1.setReader(reader1);
+	    	booking1.setReader(readerUser1);
 	    	
 	    	// employees
-	    	Employee emplLib1 = new Librarian();
-	    	emplLib1.setFirstName("Valibuk");
-	    	emplLib1.setLastName("Štíhlý");
+	    	Librarian librarianUser1 = new Librarian();
+	    	librarianUser1.setUsername("librarianuser");
+	    	librarianUser1.setPassword("password");
+	    	Set<Role> librarianUser1Roles = new HashSet<Role>();
+	    	librarianUser1Roles.add(Role.LIBRARIAN);
+	    	librarianUser1.setRoles(librarianUser1Roles);
+	    	librarianUser1.setFirstName("Valibuk");
+	    	librarianUser1.setLastName("Štíhlý");
 	    	
 	    	// Bookcopys
 	    	BookCopy bookCopy1 = new BookCopy();
@@ -148,31 +156,31 @@ public class StartupConfigBean {
 	    	
 	    	// Bookloans
 	    	BookLoan bookLoan1 = new BookLoan();
-	    	bookLoan1.setBeginDate("od včera");
+	    	bookLoan1.setBeginDate("od včera"); // needs fix not to be string
 	    	bookLoan1.setBookCopy(bookCopy1);
-	    	bookLoan1.setReader(reader1);
+	    	bookLoan1.setReader(readerUser1);
+	    	bookLoan1.setEmployee(librarianUser1);
 	    	
 	    	// naplneni:
-	    	userManager.create(user1);
+
 	    	
 	    	
 	    	tagManager.create(tag1);
 	    	tagManager.create(tag2);
 	    	
-	    	readerManager.create(reader1);
+	    	userManager.create(readerUser1);
 	    	
 	    	bookManager.create(book1);
 	    	bookManager.create(book2);
 	    	
 	    	bookingManager.create(booking1);
 	    	
-	    	employeeManager.create(emplLib1);
+	    	userManager.create(librarianUser1);
 	    	
 	    	bookCopyManager.create(bookCopy1);
 	    	bookCopyManager.create(bookCopy2);
 	    	
 	    	bookLoanManager.create(bookLoan1);
-	    	
 	    }
 	
 }

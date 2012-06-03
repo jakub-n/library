@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:util="http://java.sun.com/jsf/composite/components/util">
+
+
+	<div align="right">
+		<h:link outcome="login" value="Přihlásit se"
+			rendered="#{userController.logged == false}" styleClass="logLink" />
+
+		<h:outputText value="Jste přihlášeni jako: "
+			rendered="#{userController.logged}" />
+		<b><h:outputText value="#{userController.user.username}"
+			rendered="#{userController.logged}" /></b>
+		<br />
+		<h:form rendered="#{userController.logged}" >
+		<h:commandLink action="#{userController.logout()}" value="Odhlásit se"
+			styleClass="logLink" />
+		</h:form>
+	</div>
+</ui:composition>

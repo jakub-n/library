@@ -79,9 +79,9 @@
 			<h:dataTable var="reader" value="#{testWebBean.readers}">
 			<h:column>
 				<f:facet name="header">
-					<h:outputText value="Reader Id" />
+					<h:outputText value="Reader username" />
 				</f:facet>
-				<h:outputText value="#{reader.id}" />
+				<h:outputText value="#{reader.username}" />
 			</h:column>
 			<h:column>
 				<f:facet name="header">
@@ -143,9 +143,9 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Reader Id" />
+						<h:outputText value="Reader username" />
 					</f:facet>
-					<h:outputText value="#{booking.reader.id}" />
+					<h:outputText value="#{booking.reader.username}" />
 				</h:column>
 			</h:dataTable>
 		

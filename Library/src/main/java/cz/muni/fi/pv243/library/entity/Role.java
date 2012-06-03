@@ -1,14 +1,20 @@
 package cz.muni.fi.pv243.library.entity;
 
-import java.io.Serializable;
-
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
 public enum Role {
 	
-	READER, LIBRARIAN, MANAGER
+    READER ("READER"),
+    LIBRARIAN ("LIBRARIAN"),
+    MANAGER ("MANAGER");
 
+    private String string;
+
+    private Role(String string) {
+        this.string = string;
+    }
+
+    @Override
+    public String toString() {
+        return string;
+    }
 }

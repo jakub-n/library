@@ -18,15 +18,10 @@ import javax.persistence.OneToMany;
 
 @Entity
 @Access(AccessType.FIELD)
-public class Reader implements Serializable {
+public class Reader extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="READER_ID")
-    private Long readerId;
-    private Credentials credentials;
     private String firstName;
     private String lastName;
     private String street;
@@ -40,21 +35,7 @@ public class Reader implements Serializable {
     @OneToMany(mappedBy="reader",orphanRemoval=true,fetch = FetchType.LAZY)
     private Set<Booking> bookings;
 
-    public Long getId() {
-        return readerId;
-    }
-
-    public void setId(Long id) {
-        this.readerId = id;
-    }
-
-    public Credentials getCredentials() {
-        return credentials;
-    }
-
-    public void setCredentials(Credentials credentials) {
-        this.credentials = credentials;
-    }
+   
 
     public String getFirstName() {
         return firstName;
