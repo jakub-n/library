@@ -10,6 +10,9 @@ import javax.persistence.Query;
 import cz.muni.fi.pv243.library.entity.Book;
 import cz.muni.fi.pv243.library.entity.User;
 
+/**
+ * Class to handle the users generally.
+ */
 @Stateless
 public class UserManager {
 
@@ -33,6 +36,12 @@ public class UserManager {
 		return query.getResultList();
 	}
 
+	/**
+	 * Returns user of given username, null if doesn't exist.
+	 * 
+	 * @param username of user to be returned
+	 * @return user of given username, null if doesn't exist
+	 */
 	public User getUserByUsername(String username) {
 		Query createQuery = em
 				.createQuery("SELECT u FROM User u WHERE u.username = :username");

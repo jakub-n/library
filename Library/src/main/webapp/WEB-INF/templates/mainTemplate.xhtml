@@ -10,16 +10,14 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </h:head>
 <h:body>
- 	<div id="top">
-
-    </div>
+	<div id="top"></div>
 	<div id="container">
 		<h:form>
 			<h:outputStylesheet name="layout.css" library="css" />
 		</h:form>
-           <ui:insert name="top">
-                <ui:include src="/topLogInfo.xhtml" />
-            </ui:insert>
+		<ui:insert name="top">
+			<ui:include src="/topLogInfo.xhtml" />
+		</ui:insert>
 		<div id="header">
 			<h1>Super Library App</h1>
 		</div>
@@ -32,9 +30,15 @@
 		<div id="mainPart">
 			<ui:insert name="mainPart">
             ... main part ...
-        </ui:insert>
-		</div>
+     	   </ui:insert>
 
+			<div id="messages">
+			<br /><br />
+				<h:messages errorClass="errorMessage" infoClass="infoMessage"
+					layout="table" />
+			</div>
+
+		</div>
 
 	</div>
 	<div id="footer">Created by a team of witty developers: Emil,

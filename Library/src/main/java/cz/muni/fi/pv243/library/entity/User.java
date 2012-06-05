@@ -36,6 +36,7 @@ public class User {
 
 
     @NotNull
+    @Size(min = 3, max = 100, message = "Heslo musí být v rozsahu 3-100 znaků.")
     private String password;
 
 

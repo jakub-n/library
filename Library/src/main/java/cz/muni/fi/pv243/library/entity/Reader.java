@@ -6,14 +6,12 @@ import java.util.Set;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -22,12 +20,29 @@ public class Reader extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @NotNull
+    @Size(min = 2, max = 50, message = "Křestní jméno musí být v rozsahu 2-50 znaků.")
     private String firstName;
+    
+    @NotNull
+    @Size(min = 2, max = 100, message = "Příjmení musí být v rozsahu 2-100 znaků.")
     private String lastName;
+    
+    @NotNull
     private String street;
+    
+    @NotNull
     private String city;
+    
+    @NotNull
     private String zipCode;
+    
+    @NotNull
+    @Pattern(regexp = ".+@.+\\.[a-z]+", message = "Musí být zadána validní e-mailová adresa,")
+    @Size(min = 3, max = 45, message = "E-mail musí být v rozsahu 3-45 znaků.")
     private String email;
+    
+    @NotNull
     private String cellNumber;
     private Calendar birthDate;
     private Calendar paidTillDate;

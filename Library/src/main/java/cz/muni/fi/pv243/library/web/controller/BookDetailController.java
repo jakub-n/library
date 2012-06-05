@@ -34,8 +34,7 @@ public class BookDetailController {
 	}
 	
 	public void printBook(){
-		System.out.println(book);
-		
+		System.out.println(book);	
 	}
 	
 

@@ -17,18 +17,19 @@
      <h:form  rendered="#{!userController.logged}">
             <h:panelGrid columns="2">
                 <h:outputLabel value="Jméno" for="username" />
-                <h:inputText id="username" value="#{userController.username}" />
+                <h:inputText id="username" value="#{userController.username}" required="true" requiredMessage="Zadejte přihlašovací jméno."/>
 
                 <h:outputLabel value="Heslo" for="password" />
-                <h:inputSecret id="password" value="#{userController.password}" />
+                <h:inputSecret id="password" value="#{userController.password}" required="true" requiredMessage="Zadejte heslo."/>
                                   
                 <h:commandButton action="#{userController.login}" value="Přihlásit" />
             </h:panelGrid>
 
         </h:form>
 
-		<h:outputText value="Jste přihlášeni jako: " rendered="#{userController.logged}"/>
+		<h:outputText value="Vítejte v systému knihovny, " rendered="#{userController.logged}"/>
 		<h:outputText value="#{userController.user.username}" rendered="#{userController.logged}"/>
+		<h:outputText value="." rendered="#{userController.logged}"/>
         </h:form>
 </ui:define>
 

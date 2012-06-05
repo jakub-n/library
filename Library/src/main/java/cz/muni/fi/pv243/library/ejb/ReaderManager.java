@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import javax.persistence.PersistenceException;
 
 import cz.muni.fi.pv243.library.entity.Reader;
+import cz.muni.fi.pv243.library.entity.User;
 
 @Stateless
 public class ReaderManager {
@@ -39,5 +40,6 @@ public class ReaderManager {
 		Query q = em.createQuery("SELECT a FROM Reader a");
 		return q.getResultList();
 	}
+	
 
 }

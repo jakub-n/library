@@ -5,14 +5,16 @@
 
 
 	<div align="right">
-		<h:link outcome="login" value="Přihlásit se"
+		<h:link outcome="/login" value="Přihlásit se"
 			rendered="#{userController.logged == false}" styleClass="logLink" />
 
-		<h:outputText value="Jste přihlášeni jako: "
+		<h:outputText value="Uživatel přihlášen jako: "
 			rendered="#{userController.logged}" />
 		<b><h:outputText value="#{userController.user.username}"
 			rendered="#{userController.logged}" /></b>
 		<br />
+		<h:link outcome="/user/register" value="Registrovat se"
+			rendered="#{userController.logged == false}" styleClass="logLink" />
 		<h:form rendered="#{userController.logged}" >
 		<h:commandLink action="#{userController.logout()}" value="Odhlásit se"
 			styleClass="logLink" />
