@@ -1,15 +1,19 @@
 package cz.muni.fi.pv243.library.ejb;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import cz.muni.fi.pv243.library.entity.Employee;
+import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 @Stateless
 public class EmployeeManager {
 	
-	@PersistenceContext
+
+    @Inject
+    @LibraryDatabase
 	private EntityManager em;
 	
 	public void create(Employee emp){

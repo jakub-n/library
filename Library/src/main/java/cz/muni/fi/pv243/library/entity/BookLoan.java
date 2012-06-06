@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -27,6 +28,7 @@ public class BookLoan implements Serializable {
     
     // datum som dal pre testovacie potreby ako string. neskor zmenim
     //@Column(nullable=false)
+    @NotNull
     private String beginDate;
     
     //@Column(nullable=false)

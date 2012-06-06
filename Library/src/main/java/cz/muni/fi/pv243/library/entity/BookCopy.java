@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -27,6 +28,7 @@ public class BookCopy implements Serializable {
 	@Column(name="BOOK_COPY_ID",nullable=false, unique=true)
 	private Long bookCopyId;
 	
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name="BOOK_ID")
 	private Book book;

@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -19,8 +21,12 @@ public class Employee extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
+    @NotNull
+    @Size(min = 2, max = 50, message = "Křestní jméno musí být v rozsahu 2-50 znaků.")
     private String firstName;
+    
+    @NotNull
+    @Size(min = 2, max = 100, message = "Příjmení musí být v rozsahu 2-100 znaků.")
     private String lastName;
     
 

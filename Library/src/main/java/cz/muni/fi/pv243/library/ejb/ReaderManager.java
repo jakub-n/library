@@ -3,6 +3,7 @@ package cz.muni.fi.pv243.library.ejb;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -10,11 +11,14 @@ import javax.persistence.PersistenceException;
 
 import cz.muni.fi.pv243.library.entity.Reader;
 import cz.muni.fi.pv243.library.entity.User;
+import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 @Stateless
 public class ReaderManager {
 
-	@PersistenceContext
+
+    @Inject
+    @LibraryDatabase
 	private EntityManager em;
 
 	public void create(Reader reader) {

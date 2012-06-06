@@ -3,16 +3,20 @@ package cz.muni.fi.pv243.library.ejb;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import cz.muni.fi.pv243.library.entity.BookLoan;
+import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 @Stateless
 public class BookLoanManager {
 	
-	@PersistenceContext
+
+    @Inject
+    @LibraryDatabase
 	private EntityManager em;
 	
 	public void create(BookLoan bookLoan){

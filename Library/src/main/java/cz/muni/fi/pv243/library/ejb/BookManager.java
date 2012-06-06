@@ -1,15 +1,14 @@
 package cz.muni.fi.pv243.library.ejb;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import cz.muni.fi.pv243.library.entity.Book;
-import cz.muni.fi.pv243.library.entity.BookCopy;;
+import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 
 /**
@@ -21,7 +20,9 @@ import cz.muni.fi.pv243.library.entity.BookCopy;;
 public class BookManager {
 
 	
-	@PersistenceContext
+
+    @Inject
+    @LibraryDatabase
 	private EntityManager em;
 
 	public void create(Book book) {

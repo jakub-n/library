@@ -18,40 +18,20 @@ import cz.muni.fi.pv243.library.entity.BookCopy;
 import cz.muni.fi.pv243.library.entity.BookLoan;
 import cz.muni.fi.pv243.library.entity.Booking;
 import cz.muni.fi.pv243.library.entity.Librarian;
+import cz.muni.fi.pv243.library.entity.Manager;
 import cz.muni.fi.pv243.library.entity.Reader;
 import cz.muni.fi.pv243.library.entity.Role;
 import cz.muni.fi.pv243.library.entity.Tag;
-import cz.muni.fi.pv243.library.entity.User;
+import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 @Singleton
 @Startup
 public class StartupConfigBean {
 
-     @Inject
-     private TagManager tagManager;
-     
-     @Inject
-     private ReaderManager readerManager;
-     
-     @Inject
-     private BookManager bookManager;
-     
-     @Inject
-     private BookingManager bookingManager;
-	
-     @Inject
-     private EmployeeManager employeeManager;
-     
-     @Inject
-     private BookCopyManager bookCopyManager;
-     
-     @Inject
-     private BookLoanManager bookLoanManager;
-     
-     @Inject
-	 private UserManager userManager;
-	 
-	 @PersistenceContext
+
+
+    @Inject
+    @LibraryDatabase
 	 private EntityManager entityManager;
 
 
@@ -59,32 +39,7 @@ public class StartupConfigBean {
 
 	    @PostConstruct
 	    public void init() throws NoSuchAlgorithmException {
-	    	
-	    	// deletovani, kdyztak zakomentovat
-	    	/*Query query= null;
-	    	query = entityManager.createQuery("DELETE FROM Tag t");
-	    	query.executeUpdate();
-	    	query = entityManager.createQuery("DELETE FROM Credentials c");
-	    	query.executeUpdate();
-	    	query = entityManager.createQuery("DELETE FROM Booking b");
-	    	query.executeUpdate();
-	    	query = entityManager.createQuery("DELETE FROM BookLoan bl");
-	    	query.executeUpdate();
-	    	query = entityManager.createQuery("DELETE FROM Employee e");
-	    	query.executeUpdate();
-	    	query = entityManager.createQuery("DELETE FROM Reader r");
-	    	query.executeUpdate();
-	    	query = entityManager.createQuery("DELETE FROM BookCopy bc");
-	    	query.executeUpdate();
-	    	query = entityManager.createQuery("DELETE FROM Book b");
-	    	query.executeUpdate();
-	    	query = entityManager.createQuery("DELETE FROM User u");
-	    	query.executeUpdate();*/
-	    	
-	    	
-	    
-
-	    	
+	    		    	
 	    	// tagy
 	    	Tag tag1 = new Tag();
 	    	tag1.setName("Vzrušující literatura");
@@ -147,6 +102,16 @@ public class StartupConfigBean {
 	    	librarianUser1.setFirstName("Valibuk");
 	    	librarianUser1.setLastName("Štíhlý");
 	    	
+	    	Manager managerUser1 = new Manager();
+	    	managerUser1.setUsername("manageruser");
+	    	managerUser1.setPassword("password");
+	    	Set<Role> managerUser1Roles = new HashSet<Role>();
+	    	managerUser1Roles.add(Role.MANAGER);
+	    	managerUser1.setRoles(managerUser1Roles);
+	    	managerUser1.setFirstName("Přemysl");
+	    	managerUser1.setLastName("Velkolepý");
+	    	
+	    	
 	    	// Bookcopys
 	    	BookCopy bookCopy1 = new BookCopy();
 	    	bookCopy1.setBook(book1);
@@ -162,25 +127,24 @@ public class StartupConfigBean {
 	    	bookLoan1.setEmployee(librarianUser1);
 	    	
 	    	// naplneni:
+	    	entityManager.persist(tag1);
+	    	entityManager.persist(tag2);
+	    	
+	    	entityManager.persist(readerUser1);
+	    	entityManager.persist(librarianUser1);
+	    	entityManager.persist(managerUser1);    	
+	    	
+	    	entityManager.persist(book1);
+	    	entityManager.persist(book2);
+	    	
+	    	entityManager.persist(booking1);
+	    	
 
 	    	
+	    	entityManager.persist(bookCopy1);
+	    	entityManager.persist(bookCopy2);
 	    	
-	    	tagManager.create(tag1);
-	    	tagManager.create(tag2);
-	    	
-	    	userManager.create(readerUser1);
-	    	
-	    	bookManager.create(book1);
-	    	bookManager.create(book2);
-	    	
-	    	bookingManager.create(booking1);
-	    	
-	    	userManager.create(librarianUser1);
-	    	
-	    	bookCopyManager.create(bookCopy1);
-	    	bookCopyManager.create(bookCopy2);
-	    	
-	    	bookLoanManager.create(bookLoan1);
+	    	entityManager.persist(bookLoan1);
 	    }
 	
 }

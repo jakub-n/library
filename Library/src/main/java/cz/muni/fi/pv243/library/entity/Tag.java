@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -22,6 +23,8 @@ public class Tag implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="TAG_ID", nullable=false, unique=true)
     private Long id;
+    
+    @NotNull
     private String name;
     
     @ManyToMany(mappedBy="tags")

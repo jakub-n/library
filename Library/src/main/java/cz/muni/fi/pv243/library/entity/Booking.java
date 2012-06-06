@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -24,15 +25,19 @@ public class Booking implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="BOOKING_ID")
     private Long id;
-    private Reader creator;
+    private Reader creator; 
     private Book bookedBook;
+    
+    @NotNull
     private Calendar creationDate;
     private Calendar expirationDate;
     
+    @NotNull
     @ManyToOne
     @JoinColumn(name="READER_ID")
     private Reader reader;
     
+    @NotNull
     @ManyToOne
     @JoinColumn(name="BOOK_ID")
     private Book book;

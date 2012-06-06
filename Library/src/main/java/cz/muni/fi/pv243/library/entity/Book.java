@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 /**
  * Class representing a single book.
@@ -37,12 +38,15 @@ public class Book implements Serializable {
 	private Long bookId;
 
 	@Column(nullable = false)
+	@NotNull
 	private String title;
 
 	// @Column(nullable=false)
+	@NotNull
 	private String author;
 
 	// @Column(nullable=false)
+	@NotNull
 	private String isbn;
 
 	// @Column(nullable=false)
