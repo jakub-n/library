@@ -102,6 +102,62 @@ public class StartupConfigBean {
 	    	librarianUser1.setFirstName("Valibuk");
 	    	librarianUser1.setLastName("Štíhlý");
 	    	
+	    	Librarian librarianUser2 = new Librarian();
+	    	librarianUser2.setUsername("librarianuser2");
+	    	librarianUser2.setPassword("password");
+	    	Set<Role> librarianUser2Roles = new HashSet<Role>();
+	    	librarianUser2Roles.add(Role.LIBRARIAN);
+	    	librarianUser2.setRoles(librarianUser2Roles);
+	    	librarianUser2.setFirstName("Dobromysl");
+	    	librarianUser2.setLastName("Pracovitý");
+	    	
+	    	Librarian librarianUser3 = new Librarian();
+	    	librarianUser3.setUsername("librarianuser3");
+	    	librarianUser3.setPassword("password");
+	    	Set<Role> librarianUser3Roles = new HashSet<Role>();
+	    	librarianUser3Roles.add(Role.LIBRARIAN);
+	    	librarianUser3.setRoles(librarianUser3Roles);
+	    	librarianUser3.setFirstName("Karel");
+	    	librarianUser3.setLastName("Druhý");
+	    	
+	    	Librarian librarianUser4 = new Librarian();
+	    	librarianUser4.setUsername("librarianuser4");
+	    	librarianUser4.setPassword("password");
+	    	Set<Role> librarianUser4Roles = new HashSet<Role>();
+	    	librarianUser4Roles.add(Role.LIBRARIAN);
+	    	librarianUser4.setRoles(librarianUser4Roles);
+	    	librarianUser4.setFirstName("Vzoromil");
+	    	librarianUser4.setLastName("Nerozhodný");
+	    	
+	    	Librarian librarianUser5 = new Librarian();
+	    	librarianUser5.setUsername("librarianuser5");
+	    	librarianUser5.setPassword("password");
+	    	Set<Role> librarianUser5Roles = new HashSet<Role>();
+	    	librarianUser5Roles.add(Role.LIBRARIAN);
+	    	librarianUser5.setRoles(librarianUser5Roles);
+	    	librarianUser5.setFirstName("Otakar");
+	    	librarianUser5.setLastName("Sedminohý");
+	    	
+	    	Librarian librarianUser6 = new Librarian();
+	    	librarianUser6.setUsername("librarianuser6");
+	    	librarianUser6.setPassword("password");
+	    	Set<Role> librarianUser6Roles = new HashSet<Role>();
+	    	librarianUser6Roles.add(Role.LIBRARIAN);
+	    	librarianUser6.setRoles(librarianUser6Roles);
+	    	librarianUser6.setFirstName("Vilém");
+	    	librarianUser6.setLastName("Dokonavý");
+	    	
+	    	Librarian librarianUser7 = new Librarian();
+	    	librarianUser7.setUsername("librarianuser7");
+	    	librarianUser7.setPassword("password");
+	    	Set<Role> librarianUser7Roles = new HashSet<Role>();
+	    	librarianUser7Roles.add(Role.LIBRARIAN);
+	    	librarianUser7.setRoles(librarianUser7Roles);
+	    	librarianUser7.setFirstName("Vávra");
+	    	librarianUser7.setLastName("Mírumilovný");
+	    	
+	    
+	    	
 	    	Manager managerUser1 = new Manager();
 	    	managerUser1.setUsername("manageruser");
 	    	managerUser1.setPassword("password");
@@ -132,6 +188,13 @@ public class StartupConfigBean {
 	    	
 	    	entityManager.persist(readerUser1);
 	    	entityManager.persist(librarianUser1);
+	    	entityManager.persist(librarianUser2);
+	    	entityManager.persist(librarianUser3);
+	    	entityManager.persist(librarianUser4);	
+	    	entityManager.persist(librarianUser5);
+	    	entityManager.persist(librarianUser6);
+	    	entityManager.persist(librarianUser7);
+	    	
 	    	entityManager.persist(managerUser1);    	
 	    	
 	    	entityManager.persist(book1);

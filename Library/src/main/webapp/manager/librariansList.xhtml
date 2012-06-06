@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="mainPart">
+
+	   <h:outputText escape="false" value="Není uložen žádný knihovník." rendered="#{librarianController.items.rowCount == 0}"/>
+	   	   <h:form>
+	   	   	     <h:commandLink action="#{librarianController.prepareCreate}" value="Vytvořit nového knihovníka" styleClass="links"/>
+               <br /><br />
+                <h:panelGroup rendered="#{librarianController.items.rowCount > 0}">
+
+                          
+                    <h:dataTable value="#{librarianController.items}" var="item" border="0" cellpadding="2" cellspacing="0" 
+                    styleClass="librarian-tablelibrarian-table"
+    			headerClass="librarian-table-header"
+    			rowClasses="librarian-table-odd-row,librarian-table-even-row"   rules="all" >
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Křestní jméno"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firstName}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Příjmení"/>
+                            </f:facet>
+                            <h:outputText value="#{item.lastName}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Uživatelské jméno"/>
+                            </f:facet>
+                            <h:outputText value="#{item.username}"/>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{librarianController.prepareView}" value="Detail" styleClass="links"/>
+                            <h:outputText value="  "/>
+                            <h:commandLink action="#{librarianController.prepareEdit}" value="Upravit" styleClass="links"/>
+                        </h:column>
+                    </h:dataTable>
+                               <h:commandLink action="#{librarianController.previous}" value="Předcházející" rendered="#{librarianController.pagination.hasPreviousPage}" styleClass="links"/>
+                        <h:commandLink action="#{librarianController.next}" value="Další" rendered="#{librarianController.pagination.hasNextPage}" styleClass="links"/>
+           
+                </h:panelGroup>
+	</h:form>
+	 
+	</ui:define>
+</ui:composition>
+</html>

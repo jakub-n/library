@@ -30,6 +30,7 @@ public class Employee extends User implements Serializable {
     private String lastName;
     
 
+    private boolean active=true;
 
     public String getFirstName() {
         return firstName;
@@ -47,4 +48,13 @@ public class Employee extends User implements Serializable {
         this.lastName = lastName;
     }
 
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+    
 }

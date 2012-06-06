@@ -26,7 +26,7 @@ body {
 	background: #C1D4E8;
 	float: left;
 	padding: 5px;
-	width: 200px;
+	width: 210px;
 }
 
 #mainPart {
@@ -61,12 +61,14 @@ span.invalid {
     color: #06376c;
     font-weight: bold;
     text-decoration: none;
+    padding-left: 10px;
 }
 
 #sideMenu a:link:hover, #sideMenu a:visited:hover {
     color: #6A94D4;
     font-weight: bold;
     text-decoration: underline;
+    padding-left: 10px;
 }
 
 td.center {
@@ -95,13 +97,13 @@ td.center {
 .book-table-odd-row{
 	text-align:center;
 	background:none repeat scroll 0 0 #FFFFFFF;
-	border: 1px solid #C1D4E8
+	border: 1px solid #C1D4E8;
 }
  
 .book-table-even-row{
 	text-align:center;
 	background:none repeat scroll 0 0 #EDF2F7;
-	border: 1px solid #C1D4E8
+	border: 1px solid #C1D4E8;
 }
 
 a.booksLink:link, a.booksLink:visited {
@@ -132,4 +134,54 @@ a.logLink:hover, a.logLink:hover {
     font-weight: bold;
     text-decoration: underline;
     position: right;
+}
+
+.menuHeadingText{
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #05274D;
+}
+
+.errorMessage {
+    color: #FF1F2E;
+    font-weight: bold;
+}
+.infoMessage {
+    color: #007A04;
+    font-weight: bold;
+}   
+
+.librarian-table{   
+	border-collapse:collapse;
+}
+ 
+.librarian-table-header{
+	text-align:center;
+	background:none repeat scroll 0 0 #C1D4E8;
+	border:1px solid #C1D4E8;
+	padding:10px;
+}
+ 
+.librarian-table-odd-row{
+	text-align:center;
+	background:none repeat scroll 0 0 #FFFFFFF;
+	border: 1px solid #C1D4E8;
+}
+ 
+.librarian-table-even-row{
+	text-align:center;
+	background:none repeat scroll 0 0 #EDF2F7;
+	border: 1px solid #C1D4E8;
+}
+
+a.links:link, a.links:visited {
+    color: #06376c;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.links:hover, a.links:hover {
+    color: #6A94D4;
+    font-weight: bold;
+    text-decoration: underline;
 }

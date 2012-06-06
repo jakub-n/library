@@ -1,22 +1,59 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
-    <h:form>
-        <h:link outcome="/libraryIndex" value="Úvodní stránka" />
-        <br />
-        <h:link outcome="/browsingBooksByTitle" value="Procházení knih dle názvu" />
-        <br />
-         <h:link outcome="/browsingBooksByAuthor" value="Procházení knih dle autorů" />
-        <br />
-        <h:link outcome="/home" value="Naše testovací stránka" />
-        <br />
-        <h:link outcome="/testingDisplay" value="Testovací zobrazovací" />
-        <br />
-        <h:link outcome="/reader/readerIndex.xhtml" value="Čtenář" />
-        <br />
-        <h:link outcome="/librarian/librarianIndex.xhtml" value="Knihovník" />
-        <br />
-        <h:link outcome="/manager/managerIndex.xhtml" value="Manager" />
-        <br />
-    </h:form>
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+<h:form>
+	<h:outputText value="Menu" styleClass="menuHeadingText" />
+	<br />
+	<h:link outcome="/libraryIndex" value="Úvodní stránka" />
+	<br />
+	<h:link outcome="/browsingBooksByTitle"
+		value="Procházení knih dle názvu" />
+	<br />
+	<h:link outcome="/browsingBooksByAuthor"
+		value="Procházení knih dle autorů" />
+	<br />
+	<br />
+</h:form>
+
+<h:form rendered="#{request.isUserInRole('READER')}">
+	<h:outputText value="Menu čtenáře" styleClass="menuHeadingText" />
+	<br />
+	<h:link outcome="/reader/readerIndex.xhtml" value="..." />
+	<br />
+	<br />
+</h:form>
+
+<h:form rendered="#{request.isUserInRole('LIBRARIAN')}">
+	<h:outputText value="Menu knihovníka" styleClass="menuHeadingText" />
+	<br />
+	<h:link outcome="/librarian/librarianIndex.xhtml" value="..." />
+	<br />
+	<br />
+</h:form>
+
+<h:form rendered="#{request.isUserInRole('MANAGER')}">
+	<h:outputText value="Administrace" styleClass="menuHeadingText" />
+	<br />
+	<h:link outcome="/manager/librariansList.xhtml" value="Správa knihovníků" />
+	<br />
+	<br />
+</h:form>
+
+<h:form>
+	<h:outputText value="Testing Menu" styleClass="menuHeadingText" />
+	<br />
+	<h:link outcome="/home" value="Naše testovací stránka" />
+	<br />
+	<h:link outcome="/testingDisplay" value="Testovací zobrazovací" />
+	<br />
+	<h:link outcome="/reader/readerIndex.xhtml" value="Čtenář" />
+	<br />
+	<h:link outcome="/librarian/librarianIndex.xhtml" value="Knihovník" />
+	<br />
+	<h:link outcome="/manager/managerIndex.xhtml" value="Manager" />
+	<br />
+	<br />
+</h:form>
+
 </html>
 
