@@ -13,6 +13,7 @@ import cz.muni.fi.pv243.library.entity.Book;
 import cz.muni.fi.pv243.library.entity.Librarian;
 import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 import org.jboss.ejb3.annotation.SecurityDomain;
+import org.jboss.solder.logging.Logger;
 
 @DeclareRoles({"MANAGER","LIBRARIAN"})
 @SecurityDomain("library")
@@ -23,6 +24,9 @@ public class LibrarianManager {
     @Inject
     @LibraryDatabase
 	private EntityManager em;
+    
+    @Inject
+    private Logger log;
 	
     /**
      * Saves new librarian.
@@ -32,6 +36,7 @@ public class LibrarianManager {
     @RolesAllowed({"MANAGER"})
 	public void create(Librarian librarian){
 		em.persist(librarian);
+		log.infof("Librarian created: %s", librarian.getUsername());
 	}
 
     /**
@@ -43,6 +48,7 @@ public class LibrarianManager {
 	public void delete(Librarian librarian){
 		librarian.setActive(false);
 		em.merge(librarian);
+		log.infof("Librarian deactivated: %s", librarian.getUsername());
 	}
 	
     /**
@@ -53,6 +59,7 @@ public class LibrarianManager {
     @RolesAllowed({"MANAGER","LIBRARIAN"})
 	public void update(Librarian librarian){
 		em.merge(librarian);
+		log.infof("Librarian updated: %s", librarian.getUsername());
 	}
 	
     /**

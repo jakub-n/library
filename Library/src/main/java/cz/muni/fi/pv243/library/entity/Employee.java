@@ -21,7 +21,7 @@ public class Employee extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull
+	@NotNull
     @Size(min = 2, max = 50, message = "Křestní jméno musí být v rozsahu 2-50 znaků.")
     private String firstName;
     

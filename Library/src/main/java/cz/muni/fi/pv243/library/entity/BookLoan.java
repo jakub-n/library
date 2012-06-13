@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -26,13 +28,12 @@ public class BookLoan implements Serializable {
     @Column(name="BOOK_LOAN_ID", unique=true, nullable=false)
     private Long bookLoanId;
     
-    // datum som dal pre testovacie potreby ako string. neskor zmenim
     //@Column(nullable=false)
     @NotNull
-    private String beginDate;
+    private Calendar beginDate;
     
     //@Column(nullable=false)
-    private String endDate;
+    private Calendar endDate;
     
     //@Column(nullable=true)
     private Calendar returnDate;
@@ -57,19 +58,19 @@ public class BookLoan implements Serializable {
         this.bookLoanId = id;
     }
 
-    public String getBeginDate() {
+    public Calendar getBeginDate() {
         return beginDate;
     }
 
-    public void setBeginDate(String beginDate) {
+    public void setBeginDate(Calendar beginDate) {
         this.beginDate = beginDate;
     }
 
-    public String getEndDate() {
+    public Calendar getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Calendar endDate) {
         this.endDate = endDate;
     }
 

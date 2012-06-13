@@ -1,11 +1,16 @@
 package cz.muni.fi.pv243.library.web;
 
+import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
 import cz.muni.fi.pv243.library.ejb.BookCopyManager;
 import cz.muni.fi.pv243.library.ejb.BookLoanManager;
@@ -21,6 +26,7 @@ import cz.muni.fi.pv243.library.entity.Booking;
 import cz.muni.fi.pv243.library.entity.Employee;
 import cz.muni.fi.pv243.library.entity.Reader;
 import cz.muni.fi.pv243.library.entity.Tag;
+import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 
 @ManagedBean
@@ -45,7 +51,12 @@ public class TestWebBean {
 
 	public void addDefaultBook() {
 		Book b = new Book();
-		b.setTitle("Introduction into Java EE 6");
+		b.setAuthor("Jendrock Ericson");
+    	b.setIsbn("978-0137081853");
+    	b.setPagesNumber(600);
+    	b.setLanguage(Locale.ENGLISH);
+    	b.setTitle("The Java EE 6 Tutorial: Hard Concepts");
+    	b.setPublicationDate(Calendar.getInstance());
 		bookManager.create(b);
 	}
 
@@ -81,16 +92,18 @@ public class TestWebBean {
 	
 	public void addTestBookLoan() {
 		BookLoan bl = new BookLoan();
-		bl.setBeginDate("20120501");
-		bl.setEndDate("20120512");
-		Reader reader = new Reader();
-		readerManager.create(reader);
+		bl.setBeginDate(Calendar.getInstance());
+		bl.setEndDate(Calendar.getInstance());
+		Reader reader = readerManager.getReaderByName("readerUser");
 		bl.setReader(reader);
-		Employee emp = new Employee();
-		employeeManager.create(emp);
-		bl.setEmployee(emp);
+		Employee emp = employeeManager.getEmployeeByName("librarianuser");
 		Book b = new Book();
-		b.setTitle("Introduction into Java EE 6");
+		b.setAuthor("Jendrock Ericson");
+    	b.setIsbn("978-0137081853");
+    	b.setPagesNumber(600);
+    	b.setLanguage(Locale.ENGLISH);
+    	b.setTitle("The Java EE 6 Tutorial: Hard Concepts");
+    	b.setPublicationDate(Calendar.getInstance());
 		bookManager.create(b);
 		BookCopy bc = new BookCopy();
 		bc.setBook(b);
@@ -98,6 +111,7 @@ public class TestWebBean {
 		bl.setEmployee(emp);
 		bl.setReader(reader);
 		bl.setBookCopy(bc);
+		System.out.println("test!!!");
 		bookLoanManager.create(bl);		
 	}
 	

@@ -5,8 +5,9 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
+import org.jboss.solder.logging.Logger;
 
 import cz.muni.fi.pv243.library.entity.BookCopy;
 import cz.muni.fi.pv243.library.resource.LibraryDatabase;
@@ -18,30 +19,29 @@ public class BookCopyManager {
     @Inject
     @LibraryDatabase
 	private EntityManager em;
+    
+    @Inject
+    private Logger log;
 	
 	public void create(BookCopy copy) {
 		em.persist(copy);
+		log.infof("BookCopy created: %d",copy.getId());
 	}
 	
 	public void delete(BookCopy copy) {
 		//assert copy != null;
 		em.remove(em.merge(copy));
+		log.infof("BookCopy deleted: %d",copy.getId());
 	}
-	
-//	public void delete(Long bookCopyId){
-//		if (em.merge(em.find(BookCopy.class, bookCopyId)).getLoans().isEmpty()) {
-//			em.remove(em.find(BookCopy.class, bookCopyId));
-//		} else {
-//			System.out.println("bookCopy in relation with bookLoan!");
-//		}
-//	}
 	
 	public void delete(Long bookCopyId){
 			em.remove(em.find(BookCopy.class, bookCopyId));
+			log.infof("BookCopy deleted: %d",bookCopyId);
 	}
 	
 	public void update(BookCopy copy) {
 		em.merge(copy);
+		log.infof("BookCopy updated: %d",copy.getId());
 	}
 	
 	public List<BookCopy> getAllBookCopies() {

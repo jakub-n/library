@@ -7,11 +7,14 @@ import java.util.Locale;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import org.jboss.solder.logging.Logger;
 
 import cz.muni.fi.pv243.library.entity.Book;
 import cz.muni.fi.pv243.library.entity.BookCopy;
@@ -33,6 +36,26 @@ public class StartupConfigBean {
     @Inject
     @LibraryDatabase
 	 private EntityManager entityManager;
+    
+    @Inject
+	private BookManager bookManager;
+	@Inject
+	private BookCopyManager bookCopyManager;
+	@Inject
+	private BookLoanManager bookLoanManager;
+	@Inject
+	private ReaderManager readerManager;
+	@Inject
+	private EmployeeManager employeeManager;
+	@Inject
+	private TagManager tagManager;
+	@Inject
+	private BookingManager bookingManager;
+	@Inject
+	private LibrarianManager libMag;
+    
+    @Inject
+    private Logger log;
 
 
 		
@@ -177,7 +200,7 @@ public class StartupConfigBean {
 	    	
 	    	// Bookloans
 	    	BookLoan bookLoan1 = new BookLoan();
-	    	bookLoan1.setBeginDate("od včera"); // needs fix not to be string
+	    	bookLoan1.setBeginDate(Calendar.getInstance());
 	    	bookLoan1.setBookCopy(bookCopy1);
 	    	bookLoan1.setReader(readerUser1);
 	    	bookLoan1.setEmployee(librarianUser1);
@@ -186,7 +209,9 @@ public class StartupConfigBean {
 	    	entityManager.persist(tag1);
 	    	entityManager.persist(tag2);
 	    	
-	    	entityManager.persist(readerUser1);
+	    	readerManager.create(readerUser1);
+	    	
+	    	//je divne, ze libmag nemoze vytvorit librariana ale em moze - bez logu
 	    	entityManager.persist(librarianUser1);
 	    	entityManager.persist(librarianUser2);
 	    	entityManager.persist(librarianUser3);
@@ -195,19 +220,20 @@ public class StartupConfigBean {
 	    	entityManager.persist(librarianUser6);
 	    	entityManager.persist(librarianUser7);
 	    	
+	    	//add managerManager :)
 	    	entityManager.persist(managerUser1);    	
 	    	
-	    	entityManager.persist(book1);
-	    	entityManager.persist(book2);
+	    	bookManager.create(book1);
+	    	bookManager.create(book2);
 	    	
-	    	entityManager.persist(booking1);
+	    	bookingManager.create(booking1);
 	    	
-
+	    	bookCopyManager.create(bookCopy1);
+	    	bookCopyManager.create(bookCopy2);
 	    	
-	    	entityManager.persist(bookCopy1);
-	    	entityManager.persist(bookCopy2);
+	    	bookLoanManager.create(bookLoan1);
 	    	
-	    	entityManager.persist(bookLoan1);
+	    	log.infof("Startup initialization successful");
 	    }
 	
 }

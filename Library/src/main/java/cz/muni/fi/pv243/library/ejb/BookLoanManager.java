@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.jboss.solder.logging.Logger;
+
 import cz.muni.fi.pv243.library.entity.BookLoan;
 import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
@@ -18,17 +20,23 @@ public class BookLoanManager {
     @Inject
     @LibraryDatabase
 	private EntityManager em;
+    
+    @Inject
+    private Logger log;
 	
 	public void create(BookLoan bookLoan){
 		em.persist(bookLoan);
+		log.infof("BookLoan created: %s", bookLoan.getId());
 	}
 	
 	public void delete(BookLoan bookLoan){
 		em.remove(em.merge(bookLoan));
+		log.infof("BookLoan deleted: %s", bookLoan.getId());
 	}
 	
 	public void update(BookLoan bookLoan){
 		em.merge(bookLoan);
+		log.infof("BookLoan updated: %s", bookLoan.getId());
 	}
 	
 	public List<BookLoan> getAllBookLoans(){

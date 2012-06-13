@@ -7,6 +7,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.jboss.solder.logging.Logger;
+
 import cz.muni.fi.pv243.library.entity.Book;
 import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
@@ -24,30 +26,26 @@ public class BookManager {
     @Inject
     @LibraryDatabase
 	private EntityManager em;
+    
+    @Inject
+    private Logger log;
 
 	public void create(Book book) {
 		em.persist(book);
+		log.infof("Book created: %s", book.getBookId());
 	}
 	
     public void delete(Book book){
     	em.remove(em.merge(book));
+    	log.infof("Book deleted: %s", book.getBookId());
     }
     
     public void update(Book book){
     	em.merge(book);
+    	log.infof("Book updated: %s", book.getBookId());
     }
 
 	public List<Book> getAllBooks() {
-		/*List<Book> b = new ArrayList<Book>();
-		Book b1=new Book();
-		b1.setBookId(1);
-		b1.setTitle("First");
-		b.add(b1);
-		Book b2=new Book();
-		b2.setBookId(2);
-		b2.setTitle("Second");
-		b.add(b2);
-		return b;*/
 		Query query = em.createQuery("SELECT b FROM Book b");
 		return query.getResultList();
 	}
@@ -59,7 +57,7 @@ public class BookManager {
     	Query query1 = em.createQuery("DELETE FROM Book ");
     	query.executeUpdate();
     	query1.executeUpdate();
-    	
+    	log.infof("All Books was deleted!");
     	
     }
 	
