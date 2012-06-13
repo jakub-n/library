@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 
+import org.jboss.solder.logging.Logger;
 import cz.muni.fi.pv243.library.ejb.ReaderManager;
 import cz.muni.fi.pv243.library.ejb.UserManager;
 import cz.muni.fi.pv243.library.entity.Reader;
@@ -24,6 +25,9 @@ public class ReaderController {
 
 	@Inject
 	UserManager userManager;
+	
+	@Inject
+	private Logger log;
 
 	private Reader current;
 
@@ -58,16 +62,19 @@ public class ReaderController {
 				roles.add(Role.READER);
 				current.setRoles(roles);
 				readerManager.create(current);
+				log.infof("Create reader account: %s -->account created.", current.getUsername());
 				JsfUtil.addSuccessMessage("Čtenářské konto bylo úspěšně vytvořeno. Můžete se přihlásit.");
 			} else {
+				log.infof("Create reader account: %s --> unsuccessful, account with given username already exist",
+						current.getUsername());
 				JsfUtil.addErrorMessage("Uživatel s takovýmto přihlašovacím jménem již existuje");
 				return null;
 			}
 			current = new Reader();
 			return "/login";
 		} catch (Exception e) {
+			log.infof("Create reader account: %s -->unsuccessful", current.getUsername());
 			JsfUtil.addErrorMessage("Při vytváření uživatele došlo k chybě");
-			// TODO log
             return null;
 		}
 	}

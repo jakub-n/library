@@ -10,6 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.jboss.solder.logging.Logger;
+
 import cz.muni.fi.pv243.library.ejb.UserManager;
 import cz.muni.fi.pv243.library.entity.User;
 import cz.muni.fi.pv243.library.web.util.JsfUtil;
@@ -25,6 +27,9 @@ public class UserController {
 
 	@Inject
 	private UserManager userManager;
+	
+	@Inject
+	private Logger log;
 
 	/**
 	 * Constructor
@@ -47,7 +52,8 @@ public class UserController {
 			}
 			request.login(username, password);
 			userPrincipal = request.getUserPrincipal();
-			System.out.println("Prihlasen " + username);
+			//System.out.println("Prihlasen " + username);
+			log.infof("Login: %s -->success", username);
 			user = userManager.getUserByUsername(username);
 			JsfUtil.addSuccessMessage("Přihlášení se zdařilo.");
 
@@ -55,7 +61,7 @@ public class UserController {
 			JsfUtil.addErrorMessage("Přihlášení se nezdařilo.");
 			System.out.println("Neprihlasen, pokus byl " + username + " "
 					+ password);
-			// TODO zalogovat
+			log.infof("Login: %s --> unsuccessful", username);
 
 		}
 
@@ -77,11 +83,12 @@ public class UserController {
 			// clear the session
 			((HttpSession) context.getExternalContext().getSession(false))
 					.invalidate();
+			log.infof("Logout: %s -->success", username);
 			JsfUtil.addSuccessMessage("Odhlášení se zdařilo.");
 
 		} catch (ServletException ex) {
 			JsfUtil.addErrorMessage("Odhlášení se nezdařilo.");
-			// TODO zalogovat
+			log.infof("Logout: %s -->unsuccessful", username);
 		}
 		return "/login";
 

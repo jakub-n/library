@@ -14,6 +14,8 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
+import org.jboss.solder.logging.Logger;
+
 import cz.muni.fi.pv243.library.ejb.LibrarianManager;
 import cz.muni.fi.pv243.library.entity.Librarian;
 import cz.muni.fi.pv243.library.entity.Role;
@@ -28,9 +30,11 @@ public class LibrarianController {
 	
 	  @Inject
 	  private LibrarianManager librarianManager;
-	    private AbstractPaginationHelper pagination;
-	    private Librarian current;
-	    private DataModel<Librarian> items = null;
+	  private AbstractPaginationHelper pagination;
+	  private Librarian current;
+	  private DataModel<Librarian> items = null;
+	  @Inject
+	  private Logger log;
 	 
 	    private int selectedItemIndex;
 
@@ -133,17 +137,20 @@ public class LibrarianController {
 					Set<Role> roles = new HashSet<Role>();
 					roles.add(Role.LIBRARIAN);
 					current.setRoles(roles);
-	               librarianManager.create(current);
-	               JsfUtil.addSuccessMessage("Nový knihovník byl úspěšně vytvořen.");
-	               return prepareCreate();
+	                librarianManager.create(current);
+	                log.infof("Create librarian account: %s -->account created", current.getUsername());
+	                JsfUtil.addSuccessMessage("Nový knihovník byl úspěšně vytvořen.");
+	                return prepareCreate();
 	        	} else {
+	        		log.infof("Create librarian account: %s -->unsuccessful, account with given username already exist",
+							current.getUsername());
 					JsfUtil.addErrorMessage("Uživatel s takovýmto přihlašovacím jménem již existuje");
 					return null;
 				}
 	            
 	        } catch (Exception e) {
+	        	log.infof("Create librarian account: %s -->unsuccessful", current.getUsername());
 	            JsfUtil.addErrorMessage("Při vytváření nového knihovníka došlo k chybě.");
-
 	            return null;
 	        }
 	    }
@@ -169,10 +176,11 @@ public class LibrarianController {
 	    public String update() {
 	        try {
 	            librarianManager.update(current);
+	            log.infof("Update librarian: %s -->updated", current.getUsername());
 	            JsfUtil.addSuccessMessage("Knihovník byl úspěšně upraven.");
-
 	            return "/manager/librarianDetail";
 	        } catch (Exception e) {
+	        	log.infof("Update librarian: %s -->unsuccessful", current.getUsername());
 	            JsfUtil.addErrorMessage("Při úpravě knihovníka došlo k chybě.");
 
 	            return null;
@@ -198,8 +206,10 @@ public class LibrarianController {
 	    private void performDestroy() {
 	        try {
 	            librarianManager.delete(current);
+	            log.infof("Delete librarian: %s -->deleted", current.getUsername());
 	            JsfUtil.addSuccessMessage("Knihovník byl úspěšně smazán.");
 	        } catch (Exception e) {
+	        	log.infof("Delete librarian: %s -->unsuccessfull", current.getUsername());
 	            JsfUtil.addErrorMessage("Při mazání knihovníka nastal problém.");
 	        }
 	    }
