@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import cz.muni.fi.pv243.library.entity.Book;
 import cz.muni.fi.pv243.library.entity.Librarian;
@@ -81,7 +82,8 @@ public class LibrarianManager {
      */
     @RolesAllowed({"MANAGER"})
 	public List<Librarian> findRange(int[] range) {
-		Query query = em.createQuery("SELECT l FROM Librarian l WHERE l.active=true");
+		TypedQuery<Librarian> query 
+		= em.createQuery("SELECT l FROM Librarian l WHERE l.active=true",Librarian.class);
 		query.setFirstResult(range[0]);
 		query.setMaxResults(range[1] - range[0]);
 		return query.getResultList();
@@ -94,7 +96,8 @@ public class LibrarianManager {
      */
     @RolesAllowed({"MANAGER"})
 	public List<Book> getAllLibrarians() {
-		Query query = em.createQuery("SELECT l FROM Librarian l WHERE l.active=true");
+		TypedQuery<Book> query 
+		= em.createQuery("SELECT l FROM Librarian l WHERE l.active=true",Book.class);
 		return query.getResultList();
 	}
 	

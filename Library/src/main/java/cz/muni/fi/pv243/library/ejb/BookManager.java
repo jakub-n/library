@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.jboss.solder.logging.Logger;
 
@@ -30,26 +31,51 @@ public class BookManager {
     @Inject
     private Logger log;
 
+    /**
+     * Persists new book
+     * 
+     * @param book
+     */
 	public void create(Book book) {
 		em.persist(book);
 		log.infof("Book created: %s", book.getBookId());
 	}
 	
+	/**
+	 * Removes given book
+	 * 
+	 * @param book
+	 */
     public void delete(Book book){
     	em.remove(em.merge(book));
     	log.infof("Book deleted: %s", book.getBookId());
     }
     
+    /**
+     * Updates given book
+     * 
+     * @param book
+     */
     public void update(Book book){
     	em.merge(book);
     	log.infof("Book updated: %s", book.getBookId());
     }
 
+    /**
+     * Returns all books
+     * 
+     * @return all books
+     */
 	public List<Book> getAllBooks() {
-		Query query = em.createQuery("SELECT b FROM Book b");
+		TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b",Book.class);
 		return query.getResultList();
 	}
 	
+	/**
+	 * Removes all books
+	 * 
+	 * @deprecated
+	 */
 	@Deprecated
     public void deleteAllBooks()
     {
@@ -61,21 +87,51 @@ public class BookManager {
     	
     }
 	
+	/**
+	 * Returns all books with title containing given text
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public List<Book> getBooksWithTitleContainingGivenText(String text) {
-		Query query = em.createQuery("SELECT b FROM Book b WHERE LOWER(b.title) LIKE '%" + text.toLowerCase() + "%' ");
+		TypedQuery<Book> query 
+		= em.createQuery
+		("SELECT b FROM Book b WHERE LOWER(b.title) LIKE '%" + text.toLowerCase() + "%' ",Book.class);
 		return query.getResultList();
 	}
 
+	/**
+	 * Returns all books with title starting with given text
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public List<Book> getBooksWithTitleStartingWithGivenText(String text) {
-		Query query = em.createQuery("SELECT b FROM Book b WHERE LOWER(b.title) LIKE  '" + text.toLowerCase() + "%' ");
+		TypedQuery<Book> query 
+		= em.createQuery
+		("SELECT b FROM Book b WHERE LOWER(b.title) LIKE  '" + text.toLowerCase() + "%' ",Book.class);
 		return query.getResultList();
 	}
 	
+	/**
+	 * Returns all books with author's name starting with given text
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public List<Book> getBooksWithAuthorStartingWithGivenText(String text) {
-		Query query = em.createQuery("SELECT b FROM Book b WHERE LOWER(b.author) LIKE  '" + text.toLowerCase() + "%' ");
+		TypedQuery<Book> query 
+		= em.createQuery
+		("SELECT b FROM Book b WHERE LOWER(b.author) LIKE  '" + text.toLowerCase() + "%' ",Book.class);
 		return query.getResultList();
 	}
 	
+	/**
+	 * Returns book with given id
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Book getBookById(Long id){
 		Query query = em.createQuery("SELECT b FROM Book b WHERE b.bookId=" + id);
 		return (Book) query.getSingleResult();

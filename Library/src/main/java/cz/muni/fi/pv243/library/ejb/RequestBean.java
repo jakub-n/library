@@ -13,7 +13,7 @@ import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 
 /**
- * A stateless bean handling the library entities.
+ * A stateless ancient bean handling the library entities.
  * 
  * @author Ixi (Iva Zakova)
  */
