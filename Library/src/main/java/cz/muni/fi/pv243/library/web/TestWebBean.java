@@ -142,7 +142,9 @@ public class TestWebBean {
 		Book b = new Book();
 		b.setTitle("Introduction into Java EE 6");
 		bookManager.create(b);
-		b.addTag(tag);
+		Set<Tag> tags = new HashSet<Tag>();
+    	tags.add(tag);
+		b.setTags(tags);
 		bookManager.update(b);
 	}
 	

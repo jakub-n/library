@@ -2,7 +2,6 @@ package cz.muni.fi.pv243.library.entity;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
@@ -18,8 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -82,17 +79,6 @@ public class Book implements Serializable {
 
 	public void setTags(Set<Tag> tags) {
 		this.tags = tags;
-	}
-
-	//test
-	public void addTag(Tag tag) {
-		if (this.tags != null) {
-			this.tags.add(tag);
-		} else {
-			Set<Tag> tags = new HashSet<Tag>();
-			tags.add(tag);
-			this.tags = tags;
-		}
 	}
 
 	public void setCopies(Set<BookCopy> copies) {

@@ -2,7 +2,6 @@ package cz.muni.fi.pv243.library.entity;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
