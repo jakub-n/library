@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.library.web.controller;
 
+import java.io.Serializable;
 import java.security.Principal;
 
 import javax.faces.bean.ManagedBean;
@@ -18,11 +19,14 @@ import cz.muni.fi.pv243.library.web.util.JsfUtil;
 
 @SessionScoped
 @ManagedBean
-public class UserController {
+public class UserController implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private String password;
 	private String username;
 
+	// TODO jakub: je package opravdu spravne pristupove pravo?
 	User user;
 
 	@Inject

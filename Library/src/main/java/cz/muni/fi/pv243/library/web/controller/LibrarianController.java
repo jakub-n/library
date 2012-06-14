@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.library.web.controller;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,8 +26,9 @@ import cz.muni.fi.pv243.library.web.util.JsfUtil;
 
 @ManagedBean
 @SessionScoped
-public class LibrarianController {
+public class LibrarianController implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	
 	  @Inject
 	  private LibrarianManager librarianManager;

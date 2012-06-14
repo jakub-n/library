@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.library.web;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -31,8 +32,10 @@ import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 @ManagedBean
 @SessionScoped
-public class TestWebBean {
+public class TestWebBean implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	@Inject
 	private BookManager bookManager;
 	@Inject

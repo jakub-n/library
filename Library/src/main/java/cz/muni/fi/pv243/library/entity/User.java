@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.library.entity;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Set;
@@ -20,9 +21,11 @@ import org.apache.commons.codec.binary.Base64;
 
 @Entity
 @Table(name="User")
-public class User {
+public class User implements Serializable {
 
-    public static final int MINIMUM_PASSWORD_LENGTH = 5;
+	private static final long serialVersionUID = 1L;
+
+	public static final int MINIMUM_PASSWORD_LENGTH = 5;
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
