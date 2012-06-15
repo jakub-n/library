@@ -2,6 +2,7 @@ package cz.muni.fi.pv243.library.ejb;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -39,6 +40,7 @@ public class ReaderManager {
 	 * 
 	 * @param reader
 	 */
+	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
 	public void delete(Reader reader) {
 			em.remove(em.merge(reader));
 			log.infof("Reader deleted: %s", reader.getUsername());
@@ -49,6 +51,7 @@ public class ReaderManager {
 	 * 
 	 * @param reader
 	 */
+	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
 	public void update(Reader reader) {
 		em.merge(reader);
 		log.infof("Reader updated: %s", reader.getUsername());
@@ -75,5 +78,37 @@ public class ReaderManager {
 		return (Reader)q.getSingleResult();
 	}
 	
+	/**
+	 * Returns count of readers.
+	 * 
+	 * @return count of readers
+	 */
+	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
+	public int count() {
+		Query query = em.createQuery("SELECT count(a) FROM Reader a");
+		return ((Long) query.getSingleResult()).intValue();
+	}
+
+	/**
+	 * Returns readers by given range.
+	 * 
+	 * @param range
+	 * @return readers by given range
+	 */
+	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
+	public List<Reader> findRange(int[] range, String username) {
+		Query query = null;
+		if (username == null) {
+			query = em.createQuery("SELECT a FROM Reader a");
+		} else {
+			query = em
+					.createQuery("SELECT a FROM Reader a WHERE LOWER(a.username) LIKE '%"
+							+ username.toLowerCase() + "%' ");
+		}
+		query.setFirstResult(range[0]);
+		query.setMaxResults(range[1] - range[0]);
+		return query.getResultList();
+	}
+
 
 }

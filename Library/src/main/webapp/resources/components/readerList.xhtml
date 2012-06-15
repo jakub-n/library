@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+</composite:interface>
+
+<composite:implementation>
+	<h:form>
+		<h:dataTable var="reader" value="#{readerController.items}"
+			id="readerList" rendered="#{readerController.items.rowCount > 0}"
+			border="0" cellpadding="2" cellspacing="0"
+			styleClass="librarian-tablelibrarian-table"
+			headerClass="librarian-table-header"
+			rowClasses="librarian-table-odd-row,librarian-table-even-row"
+			rules="all">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Uživatelské jméno" />
+				</f:facet>
+				<h:commandLink action="#{readerController.prepareView}"
+					value="#{reader.username}" styleClass="links" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Jméno" />
+				</f:facet>
+				<h:outputText value="#{reader.firstName}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Příjmení" />
+				</f:facet>
+				<h:outputText value="#{reader.lastName}" />
+			</h:column>
+
+		</h:dataTable>
+		<h:commandLink action="#{readerController.previous}"
+			value="Předcházející"
+			rendered="#{readerController.pagination.hasPreviousPage}"
+			styleClass="links" />
+		<h:commandLink action="#{readerController.next}" value="Další"
+			rendered="#{readerController.pagination.hasNextPage}"
+			styleClass="links" />
+
+	</h:form>
+	<h:outputText value="Nebyli nalezeni žádní čtenáři."
+		rendered="#{readerController.items.rowCount == 0}" />
+</composite:implementation>
+
+</html>

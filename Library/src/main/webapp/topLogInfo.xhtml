@@ -13,8 +13,6 @@
 		<b><h:outputText value="#{userController.user.username}"
 			rendered="#{userController.logged}" /></b>
 		<br />
-		<h:link outcome="/user/register" value="Registrovat se"
-			rendered="#{userController.logged == false}" styleClass="logLink" />
 		<h:form rendered="#{userController.logged}" >
 		<h:commandLink action="#{userController.logout()}" value="Odhlásit se"
 			styleClass="logLink" />

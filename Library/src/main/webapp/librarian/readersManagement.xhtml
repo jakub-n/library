@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:dt="http://java.sun.com/jsf/composite/components">
+
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="mainPart">
+
+		<h:outputText escape="false" value="Není uložen žádný čtenář."
+			rendered="#{readerController.items.rowCount == 0}" />
+		<h:form>
+
+			<br />
+			<br />
+			<h:panelGroup rendered="#{readerController.items.rowCount > 0}">
+
+
+				<h:dataTable value="#{readerController.items}" var="item" border="0"
+					cellpadding="2" cellspacing="0"
+					styleClass="librarian-tablelibrarian-table"
+					headerClass="librarian-table-header"
+					rowClasses="librarian-table-odd-row,librarian-table-even-row"
+					rules="all">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Křestní jméno" />
+						</f:facet>
+						<h:outputText value="#{item.firstName}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Příjmení" />
+						</f:facet>
+						<h:outputText value="#{item.lastName}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Uživatelské jméno" />
+						</f:facet>
+						<h:outputText value="#{item.username}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="&nbsp;" />
+						</f:facet>
+						<h:commandLink action="#{readerController.prepareView}"
+							value="Detail" styleClass="links" />
+						<h:outputText value="  " />
+						<h:commandLink action="#{readerController.prepareEdit}"
+							value="Upravit" styleClass="links" />
+
+					</h:column>
+				</h:dataTable>
+				<h:commandLink action="#{readerController.previous}"
+					value="Předcházející"
+					rendered="#{readerController.pagination.hasPreviousPage}"
+					styleClass="links" />
+				<h:commandLink action="#{readerController.next}" value="Další"
+					rendered="#{readerController.pagination.hasNextPage}"
+					styleClass="links" />
+
+
+			</h:panelGroup>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
+</html>

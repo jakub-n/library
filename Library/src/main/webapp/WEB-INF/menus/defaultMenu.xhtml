@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html">
-	
+
 <h:form>
 	<h:outputText value="Menu" styleClass="menuHeadingText" />
 	<br />
@@ -26,7 +26,14 @@
 <h:form rendered="#{request.isUserInRole('LIBRARIAN')}">
 	<h:outputText value="Menu knihovníka" styleClass="menuHeadingText" />
 	<br />
-	<h:link outcome="/librarian/librarianIndex.xhtml" value="..." />
+	<h:link outcome="/librarian/searchReader.xhtml"
+		value="Vyhledat čtenáře" />
+	<br />
+	<h:commandLink action="#{readerController.cleanAndShowManagement}"
+		value="Správa čtenářů" />
+	<br />
+	<h:commandLink action="#{readerController.cleanAndShowRegistration}"
+		value="Registrovat čtenáře" />
 	<br />
 	<br />
 </h:form>
@@ -34,7 +41,8 @@
 <h:form rendered="#{request.isUserInRole('MANAGER')}">
 	<h:outputText value="Administrace" styleClass="menuHeadingText" />
 	<br />
-	<h:link outcome="/manager/librariansList.xhtml" value="Správa knihovníků" />
+	<h:link outcome="/manager/librariansList.xhtml"
+		value="Správa knihovníků" />
 	<br />
 	<br />
 </h:form>
