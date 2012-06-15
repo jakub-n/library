@@ -1,8 +1,9 @@
 package cz.muni.fi.pv243.library.web.controller;
 
+import java.util.GregorianCalendar;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
@@ -12,6 +13,7 @@ import cz.muni.fi.pv243.library.ejb.BookLoanManager;
 import cz.muni.fi.pv243.library.entity.BookLoan;
 import cz.muni.fi.pv243.library.entity.Reader;
 import cz.muni.fi.pv243.library.web.util.AbstractPaginationHelper;
+import cz.muni.fi.pv243.library.web.util.JsfUtil;
 
 @ManagedBean
 @ViewScoped
@@ -19,6 +21,7 @@ public class BookLoanController {
 
 	@Inject
 	private BookLoanManager bookLoanManager;
+	
 	private AbstractPaginationHelper pagination;
 	private DataModel<BookLoan> items = null;
 
@@ -29,6 +32,8 @@ public class BookLoanController {
 	private int sessionPage;
 
 	private Reader currentReader;
+	private BookLoan currentLoan;
+	
 
 	/**
 	 * Constructor.
@@ -66,28 +71,32 @@ public class BookLoanController {
 				public DataModel<BookLoan> createPageDataModel() {
 					return new ListDataModel<BookLoan>(
 							bookLoanManager.findRange(new int[] {
-									(sessionPage*getPageSize()),
-									(sessionPage*getPageSize()) + getPageSize() },
-									currentReader));
+									(sessionPage * getPageSize()),
+									(sessionPage * getPageSize())
+											+ getPageSize() }, currentReader));
 				}
 
 				@Override
 				public boolean isHasNextPage() {
-					return ((sessionPage+1)*getPageSize()+1)<=getItemsCount();
+					return ((sessionPage + 1) * getPageSize() + 1) <= getItemsCount();
 				}
 
 				@Override
 				public boolean isHasPreviousPage() {
 					return sessionPage > 0;
 				}
-				
-				
+
+				@Override
+				public int getPageFirstItem() {
+					// TODO Auto-generated method stub
+					return super.getPageFirstItem();
+				}
+
 			};
 		}
 
 		return pagination;
 	}
-
 
 	public Reader getCurrent() {
 		return current;
@@ -105,4 +114,18 @@ public class BookLoanController {
 		this.sessionPage = sessionPage;
 	}
 
+	/**
+	 * Returns book and navigates to reader detail page
+	 * 
+	 * @return reader detail page
+	 */
+	public String returnBook() {
+		currentLoan = (BookLoan) getItems().getRowData();
+		currentLoan.setEndDate(new GregorianCalendar());
+		bookLoanManager.update(currentLoan);
+		JsfUtil.addSuccessMessage("Výtisk byl vrácen.");
+		return "/librarian/readerDetail";
+
+	}
+	
 }

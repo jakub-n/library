@@ -35,7 +35,8 @@
 				styleClass="librarian-tablelibrarian-table"
 				headerClass="librarian-table-header"
 				rowClasses="librarian-table-odd-row,librarian-table-even-row"
-				rules="all">
+				rules="all"
+				rendered="#{bookLoanController.items.rowCount > 0}">
 				<h:column>
 					<f:facet name="header">
 						<h:outputText value="Kniha" />
@@ -59,19 +60,31 @@
 						<f:convertDateTime pattern="dd.MM.yyyy" />
 					</h:outputText>
 				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Akce" />
+					</f:facet>
+					<h:commandLink
+						action="#{bookLoanController.returnBook}"
+						value="Vrátit"
+						styleClass="links" />
+				</h:column>
 
 
 			</h:dataTable>
-			
+
 			<br />
-			
+
 			<h:commandLink action="#{bookLoanPaginationController.previousPage}"
 				value="Předcházející"
 				rendered="#{bookLoanController.pagination.hasPreviousPage}"
 				styleClass="links" />
-			<h:commandLink action="#{bookLoanPaginationController.nextPage}" value="Další"
+			<h:commandLink action="#{bookLoanPaginationController.nextPage}"
+				value="Další"
 				rendered="#{bookLoanController.pagination.hasNextPage}"
 				styleClass="links" />
+				
+				<h:outputText rendered="#{bookLoanController.items.rowCount == 0}" value="Čtenář nemá žádné aktivní výpůjčky." />
 		</h:form>
 
 	</ui:define>

@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 import org.jboss.solder.logging.Logger;
 
 import cz.muni.fi.pv243.library.entity.BookCopy;
+import cz.muni.fi.pv243.library.entity.User;
 import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 @Stateless
@@ -73,6 +74,20 @@ public class BookCopyManager {
 	public List<BookCopy> getAllBookCopies() {
 		TypedQuery<BookCopy> query = em.createQuery("SELECT c FROM BookCopy c", BookCopy.class);
 		return query.getResultList();
+	}
+	
+	/**
+	 * Returns book copy by id
+	 * 
+	 * @return book copy
+	 */
+	public BookCopy getBookCopyById(Long id) {
+		TypedQuery<BookCopy> query = em.createQuery("SELECT c FROM BookCopy c WHERE id='" + id + "'", BookCopy.class);
+		if (query.getResultList().size() > 0) {
+			return (BookCopy) query.getSingleResult();
+		} else {
+			return null;
+		}
 	}
 	
 	/**

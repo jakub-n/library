@@ -12,24 +12,24 @@ import javax.persistence.TypedQuery;
 import org.jboss.solder.logging.Logger;
 
 import cz.muni.fi.pv243.library.entity.Reader;
+import cz.muni.fi.pv243.library.entity.User;
 import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 @Stateless
 public class ReaderManager {
 
-
-    @Inject
-    @LibraryDatabase
+	@Inject
+	@LibraryDatabase
 	private EntityManager em;
-    
-    @Inject
-    private Logger log;
 
-    /**
-     * Persists new reader
-     * 
-     * @param reader
-     */
+	@Inject
+	private Logger log;
+
+	/**
+	 * Persists new reader
+	 * 
+	 * @param reader
+	 */
 	public void create(Reader reader) {
 		em.persist(reader);
 		log.infof("Reader created: %s", reader.getUsername());
@@ -42,8 +42,8 @@ public class ReaderManager {
 	 */
 	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
 	public void delete(Reader reader) {
-			em.remove(em.merge(reader));
-			log.infof("Reader deleted: %s", reader.getUsername());
+		em.remove(em.merge(reader));
+		log.infof("Reader deleted: %s", reader.getUsername());
 	}
 
 	/**
@@ -63,21 +63,28 @@ public class ReaderManager {
 	 * @return all readers
 	 */
 	public List<Reader> getAllReaders() {
-		TypedQuery<Reader> q = em.createQuery("SELECT a FROM Reader a",Reader.class);
+		TypedQuery<Reader> q = em.createQuery("SELECT a FROM Reader a",
+				Reader.class);
 		return q.getResultList();
 	}
-	
+
 	/**
 	 * Returns reader with given username
 	 * 
 	 * @param username
 	 * @return reader with given username
 	 */
-	public Reader getReaderByName(String username){
-		Query q = em.createQuery("SELECT a FROM Reader a WHERE a.username=:name").setParameter("name", username);
-		return (Reader)q.getSingleResult();
+	public Reader getReaderByName(String username) {
+		Query q = em.createQuery(
+				"SELECT a FROM Reader a WHERE a.username=:name").setParameter(
+				"name", username);
+		if (q.getResultList().size() > 0) {
+			return (Reader) q.getSingleResult();
+		} else {
+			return null;
+		}
 	}
-	
+
 	/**
 	 * Returns count of readers.
 	 * 
@@ -109,6 +116,5 @@ public class ReaderManager {
 		query.setMaxResults(range[1] - range[0]);
 		return query.getResultList();
 	}
-
 
 }

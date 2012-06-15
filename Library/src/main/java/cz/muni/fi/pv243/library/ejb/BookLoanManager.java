@@ -11,72 +11,87 @@ import javax.persistence.TypedQuery;
 
 import org.jboss.solder.logging.Logger;
 
+import cz.muni.fi.pv243.library.entity.BookCopy;
 import cz.muni.fi.pv243.library.entity.BookLoan;
 import cz.muni.fi.pv243.library.entity.Reader;
 import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 @Stateless
 public class BookLoanManager {
-	
 
-    @Inject
-    @LibraryDatabase
+	@Inject
+	@LibraryDatabase
 	private EntityManager em;
-    
-    @Inject
-    private Logger log;
-	
-    /**
-     * Persists new bookLoan
-     * 
-     * @param bookLoan
-     */
-	public void create(BookLoan bookLoan){
+
+	@Inject
+	private Logger log;
+
+	/**
+	 * Persists new bookLoan
+	 * 
+	 * @param bookLoan
+	 */
+	public void create(BookLoan bookLoan) {
 		em.persist(bookLoan);
 		log.infof("BookLoan created: %s", bookLoan.getId());
 	}
-	
+
 	/**
 	 * Removes given bookLoan
 	 * 
 	 * @param bookLoan
 	 */
-	public void delete(BookLoan bookLoan){
+	public void delete(BookLoan bookLoan) {
 		em.remove(em.merge(bookLoan));
 		log.infof("BookLoan deleted: %s", bookLoan.getId());
 	}
-	
+
 	/**
 	 * Updates given bookLoan
 	 * 
 	 * @param bookLoan
 	 */
-	public void update(BookLoan bookLoan){
+	public void update(BookLoan bookLoan) {
 		em.merge(bookLoan);
 		log.infof("BookLoan updated: %s", bookLoan.getId());
 	}
-	
-	/**
-	 * Returns all bookLoans
-	 * @return all booLoans
-	 */
-	public List<BookLoan> getAllBookLoans(){
-		TypedQuery<BookLoan> q  = em.createQuery("SELECT a FROM BookLoan a",BookLoan.class);
-		return q.getResultList();
-	}
-	
 
 	/**
-	 * Returns count of book loans for reader.
+	 * Returns all bookLoans
+	 * 
+	 * @return all booLoans
+	 */
+	public List<BookLoan> getAllBookLoans() {
+		TypedQuery<BookLoan> q = em.createQuery("SELECT a FROM BookLoan a",
+				BookLoan.class);
+		return q.getResultList();
+	}
+
+	/**
+	 * Returns count of active book loans for reader.
 	 * 
 	 * @param reader
-	 * @return count of book loans
+	 * @return count of active book loans
 	 */
 	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
 	public int count(Reader reader) {
 		Query query = em
 				.createQuery("SELECT count(a) FROM BookLoan a WHERE a.reader.username='"
-						+ reader.getUsername() + "'");
+						+ reader.getUsername() + "' AND endDate IS NULL");
+		return ((Long) query.getSingleResult()).intValue();
+	}
+
+	/**
+	 * Returns count of old book loans for reader.
+	 * 
+	 * @param reader
+	 * @return count of old book loans
+	 */
+	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
+	public int countOldLoans(Reader reader) {
+		Query query = em
+				.createQuery("SELECT count(a) FROM BookLoan a WHERE a.reader.username='"
+						+ reader.getUsername() + "' AND endDate NOT NULL");
 		return ((Long) query.getSingleResult()).intValue();
 	}
 
@@ -96,7 +111,7 @@ public class BookLoanManager {
 		query.setMaxResults(range[1] - range[0]);
 		return query.getResultList();
 	}
-	
+
 	/**
 	 * Returns old book loans by given range.
 	 * 
@@ -113,6 +128,16 @@ public class BookLoanManager {
 		query.setMaxResults(range[1] - range[0]);
 		return query.getResultList();
 	}
-	
+
+	public BookLoan getActiveBookLoanForBookCopy(BookCopy bookCopy) {
+		Query q = em
+				.createQuery("SELECT a FROM BookLoan a WHERE endDate IS NULL AND bookCopy.id="
+						+ bookCopy.getId());
+		if (q.getResultList().size() > 0) {
+			return (BookLoan) q.getSingleResult();
+		} else {
+			return null;
+		}
+	}
 
 }

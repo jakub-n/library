@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="mainPart">
+		<b>Vypůjčit knihu</b>
+		<br />
+		<br />
+		<h:form>
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Identifikátor čtenáře" for="readerId" />
+				<h:inputText id="readerId"
+					value="#{bookLoanPaginationController.readerUsername}" required="true"
+					requiredMessage="Pole identifikátor čtenáře je povinné." />
+				<h:outputLabel value="Identifikátor výtisku knihy" for="bookCopy" />
+				<h:inputText id="bookCopy"
+					value="#{bookLoanPaginationController.currentBookCopyId}" required="true"
+					requiredMessage="Pole výtisk knihy je povinné." />
+			</h:panelGrid>
+			<br />
+			<h:commandButton action="#{bookLoanPaginationController.loanBook}"
+				value="Vypůjčit" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
