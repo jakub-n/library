@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:dt="http://java.sun.com/jsf/composite/components">
+
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="mainPart">
+
+		<b><u>Vyhledávání čtenářů podle uživatelského jména:</u></b>
+		<br />
+		<br />
+
+		<h:form>
+			<h:commandLink action="#{readerController.cleanSearch}"
+				value="Nové hledání" rendered="#{readerController.searchText != null}" />
+
+			<h:inputText id="searched" required="true"
+				value="#{readerController.searchText}"
+				rendered="#{readerController.searchText == null}" />
+			<h:commandButton value="Hledat"
+				rendered="#{readerController.searchText == null}" />
+
+		</h:form>
+		<br />
+
+		<dt:readerList rendered="#{readerController.searchText != null}" />
+	</ui:define>
+</ui:composition>
+</html>
