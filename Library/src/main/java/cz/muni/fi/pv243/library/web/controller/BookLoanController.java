@@ -23,8 +23,11 @@ public class BookLoanController {
 	private DataModel<BookLoan> items = null;
 
 	@ManagedProperty(value = "#{readerController.current}")
-    private Reader current;
-	
+	private Reader current;
+
+	@ManagedProperty(value = "#{bookLoanPaginationController.sessionPage}")
+	private int sessionPage;
+
 	private Reader currentReader;
 
 	/**
@@ -63,47 +66,28 @@ public class BookLoanController {
 				public DataModel<BookLoan> createPageDataModel() {
 					return new ListDataModel<BookLoan>(
 							bookLoanManager.findRange(new int[] {
-									getPageFirstItem(),
-									getPageFirstItem() + getPageSize() },
+									(sessionPage*getPageSize()),
+									(sessionPage*getPageSize()) + getPageSize() },
 									currentReader));
 				}
+
+				@Override
+				public boolean isHasNextPage() {
+					return ((sessionPage+1)*getPageSize()+1)<=getItemsCount();
+				}
+
+				@Override
+				public boolean isHasPreviousPage() {
+					return sessionPage > 0;
+				}
+				
+				
 			};
 		}
 
 		return pagination;
 	}
 
-
-	/**
-	 * Recreates the model (list).
-	 */
-	private void recreateModel() {
-		items = null;
-	}
-
-	/**
-	 * Navigates to next page of pagination.
-	 * 
-	 * @return book loan list view
-	 */
-	public String next() {
-		getPagination().nextPage();
-		recreateModel();
-
-		return "/librarian/readerDetail";
-	}
-
-	/**
-	 * Navigates to previous page of pagination.
-	 * 
-	 * @return reader list view
-	 */
-	public String previous() {
-		getPagination().previousPage();
-		recreateModel();
-
-		return "/librarian/readerDetail";
-	}
 
 	public Reader getCurrent() {
 		return current;
@@ -112,7 +96,13 @@ public class BookLoanController {
 	public void setCurrent(Reader current) {
 		this.current = current;
 	}
-	
-	
+
+	public int getSessionPage() {
+		return sessionPage;
+	}
+
+	public void setSessionPage(int sessionPage) {
+		this.sessionPage = sessionPage;
+	}
 
 }

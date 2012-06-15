@@ -81,16 +81,33 @@ public class BookLoanManager {
 	}
 
 	/**
-	 * Returns book loans by given range.
+	 * Returns active book loans by given range.
 	 * 
 	 * @param range
-	 * @return book loans by given range
+	 * @return old book loans by given range
 	 */
 	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
 	public List<BookLoan> findRange(int[] range, Reader reader) {
 		Query query = em
 				.createQuery("SELECT a FROM BookLoan a WHERE a.reader.username='"
-						+ reader.getUsername() + "'");
+						+ reader.getUsername() + "' AND endDate IS NULL");
+
+		query.setFirstResult(range[0]);
+		query.setMaxResults(range[1] - range[0]);
+		return query.getResultList();
+	}
+	
+	/**
+	 * Returns old book loans by given range.
+	 * 
+	 * @param range
+	 * @return old book loans by given range
+	 */
+	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
+	public List<BookLoan> findRangeOldLoans(int[] range, Reader reader) {
+		Query query = em
+				.createQuery("SELECT a FROM BookLoan a WHERE a.reader.username='"
+						+ reader.getUsername() + "' AND endDate NOT NULL");
 
 		query.setFirstResult(range[0]);
 		query.setMaxResults(range[1] - range[0]);
