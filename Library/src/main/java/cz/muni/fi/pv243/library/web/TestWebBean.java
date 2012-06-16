@@ -86,7 +86,7 @@ public class TestWebBean implements Serializable {
 	}
 	
 	public void removeCopy(BookCopy copy){
-		bookCopyManager.delete(copy);
+		bookCopyManager.delete(copy.getId());
 	}
 	
 	public List<BookLoan> getBookLoans(){
