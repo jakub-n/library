@@ -1,7 +1,10 @@
 package cz.muni.fi.pv243.library.ejb;
 
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -182,6 +185,16 @@ public class StartupConfigBean {
 	    	// Bookloans
 	    	BookLoan bookLoan1 = new BookLoan();
 	    	bookLoan1.setBeginDate(Calendar.getInstance());
+	    	Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+			SimpleDateFormat sdf2 = new SimpleDateFormat("MM");
+			SimpleDateFormat sdf3 = new SimpleDateFormat("dd");
+			sdf.format(date);
+			Calendar cal = new GregorianCalendar(
+					Integer.parseInt(sdf.format(date)), Integer.parseInt(sdf2
+							.format(date)), Integer.parseInt(sdf3
+							.format(date)) + 1);
+			bookLoan1.setReturnDate(cal);
 	    	bookLoan1.setBookCopy(bookCopy1);
 	    	bookLoan1.setReader(readerUser1);
 	    	bookLoan1.setEmployee(librarianUser1);

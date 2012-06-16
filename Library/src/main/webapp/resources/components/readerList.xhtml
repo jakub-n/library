@@ -21,10 +21,7 @@
 				<f:facet name="header">
 					<h:outputText value="Uživatelské jméno" />
 				</f:facet>
-				<h:commandLink action="#{readerController.prepareView}"
-					value="#{reader.username}" styleClass="links" >
-					<f:param name="readerUsername" value="#{reader.username}"/>
-					</h:commandLink>
+				<h:outputText value="#{reader.username}" />
 			</h:column>
 			<h:column>
 				<f:facet name="header">
@@ -37,6 +34,19 @@
 					<h:outputText value="Příjmení" />
 				</f:facet>
 				<h:outputText value="#{reader.lastName}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="&nbsp;" />
+				</f:facet>
+				<h:commandLink action="#{readerController.prepareView}"
+					value="Detail" styleClass="links">
+					<f:param name="readerUsername" value="#{item.username}" />
+				</h:commandLink>
+				<h:outputText value="  " />
+				<h:commandLink action="#{readerController.prepareEdit}"
+					value="Upravit" styleClass="links" />
+
 			</h:column>
 
 		</h:dataTable>

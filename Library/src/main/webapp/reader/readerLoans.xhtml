@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="mainPart">
+
+				<h3>Moje výpůjčky</h3>
+
+		<h:form>
+			
+			<br />
+
+			<h:dataTable value="#{readerPageController.items}" var="item"
+				border="0" cellpadding="2" cellspacing="0"
+				styleClass="librarian-tablelibrarian-table"
+				headerClass="librarian-table-header"
+				rowClasses="librarian-table-odd-row,librarian-table-even-row"
+				rules="all" rendered="#{readerPageController.items.rowCount > 0}">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Kniha" />
+					</f:facet>
+					<h:outputText value="#{item.bookCopy.book.title}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Od" />
+					</f:facet>
+					<h:outputText value="#{item.beginDate.time}">
+						<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+					</h:outputText>
+
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Požadované datum navrácení" />
+					</f:facet>
+					<h:outputText value="#{item.returnDate.time}">
+						<f:convertDateTime pattern="dd.MM.yyyy" />
+					</h:outputText>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="" />
+					</f:facet>
+					<h:commandLink action="#{readerPageController.prolongLoan}" value="Prodloužit výpůjčku" styleClass="links" />
+				</h:column>
+
+
+			</h:dataTable>
+
+			<br />
+
+			<h:commandLink action="#{readerPageController.previous}"
+				value="Předcházející"
+				rendered="#{readerPageController.pagination.hasPreviousPage}"
+				styleClass="links" />
+			<h:commandLink action="#{readerPageController.next}"
+				value="Další"
+				rendered="#{readerPageController.pagination.hasNextPage}"
+				styleClass="links" />
+				
+			<h:outputText rendered="#{readerPageController.pagination.itemsCount == 0}"
+				value="Nemáte žádné aktivní výpůjčky." />
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

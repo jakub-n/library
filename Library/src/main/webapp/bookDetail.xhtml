@@ -15,7 +15,8 @@
 		<f:metadata>
 			<f:viewParam name="book" value="#{bookDetailController.book}"
 				converter="#{bookConverter}" />
-			<f:event type="preRenderView" listener="#{bookCopyPaginationController.init}" />
+			<f:event type="preRenderView"
+				listener="#{bookCopyPaginationController.init}" />
 			<f:event type="preRenderView" listener="#{bookDetailController.init}" />
 		</f:metadata>
 
@@ -26,13 +27,16 @@
 
 		<h:form rendered="#{request.isUserInRole('LIBRARIAN')}">
 			<br />
-			<h:commandLink action="#{bookDetailController.deleteBook()}"
+			<h:commandLink action="#{bookDetailController.deleteBook}"
 				value="Smazat knihu" styleClass="links" />
+				<br />
+			<h:commandLink action="#{bookDetailController.addBookCopy}"
+				value="Přidat výtisk knihy" styleClass="links" />
 		</h:form>
 
 
 		<h:panelGroup rendered="#{request.isUserInRole('LIBRARIAN')}">
-			<h:form rendered="#{bookDetailController.book != null}">
+			<h:form rendered="#{bookDetailController.items.rowCount > 0}">
 				<br />
 				<h4>Výtisky knihy</h4>
 
@@ -46,7 +50,23 @@
 						<f:facet name="header">
 							<h:outputText value="Číslo výtisku" />
 						</f:facet>
-						<h:outputText value="#{item.id}" />
+						<h:outputText value="#{item.bc.id}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Vypůjčeno" />
+						</f:facet>
+						<h:outputText value="#{item.bl.reader.username}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Datum vrácení" />
+						</f:facet>
+						<h:outputText value="#{item.bl.returnDate.time}" rendered="#{not empty item.bl.returnDate.time}">
+							<f:convertDateTime pattern="dd.MM.yyyy" />
+						</h:outputText>
 					</h:column>
 
 					<h:column>
@@ -54,8 +74,10 @@
 							<h:outputText value="Akce" />
 						</f:facet>
 						<h:commandLink action="#{bookDetailController.deleteBookCopy}"
-							value="Smazat výtisk" styleClass="links" />
+							value="Smazat výtisk" styleClass="links"
+							rendered="#{empty item.bl.reader.username}" />
 					</h:column>
+
 
 
 				</h:dataTable>

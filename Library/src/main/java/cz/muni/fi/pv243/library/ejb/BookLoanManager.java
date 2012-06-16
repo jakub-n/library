@@ -13,6 +13,7 @@ import javax.persistence.TypedQuery;
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.solder.logging.Logger;
 
+import cz.muni.fi.pv243.library.entity.Book;
 import cz.muni.fi.pv243.library.entity.BookCopy;
 import cz.muni.fi.pv243.library.entity.BookLoan;
 import cz.muni.fi.pv243.library.entity.Reader;
@@ -77,7 +78,7 @@ public class BookLoanManager {
 	 * @param reader
 	 * @return count of active book loans
 	 */
-	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
+	@RolesAllowed({ "MANAGER", "LIBRARIAN", "READER"})
 	public int count(Reader reader) {
 		Query query = em
 				.createQuery("SELECT count(a) FROM BookLoan a WHERE a.reader.username='"
@@ -98,6 +99,7 @@ public class BookLoanManager {
 						+ reader.getUsername() + "' AND endDate NOT NULL");
 		return ((Long) query.getSingleResult()).intValue();
 	}
+	
 
 	/**
 	 * Returns active book loans by given range.
@@ -105,7 +107,7 @@ public class BookLoanManager {
 	 * @param range
 	 * @return old book loans by given range
 	 */
-	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
+	@RolesAllowed({ "MANAGER", "LIBRARIAN", "READER" })
 	public List<BookLoan> findRange(int[] range, Reader reader) {
 		Query query = em
 				.createQuery("SELECT a FROM BookLoan a WHERE a.reader.username='"
@@ -122,7 +124,7 @@ public class BookLoanManager {
 	 * @param range
 	 * @return old book loans by given range
 	 */
-	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
+	@RolesAllowed({ "MANAGER", "LIBRARIAN", "READER" })
 	public List<BookLoan> findRangeOldLoans(int[] range, Reader reader) {
 		Query query = em
 				.createQuery("SELECT a FROM BookLoan a WHERE a.reader.username='"

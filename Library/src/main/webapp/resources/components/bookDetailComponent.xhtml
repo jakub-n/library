@@ -25,7 +25,10 @@
 	  	<br />
 	<h:outputText value="Počet stran:" styleClass="detailHeaders" /> #{cc.attrs.book.pagesNumber}
 	  	<br />
-	<!-- TODO Informace o tags, rezervacich vypujckach, rozumny format data -->
+	<h:outputText value="Vypůjčené výtisky:" styleClass="detailHeaders" /> #{bookDetailController.countOfActiveBookLoans}
+	  	<br />
+	<h:outputText value="Výtisků celkem:" styleClass="detailHeaders" /> #{bookDetailController.countOfBookCopies}
+	  	<br />
 </composite:implementation>
 
 </html>

@@ -1,6 +1,8 @@
 package cz.muni.fi.pv243.library.web.controller;
 
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -32,12 +34,12 @@ public class BookDetailController {
 
 	@ManagedProperty(value = "#{bookCopyPaginationController.sessionPage}")
 	private int sessionPage;
-	
+
 	@ManagedProperty(value = "#{bookCopyPaginationController.bookId}")
 	private String bookId;
 
 	private AbstractPaginationHelper pagination;
-	private DataModel<BookCopy> items = null;
+	private DataModel<BookCopyWithLoan> items = null;
 
 	private Book book;
 	private BookCopy currentCopy;
@@ -49,13 +51,14 @@ public class BookDetailController {
 	}
 
 	/**
-	 * Gets book which is being viewed, when viewing different book, paging is zero again.
+	 * Gets book which is being viewed, when viewing different book, paging is
+	 * zero again.
 	 * 
 	 */
 	public void init() {
-		String newBookId = FacesContext.getCurrentInstance().getExternalContext()
-				.getRequestParameterMap().get("book");
-		if(!newBookId.equals(bookId)){
+		String newBookId = FacesContext.getCurrentInstance()
+				.getExternalContext().getRequestParameterMap().get("book");
+		if (!newBookId.equals(bookId)) {
 			sessionPage = 0;
 		}
 		if (newBookId != null) {
@@ -101,11 +104,21 @@ public class BookDetailController {
 	 * 
 	 * @return data model of book loans
 	 */
-	public DataModel<BookCopy> getItems() {
+	public DataModel<BookCopyWithLoan> getItems() {
 		if (items == null) {
 			items = getPagination().createPageDataModel();
 		}
 		return items;
+	}
+
+	private List<BookCopyWithLoan> getBookLoansForItems(List<BookCopy> bcList) {
+		List<BookCopyWithLoan> bcwlList = new LinkedList<BookCopyWithLoan>();
+		for (BookCopy bc : bcList) {
+			bcwlList.add(new BookCopyWithLoan(bc, bookLoanManager
+					.getActiveBookLoanForBookCopy(bc)));
+		}
+
+		return bcwlList;
 	}
 
 	/**
@@ -114,7 +127,6 @@ public class BookDetailController {
 	 * @return AbstractPaginationHelper
 	 */
 	public AbstractPaginationHelper getPagination() {
-		System.out.println("sessionPage 1 " + sessionPage);
 		if (pagination == null) {
 			pagination = new AbstractPaginationHelper(5) {
 				@Override
@@ -123,12 +135,14 @@ public class BookDetailController {
 				}
 
 				@Override
-				public DataModel<BookCopy> createPageDataModel() {
-					return new ListDataModel<BookCopy>(
-							bookCopyManager.findRangeBookCopies(new int[] {
+				public DataModel<BookCopyWithLoan> createPageDataModel() {
+					List<BookCopy> bcList = bookCopyManager
+							.findRangeBookCopies(new int[] {
 									(sessionPage * getPageSize()),
 									(sessionPage * getPageSize())
-											+ getPageSize() }, book));
+											+ getPageSize() }, book);
+					return new ListDataModel<BookCopyWithLoan>(
+							getBookLoansForItems(bcList));
 				}
 
 				@Override
@@ -153,13 +167,42 @@ public class BookDetailController {
 	 * @return book detail page
 	 */
 	public String deleteBookCopy() {
-		currentCopy = (BookCopy) getItems().getRowData();
+		BookCopyWithLoan bcwl = (BookCopyWithLoan) getItems().getRowData();
+		currentCopy = bcwl.getBc();
 		try {
-			bookCopyManager.delete(currentCopy);
+			bookCopyManager.delete(currentCopy.getId());
 			JsfUtil.addSuccessMessage("Výtisk byl smazán.");
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage("Při mazání výtisku nastal problém.");
 		}
+		return "/libraryIndex";
+
+	}
+
+	public int getCountOfActiveBookLoans() {
+		List<BookCopy> bcList = bookCopyManager.findBookCopies(book);
+		int count = 0;
+		for (BookCopy bc : bcList) {
+			if (bookLoanManager.getActiveBookLoanForBookCopy(bc) != null) {
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+	public int getCountOfBookCopies() {
+		if (book != null) {
+			return bookCopyManager.countOfBookCopiesByBook(book);
+		} else
+			return 0;
+	}
+
+	public String addBookCopy() {
+		BookCopy bc = new BookCopy();
+		bc.setBook(book);
+		bookCopyManager.create(bc);
+		JsfUtil.addSuccessMessage("Výtisk byl přidán.");
 		return "/libraryIndex";
 
 	}
@@ -180,6 +223,31 @@ public class BookDetailController {
 		this.bookId = bookId;
 	}
 
-	
-	
+	public class BookCopyWithLoan {
+		private BookCopy bc;
+		private BookLoan bl;
+
+		public BookCopyWithLoan(BookCopy bc, BookLoan bl) {
+			this.bc = bc;
+			this.bl = bl;
+		}
+
+		public BookCopy getBc() {
+			return bc;
+		}
+
+		public void setBc(BookCopy bc) {
+			this.bc = bc;
+		}
+
+		public BookLoan getBl() {
+			return bl;
+		}
+
+		public void setBl(BookLoan bl) {
+			this.bl = bl;
+		}
+
+	}
+
 }
