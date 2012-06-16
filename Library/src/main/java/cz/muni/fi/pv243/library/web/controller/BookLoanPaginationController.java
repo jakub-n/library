@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.library.web.controller;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,7 +25,7 @@ import cz.muni.fi.pv243.library.web.util.JsfUtil;
 
 @ManagedBean
 @SessionScoped
-public class BookLoanPaginationController {
+public class BookLoanPaginationController implements Serializable {
 
 	@Inject
 	private BookLoanManager bookLoanManager;

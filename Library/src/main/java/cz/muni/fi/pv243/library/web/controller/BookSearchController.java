@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.library.web.controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -11,7 +12,7 @@ import cz.muni.fi.pv243.library.entity.Book;
 
 @ManagedBean
 @RequestScoped
-public class BookSearchController {
+public class BookSearchController implements Serializable {
 
 	@Inject
 	private BookManager bookManager;

@@ -1,12 +1,14 @@
 package cz.muni.fi.pv243.library.web.controller;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 @ManagedBean
 @SessionScoped
-public class BookCopyPaginationController {
+public class BookCopyPaginationController  implements Serializable {
 
 	private int sessionPage = 0;
 	

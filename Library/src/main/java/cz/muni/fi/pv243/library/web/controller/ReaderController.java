@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.DataModel;
@@ -172,7 +173,9 @@ public class ReaderController implements Serializable {
 		try {
 			readerManager.delete(current);
 			JsfUtil.addSuccessMessage("Čtenář byl úspěšně smazán.");
-		} catch (Exception e) {
+		} catch (EJBTransactionRolledbackException e){
+			JsfUtil.addErrorMessage("Čtenář s výpůjčkami nelze smazat.");
+		} catch (Exception ex) {
 			JsfUtil.addErrorMessage("Při mazání čtenáře nastal problém.");
 		}
 	}

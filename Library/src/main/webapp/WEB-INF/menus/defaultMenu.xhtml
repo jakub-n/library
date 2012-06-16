@@ -4,6 +4,7 @@
 <h:form>
 	<h:outputText value="Menu" styleClass="menuHeadingText" />
 	<br />
+	<br />
 	<h:link outcome="/libraryIndex" value="Úvodní stránka" />
 	<br />
 	<h:link outcome="/browsingBooksByTitle"
@@ -16,21 +17,19 @@
 </h:form>
 
 <h:form rendered="#{request.isUserInRole('READER')}">
-	<h:outputText value="Menu čtenáře" styleClass="menuHeadingText" />
-	<br />
-	<h:link outcome="/reader/readerLoans.xhtml" value="Seznam výpůjček" />
+		<h:link outcome="/reader/readerLoans.xhtml" value="Seznam výpůjček" />
 	<br />
 	<br />
 </h:form>
 
 <h:form rendered="#{request.isUserInRole('LIBRARIAN')}">
-	<h:outputText value="Menu knihovníka" styleClass="menuHeadingText" />
-	<br />
+	<h:outputText value="Administrace" styleClass="menuHeadingText" />
+	<br /><br />
 	<h:link outcome="/librarian/searchReader.xhtml"
 		value="Vyhledat čtenáře" />
 	<br />
 	<h:commandLink action="#{readerController.cleanAndShowManagement}"
-		value="Správa čtenářů" />
+		value="Procházení čtenářů" />
 	<br />
 	<h:commandLink action="#{readerController.cleanAndShowRegistration}"
 		value="Registrovat čtenáře" />
@@ -43,25 +42,11 @@
 
 <h:form rendered="#{request.isUserInRole('MANAGER')}">
 	<h:outputText value="Administrace" styleClass="menuHeadingText" />
-	<br />
+	<br /><br />
 	<h:link outcome="/manager/librariansList.xhtml"
 		value="Správa knihovníků" />
 	<br />
-	<br />
-</h:form>
-
-<h:form>
-	<h:outputText value="Testing Menu" styleClass="menuHeadingText" />
-	<br />
-	<h:link outcome="/home" value="Naše testovací stránka" />
-	<br />
-	<h:link outcome="/testingDisplay" value="Testovací zobrazovací" />
-	<br />
-	<h:link outcome="/reader/readerIndex.xhtml" value="Čtenář" />
-	<br />
-	<h:link outcome="/librarian/librarianIndex.xhtml" value="Knihovník" />
-	<br />
-	<h:link outcome="/manager/managerIndex.xhtml" value="Manager" />
+	<h:commandLink action="#{librarianController.prepareCreate}" value="Vytvořit nového knihovníka" styleClass="links"/>
 	<br />
 	<br />
 </h:form>

@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.library.web.controller;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 import javax.faces.bean.ManagedBean;
@@ -17,7 +18,7 @@ import cz.muni.fi.pv243.library.web.util.JsfUtil;
 
 @ManagedBean
 @ViewScoped
-public class BookLoanController {
+public class BookLoanController implements Serializable {
 
 	@Inject
 	private BookLoanManager bookLoanManager;

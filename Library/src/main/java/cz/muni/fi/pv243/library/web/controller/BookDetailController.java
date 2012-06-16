@@ -1,9 +1,11 @@
 package cz.muni.fi.pv243.library.web.controller;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -11,6 +13,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
+
+import org.hibernate.exception.ConstraintViolationException;
 
 import cz.muni.fi.pv243.library.ejb.BookCopyManager;
 import cz.muni.fi.pv243.library.ejb.BookLoanManager;
@@ -23,7 +28,7 @@ import cz.muni.fi.pv243.library.web.util.JsfUtil;
 
 @ViewScoped
 @ManagedBean
-public class BookDetailController {
+public class BookDetailController implements Serializable {
 
 	@Inject
 	private BookManager bookManager;
@@ -91,6 +96,9 @@ public class BookDetailController {
 		try {
 			bookManager.delete(book);
 			JsfUtil.addSuccessMessage("Kniha byla smazána.");
+			return "/libraryIndex";
+		}catch (EJBTransactionRolledbackException e){
+			JsfUtil.addErrorMessage("Kniha s existujícími výtisky nelze smazat.");
 			return "/libraryIndex";
 		} catch (Exception ex) {
 			JsfUtil.addErrorMessage("Při mazání knihy došlo k chybě.");
@@ -172,7 +180,10 @@ public class BookDetailController {
 		try {
 			bookCopyManager.delete(currentCopy.getId());
 			JsfUtil.addSuccessMessage("Výtisk byl smazán.");
-		} catch (Exception e) {
+		}catch (EJBTransactionRolledbackException e){
+			JsfUtil.addErrorMessage("Výtisk, který byl vypůjčen, nelze smazat.");
+			return "/libraryIndex";
+		} catch (Exception ex) {
 			JsfUtil.addErrorMessage("Při mazání výtisku nastal problém.");
 		}
 		return "/libraryIndex";
