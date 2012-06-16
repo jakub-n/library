@@ -435,6 +435,21 @@
         <subsystem xmlns="urn:jboss:domain:sar:1.0"/>
         <subsystem xmlns="urn:jboss:domain:security:1.1">
             <security-domains>
+
+		<security-domain name="library">
+                    <authentication>
+                        <login-module code="Database" flag="required">
+                            <module-option name="dsJndiName" value="java:jboss/datasources/mysqltest"/>
+                            <module-option name="principalsQuery" value="select password from User where username=?"/>
+                            <module-option name="rolesQuery" value="select role,'Roles' from UserRoles where User_username=?"/>
+                            <module-option name="hashAlgorithm" value="SHA-256"/>
+                            <module-option name="hashEncoding" value="base64"/>
+                            <module-option name="unauthenticatedIdentity" value="guest"/>
+                            <module-option name="allowEmptyPasswords" value="false"/>
+                        </login-module>
+                    </authentication>
+                </security-domain>
+
                 <security-domain name="other" cache-type="default">
                     <authentication>
                         <login-module code="UsersRoles" flag="required"/>
