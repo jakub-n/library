@@ -107,13 +107,13 @@ public class ReaderManager {
 	 */
 	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
 	public List<Reader> findRange(int[] range, String username) {
-		Query query = null;
+		TypedQuery<Reader> query = null;
 		if (username == null) {
-			query = this.em.createQuery("SELECT a FROM Reader a");
+			query = this.em.createQuery("SELECT a FROM Reader a",Reader.class);
 		} else {
 			query = this.em
 					.createQuery("SELECT a FROM Reader a WHERE LOWER(a.username) LIKE '%"
-							+ username.toLowerCase() + "%' ");
+							+ username.toLowerCase() + "%' ", Reader.class);
 		}
 		query.setFirstResult(range[0]);
 		query.setMaxResults(range[1] - range[0]);

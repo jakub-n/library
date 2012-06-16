@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import cz.muni.fi.pv243.library.entity.Book;
 import cz.muni.fi.pv243.library.entity.BookCopy;
@@ -40,8 +41,8 @@ public class RequestBean {
 	}
 
 	public List<BookCopy> getAllBookCopies() {
-		Query query = this.entityManager
-				.createQuery("SELECT c FROM BookCopy c");
+		TypedQuery<BookCopy> query = this.entityManager
+				.createQuery("SELECT c FROM BookCopy c", BookCopy.class);
 		return query.getResultList();
 	}
 
@@ -51,7 +52,7 @@ public class RequestBean {
 		 * b1.setBookId(1); b1.setTitle("First"); b.add(b1); Book b2=new Book();
 		 * b2.setBookId(2); b2.setTitle("Second"); b.add(b2); return b;
 		 */
-		Query query = this.entityManager.createQuery("SELECT b FROM Book b");
+		TypedQuery<Book> query = this.entityManager.createQuery("SELECT b FROM Book b",Book.class);
 		return query.getResultList();
 	}
 
