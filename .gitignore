@@ -1,3 +1,4 @@
 target
 deployments
 !deployments/.gitkeep
+*~
