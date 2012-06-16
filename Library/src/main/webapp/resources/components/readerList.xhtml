@@ -22,7 +22,9 @@
 					<h:outputText value="Uživatelské jméno" />
 				</f:facet>
 				<h:commandLink action="#{readerController.prepareView}"
-					value="#{reader.username}" styleClass="links" />
+					value="#{reader.username}" styleClass="links" >
+					<f:param name="readerUsername" value="#{reader.username}"/>
+					</h:commandLink>
 			</h:column>
 			<h:column>
 				<f:facet name="header">

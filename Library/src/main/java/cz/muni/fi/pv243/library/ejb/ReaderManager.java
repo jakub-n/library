@@ -2,6 +2,7 @@ package cz.muni.fi.pv243.library.ejb;
 
 import java.util.List;
 
+import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -9,12 +10,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.solder.logging.Logger;
 
 import cz.muni.fi.pv243.library.entity.Reader;
 import cz.muni.fi.pv243.library.entity.User;
 import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
+@DeclareRoles({"MANAGER","LIBRARIAN"})
+@SecurityDomain("library")
 @Stateless
 public class ReaderManager {
 

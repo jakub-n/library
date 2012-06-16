@@ -15,12 +15,19 @@
 			<h:panelGrid columns="2">
 				<h:outputLabel value="Identifikátor čtenáře" for="readerId" />
 				<h:inputText id="readerId"
-					value="#{bookLoanPaginationController.readerUsername}" required="true"
+					value="#{bookLoanPaginationController.readerUsername}"
+					required="true"
 					requiredMessage="Pole identifikátor čtenáře je povinné." />
 				<h:outputLabel value="Identifikátor výtisku knihy" for="bookCopy" />
 				<h:inputText id="bookCopy"
-					value="#{bookLoanPaginationController.currentBookCopyId}" required="true"
-					requiredMessage="Pole výtisk knihy je povinné." />
+					value="#{bookLoanPaginationController.currentBookCopyId}"
+					required="true" requiredMessage="Pole výtisk knihy je povinné." />
+					<h:outputLabel value="Délka výpůjčky" for="loanLength" />
+				<h:selectOneListbox id="loanLength" value="#{bookLoanPaginationController.loanLength}" size="1">
+					<f:selectItem itemLabel="1 měsíc" itemValue="1" />
+					<f:selectItem itemLabel="2 měsíce" itemValue="2" />
+					<f:selectItem itemLabel="3 měsíce" itemValue="3" />
+				</h:selectOneListbox>
 			</h:panelGrid>
 			<br />
 			<h:commandButton action="#{bookLoanPaginationController.loanBook}"

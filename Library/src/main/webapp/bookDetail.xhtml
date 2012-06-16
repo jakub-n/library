@@ -15,13 +15,72 @@
 		<f:metadata>
 			<f:viewParam name="book" value="#{bookDetailController.book}"
 				converter="#{bookConverter}" />
+			<f:event type="preRenderView" listener="#{bookCopyPaginationController.init}" />
+			<f:event type="preRenderView" listener="#{bookDetailController.init}" />
 		</f:metadata>
 
 		<dt:bookDetailComponent
 			rendered="#{bookDetailController.book != null}"
 			book="#{bookDetailController.book}" />
 
-		<!-- ?sem vlozit nejake komponenty s akcemi pro readera, a employees? -->
+
+		<h:form rendered="#{request.isUserInRole('LIBRARIAN')}">
+			<br />
+			<h:commandLink action="#{bookDetailController.deleteBook()}"
+				value="Smazat knihu" styleClass="links" />
+		</h:form>
+
+
+		<h:panelGroup rendered="#{request.isUserInRole('LIBRARIAN')}">
+			<h:form rendered="#{bookDetailController.book != null}">
+				<br />
+				<h4>Výtisky knihy</h4>
+
+				<h:dataTable value="#{bookDetailController.items}" var="item"
+					border="0" cellpadding="2" cellspacing="0"
+					styleClass="librarian-tablelibrarian-table"
+					headerClass="librarian-table-header"
+					rowClasses="librarian-table-odd-row,librarian-table-even-row"
+					rules="all" rendered="#{bookDetailController.items.rowCount > 0}">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Číslo výtisku" />
+						</f:facet>
+						<h:outputText value="#{item.id}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Akce" />
+						</f:facet>
+						<h:commandLink action="#{bookDetailController.deleteBookCopy}"
+							value="Smazat výtisk" styleClass="links" />
+					</h:column>
+
+
+				</h:dataTable>
+
+				<br />
+
+				<h:commandLink action="#{bookCopyPaginationController.previousPage}"
+					value="Předcházející"
+					rendered="#{bookDetailController.pagination.hasPreviousPage}"
+					styleClass="links">
+					<f:param name="book" value="#{bookDetailController.book.bookId}" />
+				</h:commandLink>
+				<h:commandLink action="#{bookCopyPaginationController.nextPage}"
+					value="Další"
+					rendered="#{bookDetailController.pagination.hasNextPage}"
+					styleClass="links">
+					<f:param name="book" value="#{bookDetailController.book.bookId}" />
+				</h:commandLink>
+
+				<h:outputText rendered="#{bookCopyController.items.rowCount == 0}"
+					value="Knižní titul nemá žádné výtisky." />
+
+			</h:form>
+		</h:panelGroup>
+
 	</ui:define>
 </ui:composition>
 </html>

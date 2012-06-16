@@ -9,16 +9,14 @@ import javax.inject.Inject;
 import cz.muni.fi.pv243.library.ejb.BookManager;
 import cz.muni.fi.pv243.library.entity.Book;
 
-
 @ManagedBean
 @RequestScoped
 public class BookSearchController {
 
 	@Inject
 	private BookManager bookManager;
-	
+
 	private String text;
-	
 
 	/**
 	 * Returns all books.
@@ -28,38 +26,34 @@ public class BookSearchController {
 	public List<Book> getBooks() {
 		return bookManager.getAllBooks();
 	}
-	
+
 	/**
-	 *  Returns books of which title contain text.
-	 *  
-	 * @return books which title contatin text
+	 * Returns books of which title contains text.
+	 * 
+	 * @return books with title containing text
 	 */
-	public List<Book> getBooksContainingSearched()
-	{
-		return bookManager.getBooksWithTitleContainingGivenText(text);	
+	public List<Book> getBooksContainingSearched() {
+		return bookManager.getBooksWithTitleContainingGivenText(text);
 	}
-	
+
 	/**
 	 * Returns books starting with text.
 	 * 
 	 * @return books starting with text
 	 */
-	public List<Book> getBooksStartingWith()
-	{
-		return bookManager.getBooksWithTitleStartingWithGivenText(text);	
+	public List<Book> getBooksStartingWith() {
+		return bookManager.getBooksWithTitleStartingWithGivenText(text);
 	}
-
 
 	/**
 	 * Returns books where authors starts with text.
 	 * 
 	 * @return books where authors starts with text
 	 */
-	public List<Book> getBooksWithAuthorStartingWith()
-	{
-		return bookManager.getBooksWithAuthorStartingWithGivenText(text);	
+	public List<Book> getBooksWithAuthorStartingWith() {
+		return bookManager.getBooksWithAuthorStartingWithGivenText(text);
 	}
-	
+
 	/**
 	 * Returns bookManager.
 	 * 
@@ -86,6 +80,7 @@ public class BookSearchController {
 	public void setText(String text) {
 		this.text = text;
 	}
+
 	/**
 	 * Set text from page
 	 * 
@@ -94,7 +89,7 @@ public class BookSearchController {
 	public void TextToBrowseSet(String text) {
 		this.text = text;
 	}
-	
+
 	/**
 	 * Returns text.
 	 * 
@@ -104,5 +99,4 @@ public class BookSearchController {
 		return text;
 	}
 
-	
 }

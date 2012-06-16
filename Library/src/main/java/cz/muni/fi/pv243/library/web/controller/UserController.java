@@ -26,8 +26,7 @@ public class UserController implements Serializable {
 	private String password;
 	private String username;
 
-	// TODO jakub: je package opravdu spravne pristupove pravo?
-	User user;
+	private User user;
 
 	@Inject
 	private UserManager userManager;

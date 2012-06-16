@@ -86,11 +86,6 @@ public class BookLoanController {
 					return sessionPage > 0;
 				}
 
-				@Override
-				public int getPageFirstItem() {
-					// TODO Auto-generated method stub
-					return super.getPageFirstItem();
-				}
 
 			};
 		}

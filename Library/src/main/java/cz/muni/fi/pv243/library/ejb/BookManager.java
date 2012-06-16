@@ -2,12 +2,15 @@ package cz.muni.fi.pv243.library.ejb;
 
 import java.util.List;
 
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.solder.logging.Logger;
 
 import cz.muni.fi.pv243.library.entity.Book;
@@ -19,6 +22,9 @@ import cz.muni.fi.pv243.library.resource.LibraryDatabase;
  * 
  * @author Ixi (Iva Zakova)
  */
+
+@DeclareRoles({"MANAGER","LIBRARIAN"})
+@SecurityDomain("library")
 @Stateless
 public class BookManager {
 
@@ -36,6 +42,7 @@ public class BookManager {
      * 
      * @param book
      */
+    @RolesAllowed({ "MANAGER", "LIBRARIAN" })
 	public void create(Book book) {
 		em.persist(book);
 		log.infof("Book created: %s", book.getBookId());
@@ -46,6 +53,7 @@ public class BookManager {
 	 * 
 	 * @param book
 	 */
+	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
     public void delete(Book book){
     	em.remove(em.merge(book));
     	log.infof("Book deleted: %s", book.getBookId());
@@ -56,6 +64,7 @@ public class BookManager {
      * 
      * @param book
      */
+	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
     public void update(Book book){
     	em.merge(book);
     	log.infof("Book updated: %s", book.getBookId());

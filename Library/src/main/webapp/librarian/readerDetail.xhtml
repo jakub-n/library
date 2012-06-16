@@ -9,6 +9,12 @@
 <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
 	<ui:define name="mainPart">
 
+		<f:metadata>
+			<f:event type="preRenderView"
+				listener="#{bookLoanPaginationController.init}" />
+
+		</f:metadata>
+
 		<b><u>Detail čtenáře:</u></b>
 
 		<h:form>
@@ -35,8 +41,7 @@
 				styleClass="librarian-tablelibrarian-table"
 				headerClass="librarian-table-header"
 				rowClasses="librarian-table-odd-row,librarian-table-even-row"
-				rules="all"
-				rendered="#{bookLoanController.items.rowCount > 0}">
+				rules="all" rendered="#{bookLoanController.items.rowCount > 0}">
 				<h:column>
 					<f:facet name="header">
 						<h:outputText value="Kniha" />
@@ -64,10 +69,10 @@
 					<f:facet name="header">
 						<h:outputText value="Akce" />
 					</f:facet>
-					<h:commandLink
-						action="#{bookLoanController.returnBook}"
-						value="Vrátit"
-						styleClass="links" />
+					<h:commandLink action="#{bookLoanController.returnBook}"
+						value="Vrátit" styleClass="links" >
+				<f:param name="readerUsername" value="#{readerController.selected.username}" />
+			</h:commandLink>
 				</h:column>
 
 
@@ -78,13 +83,18 @@
 			<h:commandLink action="#{bookLoanPaginationController.previousPage}"
 				value="Předcházející"
 				rendered="#{bookLoanController.pagination.hasPreviousPage}"
-				styleClass="links" />
+				styleClass="links" >
+				<f:param name="readerUsername" value="#{readerController.selected.username}" />
+			</h:commandLink>
 			<h:commandLink action="#{bookLoanPaginationController.nextPage}"
 				value="Další"
 				rendered="#{bookLoanController.pagination.hasNextPage}"
-				styleClass="links" />
-				
-				<h:outputText rendered="#{bookLoanController.items.rowCount == 0}" value="Čtenář nemá žádné aktivní výpůjčky." />
+				styleClass="links">
+				<f:param name="readerUsername" value="#{readerController.selected.username}" />
+			</h:commandLink>
+
+			<h:outputText rendered="#{bookLoanController.pagination.itemsCount == 0}"
+				value="Čtenář nemá žádné aktivní výpůjčky." />
 		</h:form>
 
 	</ui:define>

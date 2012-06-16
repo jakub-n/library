@@ -10,8 +10,8 @@ import javax.persistence.TypedQuery;
 
 import org.jboss.solder.logging.Logger;
 
+import cz.muni.fi.pv243.library.entity.Book;
 import cz.muni.fi.pv243.library.entity.BookCopy;
-import cz.muni.fi.pv243.library.entity.User;
 import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 @Stateless
@@ -47,7 +47,7 @@ public class BookCopyManager {
 	}
 	
 	/**
-	 * Removes boocCopy with given id
+	 * Removes bookCopy with given id
 	 * 
 	 * @param bookCopyId
 	 */
@@ -99,5 +99,26 @@ public class BookCopyManager {
 		q.executeUpdate();
 	}
 	
-
+	/**
+	 * Returns count of book copies by book
+	 * 
+	 * @return count
+	 */
+	public int countOfBookCopiesByBook(Book book) {
+		Query query = em.createQuery("SELECT count(c) FROM BookCopy c WHERE book.id='" + book.getBookId() + "'");
+		return ((Long) query.getSingleResult()).intValue();
+	}
+	
+	/**
+	 * Returns old book loans by given range.
+	 * 
+	 * @param range
+	 * @return book copies by given range
+	 */
+	public List<BookCopy> findRangeBookCopies(int[] range, Book book) {
+		TypedQuery<BookCopy> query = em.createQuery("SELECT c FROM BookCopy c WHERE book.id='" + book.getBookId() + "'", BookCopy.class);
+		query.setFirstResult(range[0]);
+		query.setMaxResults(range[1] - range[0]);
+		return query.getResultList();
+	}
 }

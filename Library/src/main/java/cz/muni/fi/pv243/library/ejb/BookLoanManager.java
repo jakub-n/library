@@ -2,6 +2,7 @@ package cz.muni.fi.pv243.library.ejb;
 
 import java.util.List;
 
+import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -9,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.solder.logging.Logger;
 
 import cz.muni.fi.pv243.library.entity.BookCopy;
@@ -16,6 +18,8 @@ import cz.muni.fi.pv243.library.entity.BookLoan;
 import cz.muni.fi.pv243.library.entity.Reader;
 import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
+@DeclareRoles({ "MANAGER", "LIBRARIAN" })
+@SecurityDomain("library")
 @Stateless
 public class BookLoanManager {
 
@@ -129,6 +133,12 @@ public class BookLoanManager {
 		return query.getResultList();
 	}
 
+	/**
+	 * Returns active book loan for given book copy.
+	 * 
+	 * @param bookCopy
+	 * @return active book loan
+	 */
 	public BookLoan getActiveBookLoanForBookCopy(BookCopy bookCopy) {
 		Query q = em
 				.createQuery("SELECT a FROM BookLoan a WHERE endDate IS NULL AND bookCopy.id="
@@ -139,5 +149,18 @@ public class BookLoanManager {
 			return null;
 		}
 	}
+	
+
+//	/**
+//	 * Returns book loan for given book copy.
+//	 * 
+//	 * @param bookCopy
+//	 * @return active book loans
+//	 */
+//	public List<BookLoan> getBookLoansForBookCopy(BookCopy bookCopy) {
+//		Query q = em.createQuery("SELECT a FROM BookLoan a WHERE bookCopy.id="
+//				+ bookCopy.getId());
+//		return q.getResultList();
+//	}
 
 }
