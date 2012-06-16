@@ -12,6 +12,7 @@ import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 
 import org.jboss.solder.logging.Logger;
+
 import cz.muni.fi.pv243.library.ejb.ReaderManager;
 import cz.muni.fi.pv243.library.ejb.UserManager;
 import cz.muni.fi.pv243.library.entity.Reader;
@@ -19,7 +20,6 @@ import cz.muni.fi.pv243.library.entity.Role;
 import cz.muni.fi.pv243.library.entity.User;
 import cz.muni.fi.pv243.library.web.util.AbstractPaginationHelper;
 import cz.muni.fi.pv243.library.web.util.JsfUtil;
-
 
 @ManagedBean
 @SessionScoped
@@ -34,7 +34,7 @@ public class ReaderController implements Serializable {
 
 	@Inject
 	UserManager userManager;
-	
+
 	@Inject
 	private Logger log;
 
@@ -54,11 +54,11 @@ public class ReaderController implements Serializable {
 	 * @return selected reader
 	 */
 	public Reader getSelected() {
-		if (current == null) {
-			current = new Reader();
+		if (this.current == null) {
+			this.current = new Reader();
 		}
 
-		return current;
+		return this.current;
 	}
 
 	/**
@@ -68,39 +68,42 @@ public class ReaderController implements Serializable {
 	 */
 	public String create() {
 		try {
-			if (!isUserDuplicated(current)) {
+			if (!isUserDuplicated(this.current)) {
 				Set<Role> roles = new HashSet<Role>();
 				roles.add(Role.READER);
-				current.setRoles(roles);
-				readerManager.create(current);
-				log.infof("Create reader account: %s -->account created.", current.getUsername());
+				this.current.setRoles(roles);
+				this.readerManager.create(this.current);
+				this.log.infof("Create reader account: %s -->account created.",
+						this.current.getUsername());
 				JsfUtil.addSuccessMessage("Čtenářské konto bylo úspěšně vytvořeno. Můžete se přihlásit.");
 			} else {
-				log.infof("Create reader account: %s --> unsuccessful, account with given username already exist",
-						current.getUsername());
+				this.log.infof(
+						"Create reader account: %s --> unsuccessful, account with given username already exist",
+						this.current.getUsername());
 				JsfUtil.addErrorMessage("Uživatel s takovýmto přihlašovacím jménem již existuje");
 				return null;
 			}
-			current = new Reader();
+			this.current = new Reader();
 			return "/login";
 		} catch (Exception e) {
-			log.infof("Create reader account: %s -->unsuccessful", current.getUsername());
+			this.log.infof("Create reader account: %s -->unsuccessful",
+					this.current.getUsername());
 			JsfUtil.addErrorMessage("Při vytváření uživatele došlo k chybě");
-            return null;
+			return null;
 		}
 	}
 
 	/**
 	 * Checks if username of given user doesn't already exists
 	 * 
-	 * @param user user to be checked
-	 * @return true if user with username already exists 
+	 * @param user
+	 *            user to be checked
+	 * @return true if user with username already exists
 	 */
 	private boolean isUserDuplicated(User user) {
-		return (userManager.getUserByUsername(user.getUsername()) == null) ? false
+		return (this.userManager.getUserByUsername(user.getUsername()) == null) ? false
 				: true;
 	}
-	
 
 	/**
 	 * Returns data model of readers.
@@ -108,10 +111,10 @@ public class ReaderController implements Serializable {
 	 * @return data model of readers
 	 */
 	public DataModel<Reader> getItems() {
-		if (items == null) {
-			items = getPagination().createPageDataModel();
+		if (this.items == null) {
+			this.items = getPagination().createPageDataModel();
 		}
-		return items;
+		return this.items;
 	}
 
 	/**
@@ -120,24 +123,28 @@ public class ReaderController implements Serializable {
 	 * @return AbstractPaginationHelper
 	 */
 	public AbstractPaginationHelper getPagination() {
-		if (pagination == null) {
-			pagination = new AbstractPaginationHelper(5) {
+		if (this.pagination == null) {
+			this.pagination = new AbstractPaginationHelper(5) {
 				@Override
 				public int getItemsCount() {
-					return readerManager.count();
+					return ReaderController.this.readerManager.count();
 				}
 
 				@Override
 				public DataModel<Reader> createPageDataModel() {
-					return new ListDataModel<Reader>(readerManager.findRange(
-							new int[] { getPageFirstItem(),
-									getPageFirstItem() + getPageSize() },
-							searchText));
+					return new ListDataModel<Reader>(
+							ReaderController.this.readerManager
+									.findRange(
+											new int[] {
+													getPageFirstItem(),
+													getPageFirstItem()
+															+ getPageSize() },
+											ReaderController.this.searchText));
 				}
 			};
 		}
 
-		return pagination;
+		return this.pagination;
 	}
 
 	/**
@@ -146,8 +153,8 @@ public class ReaderController implements Serializable {
 	 * @return reader detail view
 	 */
 	public String prepareView() {
-		current = (Reader) getItems().getRowData();
-		selectedItemIndex = pagination.getPageFirstItem()
+		this.current = getItems().getRowData();
+		this.selectedItemIndex = this.pagination.getPageFirstItem()
 				+ getItems().getRowIndex();
 
 		return "/librarian/readerDetail";
@@ -171,9 +178,9 @@ public class ReaderController implements Serializable {
 	 */
 	private void performDestroy() {
 		try {
-			readerManager.delete(current);
+			this.readerManager.delete(this.current);
 			JsfUtil.addSuccessMessage("Čtenář byl úspěšně smazán.");
-		} catch (EJBTransactionRolledbackException e){
+		} catch (EJBTransactionRolledbackException e) {
 			JsfUtil.addErrorMessage("Čtenář s výpůjčkami nelze smazat.");
 		} catch (Exception ex) {
 			JsfUtil.addErrorMessage("Při mazání čtenáře nastal problém.");
@@ -184,7 +191,7 @@ public class ReaderController implements Serializable {
 	 * Recreates the model (list).
 	 */
 	private void recreateModel() {
-		items = null;
+		this.items = null;
 	}
 
 	/**
@@ -193,8 +200,8 @@ public class ReaderController implements Serializable {
 	 * @return reader edit view
 	 */
 	public String prepareEdit() {
-		current = (Reader) getItems().getRowData();
-		selectedItemIndex = pagination.getPageFirstItem()
+		this.current = getItems().getRowData();
+		this.selectedItemIndex = this.pagination.getPageFirstItem()
 				+ getItems().getRowIndex();
 
 		return "/librarian/editReader";
@@ -207,7 +214,7 @@ public class ReaderController implements Serializable {
 	 */
 	public String update() {
 		try {
-			readerManager.update(current);
+			this.readerManager.update(this.current);
 			JsfUtil.addSuccessMessage("Čtenář byl úspěšně upraven.");
 
 			return "/librarian/readerDetail";
@@ -243,21 +250,20 @@ public class ReaderController implements Serializable {
 	}
 
 	public String getSearchText() {
-		return searchText;
+		return this.searchText;
 	}
 
 	public void setSearchText(String searchText) {
 		this.searchText = searchText;
 	}
 
-	
 	/**
 	 * Cleans the search text and navigates to readers' management page.
 	 * 
 	 * @return reader list view
 	 */
 	public String cleanAndShowManagement() {
-		searchText = null;
+		this.searchText = null;
 		recreateModel();
 		return "/librarian/readersManagement";
 	}
@@ -266,28 +272,26 @@ public class ReaderController implements Serializable {
 	 * Cleans the search text and recreates model.
 	 */
 	public void cleanSearch() {
-		searchText = null;
+		this.searchText = null;
 		recreateModel();
 	}
-	
+
 	/**
 	 * Cleans the current reader and navigates to registration page.
 	 * 
 	 * @return reader registration page
 	 */
 	public String cleanAndShowRegistration() {
-		current = new Reader();
+		this.current = new Reader();
 		return "/librarian/createReader";
 	}
-	
 
 	public Reader getCurrent() {
-		return current;
+		return this.current;
 	}
 
 	public void setCurrent(Reader current) {
 		this.current = current;
 	}
 
-	
 }

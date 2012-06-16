@@ -16,34 +16,33 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Access(AccessType.FIELD)
 public class BookCopy implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="BOOK_COPY_ID",nullable=false, unique=true)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "BOOK_COPY_ID", nullable = false, unique = true)
 	private Long bookCopyId;
-	
+
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name="BOOK_ID")
+	@JoinColumn(name = "BOOK_ID")
 	private Book book;
-	
+
 	public Long getId() {
-		return bookCopyId;
+		return this.bookCopyId;
 	}
 
 	public void setId(Long id) {
 		this.bookCopyId = id;
 	}
 
-    public Book getBook() {
-        return book;
-    }
+	public Book getBook() {
+		return this.book;
+	}
 
-    public void setBook(Book book) {
-        this.book = book;
-    }
+	public void setBook(Book book) {
+		this.book = book;
+	}
 
-	
 }

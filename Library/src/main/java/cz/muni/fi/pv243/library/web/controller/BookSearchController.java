@@ -14,6 +14,11 @@ import cz.muni.fi.pv243.library.entity.Book;
 @RequestScoped
 public class BookSearchController implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Inject
 	private BookManager bookManager;
 
@@ -25,7 +30,7 @@ public class BookSearchController implements Serializable {
 	 * @return all stored books
 	 */
 	public List<Book> getBooks() {
-		return bookManager.getAllBooks();
+		return this.bookManager.getAllBooks();
 	}
 
 	/**
@@ -34,7 +39,7 @@ public class BookSearchController implements Serializable {
 	 * @return books with title containing text
 	 */
 	public List<Book> getBooksContainingSearched() {
-		return bookManager.getBooksWithTitleContainingGivenText(text);
+		return this.bookManager.getBooksWithTitleContainingGivenText(this.text);
 	}
 
 	/**
@@ -43,7 +48,8 @@ public class BookSearchController implements Serializable {
 	 * @return books starting with text
 	 */
 	public List<Book> getBooksStartingWith() {
-		return bookManager.getBooksWithTitleStartingWithGivenText(text);
+		return this.bookManager
+				.getBooksWithTitleStartingWithGivenText(this.text);
 	}
 
 	/**
@@ -52,7 +58,8 @@ public class BookSearchController implements Serializable {
 	 * @return books where authors starts with text
 	 */
 	public List<Book> getBooksWithAuthorStartingWith() {
-		return bookManager.getBooksWithAuthorStartingWithGivenText(text);
+		return this.bookManager
+				.getBooksWithAuthorStartingWithGivenText(this.text);
 	}
 
 	/**
@@ -61,7 +68,7 @@ public class BookSearchController implements Serializable {
 	 * @return bookManager
 	 */
 	public BookManager getBookManager() {
-		return bookManager;
+		return this.bookManager;
 	}
 
 	/**
@@ -97,7 +104,7 @@ public class BookSearchController implements Serializable {
 	 * @return text
 	 */
 	public String getText() {
-		return text;
+		return this.text;
 	}
 
 }

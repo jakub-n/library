@@ -12,56 +12,55 @@ import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 @Stateless
 public class EmployeeManager {
-	
 
-    @Inject
-    @LibraryDatabase
+	@Inject
+	@LibraryDatabase
 	private EntityManager em;
-    
-    @Inject
-    private Logger log;
-	
-    /**
-     * Persists new employee
-     * 
-     * @param emp
-     */
-	public void create(Employee emp){
-		em.persist(emp);
-		log.infof("Employee created %s", emp.getUsername());
+
+	@Inject
+	private Logger log;
+
+	/**
+	 * Persists new employee
+	 * 
+	 * @param emp
+	 */
+	public void create(Employee emp) {
+		this.em.persist(emp);
+		this.log.infof("Employee created %s", emp.getUsername());
 	}
-	
+
 	/**
 	 * Removes given employee
 	 * 
 	 * @param emp
 	 */
-	public void delete(Employee emp){
-			em.remove(em.merge(emp));
-			log.infof("Employee deleted %s", emp.getUsername());
+	public void delete(Employee emp) {
+		this.em.remove(this.em.merge(emp));
+		this.log.infof("Employee deleted %s", emp.getUsername());
 	}
-	
+
 	/**
 	 * Updates given employee
 	 * 
 	 * @param emp
 	 */
-	public void update(Employee emp){
-		em.merge(emp);
-		log.infof("Employee updated %s", emp.getUsername());
+	public void update(Employee emp) {
+		this.em.merge(emp);
+		this.log.infof("Employee updated %s", emp.getUsername());
 	}
-	
+
 	/**
 	 * Returns employee with given username
 	 * 
 	 * @param username
 	 * @return
 	 */
-	public Employee getEmployeeByName(String username){
-		Query q 
-		= em.createQuery
-		("SELECT a FROM Employee a WHERE a.username=:name").setParameter("name", username);
-		return (Employee)q.getSingleResult();
+	public Employee getEmployeeByName(String username) {
+		Query q = this.em.createQuery(
+				"SELECT a FROM Employee a WHERE a.username=:name")
+				.setParameter("name", username);
+		return (Employee) q.getSingleResult();
 	}
 
 }

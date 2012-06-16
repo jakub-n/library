@@ -12,42 +12,40 @@ import javax.validation.constraints.Size;
 @Access(AccessType.FIELD)
 public class Employee extends User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	@NotNull
-    @Size(min = 2, max = 50, message = "Křestní jméno musí být v rozsahu 2-50 znaků.")
-    private String firstName;
-    
-    @NotNull
-    @Size(min = 2, max = 100, message = "Příjmení musí být v rozsahu 2-100 znaků.")
-    private String lastName;
-    
+	@Size(min = 2, max = 50, message = "Křestní jméno musí být v rozsahu 2-50 znaků.")
+	private String firstName;
 
-    private boolean active=true;
+	@NotNull
+	@Size(min = 2, max = 100, message = "Příjmení musí být v rozsahu 2-100 znaků.")
+	private String lastName;
 
-    public String getFirstName() {
-        return firstName;
-    }
+	private boolean active = true;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public String getFirstName() {
+		return this.firstName;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public String getLastName() {
+		return this.lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
 	public boolean isActive() {
-		return active;
+		return this.active;
 	}
 
 	public void setActive(boolean active) {
 		this.active = active;
 	}
 
-    
 }

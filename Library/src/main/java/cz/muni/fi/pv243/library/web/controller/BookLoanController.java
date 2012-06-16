@@ -20,9 +20,14 @@ import cz.muni.fi.pv243.library.web.util.JsfUtil;
 @ViewScoped
 public class BookLoanController implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Inject
 	private BookLoanManager bookLoanManager;
-	
+
 	private AbstractPaginationHelper pagination;
 	private DataModel<BookLoan> items = null;
 
@@ -34,7 +39,6 @@ public class BookLoanController implements Serializable {
 
 	private Reader currentReader;
 	private BookLoan currentLoan;
-	
 
 	/**
 	 * Constructor.
@@ -48,11 +52,11 @@ public class BookLoanController implements Serializable {
 	 * @return data model of book loans
 	 */
 	public DataModel<BookLoan> getItems() {
-		this.currentReader = current;
-		if (items == null) {
-			items = getPagination().createPageDataModel();
+		this.currentReader = this.current;
+		if (this.items == null) {
+			this.items = getPagination().createPageDataModel();
 		}
-		return items;
+		return this.items;
 	}
 
 	/**
@@ -61,41 +65,45 @@ public class BookLoanController implements Serializable {
 	 * @return AbstractPaginationHelper
 	 */
 	public AbstractPaginationHelper getPagination() {
-		if (pagination == null) {
-			pagination = new AbstractPaginationHelper(5) {
+		if (this.pagination == null) {
+			this.pagination = new AbstractPaginationHelper(5) {
 				@Override
 				public int getItemsCount() {
-					return bookLoanManager.count(currentReader);
+					return BookLoanController.this.bookLoanManager
+							.count(BookLoanController.this.currentReader);
 				}
 
 				@Override
 				public DataModel<BookLoan> createPageDataModel() {
 					return new ListDataModel<BookLoan>(
-							bookLoanManager.findRange(new int[] {
-									(sessionPage * getPageSize()),
-									(sessionPage * getPageSize())
-											+ getPageSize() }, currentReader));
+							BookLoanController.this.bookLoanManager
+									.findRange(
+											new int[] {
+													(BookLoanController.this.sessionPage * getPageSize()),
+													(BookLoanController.this.sessionPage * getPageSize())
+															+ getPageSize() },
+											BookLoanController.this.currentReader));
 				}
 
 				@Override
 				public boolean isHasNextPage() {
-					return ((sessionPage + 1) * getPageSize() + 1) <= getItemsCount();
+					return ((BookLoanController.this.sessionPage + 1)
+							* getPageSize() + 1) <= getItemsCount();
 				}
 
 				@Override
 				public boolean isHasPreviousPage() {
-					return sessionPage > 0;
+					return BookLoanController.this.sessionPage > 0;
 				}
-
 
 			};
 		}
 
-		return pagination;
+		return this.pagination;
 	}
 
 	public Reader getCurrent() {
-		return current;
+		return this.current;
 	}
 
 	public void setCurrent(Reader current) {
@@ -103,7 +111,7 @@ public class BookLoanController implements Serializable {
 	}
 
 	public int getSessionPage() {
-		return sessionPage;
+		return this.sessionPage;
 	}
 
 	public void setSessionPage(int sessionPage) {
@@ -116,12 +124,12 @@ public class BookLoanController implements Serializable {
 	 * @return reader detail page
 	 */
 	public String returnBook() {
-		currentLoan = (BookLoan) getItems().getRowData();
-		currentLoan.setEndDate(new GregorianCalendar());
-		bookLoanManager.update(currentLoan);
+		this.currentLoan = getItems().getRowData();
+		this.currentLoan.setEndDate(new GregorianCalendar());
+		this.bookLoanManager.update(this.currentLoan);
 		JsfUtil.addSuccessMessage("Výtisk byl vrácen.");
 		return "/librarian/readerDetail";
 
 	}
-	
+
 }

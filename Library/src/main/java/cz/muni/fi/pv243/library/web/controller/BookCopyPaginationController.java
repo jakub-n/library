@@ -8,38 +8,43 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean
 @SessionScoped
-public class BookCopyPaginationController  implements Serializable {
+public class BookCopyPaginationController implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private int sessionPage = 0;
-	
-	private String bookId="";
-	
+
+	private String bookId = "";
 
 	/**
 	 * Constructor.
 	 */
 	public BookCopyPaginationController() {
 	}
-	
+
 	/**
-	 * Gets book which is being viewed, when viewing different book, paging is zero again.
+	 * Gets book which is being viewed, when viewing different book, paging is
+	 * zero again.
 	 * 
 	 */
-	public void init(){
-		String newBookId = FacesContext.getCurrentInstance().getExternalContext()
-				.getRequestParameterMap().get("book");
+	public void init() {
+		String newBookId = FacesContext.getCurrentInstance()
+				.getExternalContext().getRequestParameterMap().get("book");
 
-		if(newBookId == null){
-			sessionPage = 0;
-			this.bookId="";
-		}else if(!newBookId.equals(bookId)){
-			this.bookId=newBookId;
-			sessionPage = 0;
+		if (newBookId == null) {
+			this.sessionPage = 0;
+			this.bookId = "";
+		} else if (!newBookId.equals(this.bookId)) {
+			this.bookId = newBookId;
+			this.sessionPage = 0;
 		}
 	}
 
 	public int getSessionPage() {
-		return sessionPage;
+		return this.sessionPage;
 	}
 
 	public void setSessionPage(int sessionPage) {
@@ -52,7 +57,7 @@ public class BookCopyPaginationController  implements Serializable {
 	 * @return book detail page
 	 */
 	public String nextPage() {
-		sessionPage++;
+		this.sessionPage++;
 		return "/bookDetail";
 	}
 
@@ -62,19 +67,16 @@ public class BookCopyPaginationController  implements Serializable {
 	 * @return book detail page
 	 */
 	public String previousPage() {
-		sessionPage--;
+		this.sessionPage--;
 		return "/bookDetail";
 	}
 
 	public String getBookId() {
-		return bookId;
+		return this.bookId;
 	}
 
 	public void setBookId(String bookId) {
 		this.bookId = bookId;
 	}
-	
-	
-
 
 }

@@ -22,7 +22,7 @@ import cz.muni.fi.pv243.library.web.util.JsfUtil;
 public class UserController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private String password;
 	private String username;
 
@@ -30,7 +30,7 @@ public class UserController implements Serializable {
 
 	@Inject
 	private UserManager userManager;
-	
+
 	@Inject
 	private Logger log;
 
@@ -53,18 +53,18 @@ public class UserController implements Serializable {
 			if (request.getUserPrincipal() != null) {
 				request.logout();
 			}
-			request.login(username, password);
+			request.login(this.username, this.password);
 			userPrincipal = request.getUserPrincipal();
-			//System.out.println("Prihlasen " + username);
-			log.infof("Login: %s -->success", username);
-			user = userManager.getUserByUsername(username);
+			// System.out.println("Prihlasen " + username);
+			this.log.infof("Login: %s -->success", this.username);
+			this.user = this.userManager.getUserByUsername(this.username);
 			JsfUtil.addSuccessMessage("Přihlášení se zdařilo.");
 
 		} catch (ServletException ex) {
 			JsfUtil.addErrorMessage("Přihlášení se nezdařilo.");
-			System.out.println("Neprihlasen, pokus byl " + username + " "
-					+ password);
-			log.infof("Login: %s --> unsuccessful", username);
+			System.out.println("Neprihlasen, pokus byl " + this.username + " "
+					+ this.password);
+			this.log.infof("Login: %s --> unsuccessful", this.username);
 
 		}
 
@@ -86,12 +86,12 @@ public class UserController implements Serializable {
 			// clear the session
 			((HttpSession) context.getExternalContext().getSession(false))
 					.invalidate();
-			log.infof("Logout: %s -->success", username);
+			this.log.infof("Logout: %s -->success", this.username);
 			JsfUtil.addSuccessMessage("Odhlášení se zdařilo.");
 
 		} catch (ServletException ex) {
 			JsfUtil.addErrorMessage("Odhlášení se nezdařilo.");
-			log.infof("Logout: %s -->unsuccessful", username);
+			this.log.infof("Logout: %s -->unsuccessful", this.username);
 		}
 		return "/login";
 
@@ -112,7 +112,7 @@ public class UserController implements Serializable {
 	 * @return username
 	 */
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class UserController implements Serializable {
 	 * @return password
 	 */
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	/**
@@ -148,6 +148,6 @@ public class UserController implements Serializable {
 	 * @return user
 	 */
 	public User getUser() {
-		return user;
+		return this.user;
 	}
 }

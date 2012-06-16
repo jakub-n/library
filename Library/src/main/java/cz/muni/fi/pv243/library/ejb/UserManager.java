@@ -1,7 +1,5 @@
 package cz.muni.fi.pv243.library.ejb;
 
-import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -16,19 +14,19 @@ import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 @Stateless
 public class UserManager {
 
-    @Inject
-    @LibraryDatabase
+	@Inject
+	@LibraryDatabase
 	private EntityManager em;
-
 
 	/**
 	 * Returns user of given username, null if doesn't exist.
 	 * 
-	 * @param username of user to be returned
+	 * @param username
+	 *            of user to be returned
 	 * @return user of given username, null if doesn't exist
 	 */
 	public User getUserByUsername(String username) {
-		Query createQuery = em
+		Query createQuery = this.em
 				.createQuery("SELECT u FROM User u WHERE u.username = :username");
 		createQuery.setParameter("username", username);
 

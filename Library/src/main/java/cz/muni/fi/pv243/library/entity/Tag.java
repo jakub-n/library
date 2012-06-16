@@ -17,42 +17,41 @@ import javax.validation.constraints.NotNull;
 @Access(AccessType.FIELD)
 public class Tag implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="TAG_ID", nullable=false, unique=true)
-    private Long id;
-    
-    @NotNull
-    private String name;
-    
-    @ManyToMany(mappedBy="tags")
-    private Set<Book> books;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "TAG_ID", nullable = false, unique = true)
+	private Long id;
 
-    
-    public Set<Book> getBooks() {
-        return books;
-    }
+	@NotNull
+	private String name;
 
-    public void setBooks(Set<Book> books) {
-        this.books = books;
-    }
+	@ManyToMany(mappedBy = "tags")
+	private Set<Book> books;
 
-    public Long getId() {
-        return id;
-    }
+	public Set<Book> getBooks() {
+		return this.books;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setBooks(Set<Book> books) {
+		this.books = books;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 }

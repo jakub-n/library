@@ -12,8 +12,8 @@ import javax.persistence.PersistenceContext;
 public class JPAResourceProducer {
 
 	@Produces
-	@PersistenceContext(unitName="primary")
+	@PersistenceContext(unitName = "primary")
 	@LibraryDatabase
 	EntityManagerFactory libraryDatabasePersistenceUnit;
-	
+
 }

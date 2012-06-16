@@ -40,11 +40,11 @@ public class Book implements Serializable {
 	@NotNull
 	private String title;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	@NotNull
 	private String author;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	@NotNull
 	private String isbn;
 
@@ -61,20 +61,18 @@ public class Book implements Serializable {
 	private Set<BookCopy> copies;
 
 	@ManyToMany
-	@JoinTable(name = "BOOK_TAG", 
-	joinColumns = { @JoinColumn(name = "BOOK_ID", referencedColumnName = "BOOK_ID") }, 
-	inverseJoinColumns = { @JoinColumn(name = "TAG_ID", referencedColumnName = "TAG_ID") })
+	@JoinTable(name = "BOOK_TAG", joinColumns = { @JoinColumn(name = "BOOK_ID", referencedColumnName = "BOOK_ID") }, inverseJoinColumns = { @JoinColumn(name = "TAG_ID", referencedColumnName = "TAG_ID") })
 	private Set<Tag> tags;
-	
-	@OneToMany(mappedBy="book", orphanRemoval=true, fetch = FetchType.LAZY)
+
+	@OneToMany(mappedBy = "book", orphanRemoval = true, fetch = FetchType.LAZY)
 	private Set<Booking> bookings;
 
 	public Set<BookCopy> getCopies() {
-		return copies;
+		return this.copies;
 	}
 
 	public Set<Tag> getTags() {
-		return tags;
+		return this.tags;
 	}
 
 	public void setTags(Set<Tag> tags) {
@@ -86,7 +84,7 @@ public class Book implements Serializable {
 	}
 
 	public String getAuthor() {
-		return author;
+		return this.author;
 	}
 
 	public void setAuthor(String author) {
@@ -94,7 +92,7 @@ public class Book implements Serializable {
 	}
 
 	public String getIsbn() {
-		return isbn;
+		return this.isbn;
 	}
 
 	public void setIsbn(String isbn) {
@@ -102,7 +100,7 @@ public class Book implements Serializable {
 	}
 
 	public Calendar getPublicationDate() {
-		return publicationDate;
+		return this.publicationDate;
 	}
 
 	public void setPublicationDate(Calendar publicationDate) {
@@ -110,7 +108,7 @@ public class Book implements Serializable {
 	}
 
 	public Locale getLanguage() {
-		return language;
+		return this.language;
 	}
 
 	public void setLanguage(Locale language) {
@@ -118,7 +116,7 @@ public class Book implements Serializable {
 	}
 
 	public int getPagesNumber() {
-		return pagesNumber;
+		return this.pagesNumber;
 	}
 
 	public void setPagesNumber(int pagesNumber) {
@@ -126,7 +124,7 @@ public class Book implements Serializable {
 	}
 
 	public Long getBookId() {
-		return bookId;
+		return this.bookId;
 	}
 
 	public void setBookId(Long bookId) {
@@ -134,7 +132,7 @@ public class Book implements Serializable {
 	}
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public void setTitle(String title) {
@@ -142,7 +140,7 @@ public class Book implements Serializable {
 	}
 
 	public Set<Booking> getBookings() {
-		return bookings;
+		return this.bookings;
 	}
 
 	public void setBookings(Set<Booking> bookings) {

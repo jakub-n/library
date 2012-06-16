@@ -14,43 +14,42 @@ import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 @Stateless
 public class BookingManager {
-	
 
-    @Inject
-    @LibraryDatabase
+	@Inject
+	@LibraryDatabase
 	private EntityManager em;
-    
-    @Inject
-    private Logger log;
-	
-    /**
-     * Persists new booking
-     * 
-     * @param booking
-     */
-	public void create(Booking booking){
-		em.persist(booking);
-		log.infof("Booking created: %d",booking.getId());
+
+	@Inject
+	private Logger log;
+
+	/**
+	 * Persists new booking
+	 * 
+	 * @param booking
+	 */
+	public void create(Booking booking) {
+		this.em.persist(booking);
+		this.log.infof("Booking created: %d", booking.getId());
 	}
-	
+
 	/**
 	 * Removes given booking
 	 * 
 	 * @param booking
 	 */
-	public void delete(Booking booking){
-		em.remove(em.merge(booking));
-		log.infof("Booking deleted: %d",booking.getId());
+	public void delete(Booking booking) {
+		this.em.remove(this.em.merge(booking));
+		this.log.infof("Booking deleted: %d", booking.getId());
 	}
-	
+
 	/**
 	 * Updates given booking
 	 * 
 	 * @param booking
 	 */
-	public void update(Booking booking){
-		em.merge(booking);
-		log.infof("Booking updated: %d",booking.getId());
+	public void update(Booking booking) {
+		this.em.merge(booking);
+		this.log.infof("Booking updated: %d", booking.getId());
 	}
 
 	/**
@@ -59,8 +58,9 @@ public class BookingManager {
 	 * @return all bookings
 	 */
 	public List<Booking> getAllBookings() {
-		TypedQuery<Booking> q = em.createQuery("SELECT b FROM Booking b",Booking.class);
+		TypedQuery<Booking> q = this.em.createQuery("SELECT b FROM Booking b",
+				Booking.class);
 		return q.getResultList();
 	}
-	
+
 }

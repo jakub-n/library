@@ -16,86 +16,83 @@ import org.jboss.solder.logging.Logger;
 import cz.muni.fi.pv243.library.entity.Book;
 import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
-
 /**
  * A stateless bean handling the library entities.
  * 
  * @author Ixi (Iva Zakova)
  */
 
-@DeclareRoles({"MANAGER","LIBRARIAN"})
+@DeclareRoles({ "MANAGER", "LIBRARIAN" })
 @SecurityDomain("library")
 @Stateless
 public class BookManager {
 
-	
-
-    @Inject
-    @LibraryDatabase
+	@Inject
+	@LibraryDatabase
 	private EntityManager em;
-    
-    @Inject
-    private Logger log;
 
-    /**
-     * Persists new book
-     * 
-     * @param book
-     */
-    @RolesAllowed({ "MANAGER", "LIBRARIAN" })
+	@Inject
+	private Logger log;
+
+	/**
+	 * Persists new book
+	 * 
+	 * @param book
+	 */
+	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
 	public void create(Book book) {
-		em.persist(book);
-		log.infof("Book created: %s", book.getBookId());
+		this.em.persist(book);
+		this.log.infof("Book created: %s", book.getBookId());
 	}
-	
+
 	/**
 	 * Removes given book
 	 * 
 	 * @param book
 	 */
 	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
-    public void delete(Book book){
-    	em.remove(em.merge(book));
-    	log.infof("Book deleted: %s", book.getBookId());
-    }
-    
-    /**
-     * Updates given book
-     * 
-     * @param book
-     */
-	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
-    public void update(Book book){
-    	em.merge(book);
-    	log.infof("Book updated: %s", book.getBookId());
-    }
+	public void delete(Book book) {
+		this.em.remove(this.em.merge(book));
+		this.log.infof("Book deleted: %s", book.getBookId());
+	}
 
-    /**
-     * Returns all books
-     * 
-     * @return all books
-     */
+	/**
+	 * Updates given book
+	 * 
+	 * @param book
+	 */
+	@RolesAllowed({ "MANAGER", "LIBRARIAN" })
+	public void update(Book book) {
+		this.em.merge(book);
+		this.log.infof("Book updated: %s", book.getBookId());
+	}
+
+	/**
+	 * Returns all books
+	 * 
+	 * @return all books
+	 */
 	public List<Book> getAllBooks() {
-		TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b",Book.class);
+		TypedQuery<Book> query = this.em.createQuery("SELECT b FROM Book b",
+				Book.class);
 		return query.getResultList();
 	}
-	
+
 	/**
 	 * Removes all books
 	 * 
 	 * @deprecated
 	 */
 	@Deprecated
-    public void deleteAllBooks()
-    {
-    	Query query  = em.createQuery("DELETE FROM BookCopy");
-    	Query query1 = em.createQuery("DELETE FROM Book ");
-    	query.executeUpdate();
-    	query1.executeUpdate();
-    	log.infof("All Books was deleted!");
-    	
-    }
-	
+	public void deleteAllBooks() {
+		Query query = this.em.createQuery("DELETE FROM BookCopy");
+		Query query1 = this.em.createQuery("DELETE FROM Book ");
+		query.executeUpdate();
+		query1.executeUpdate();
+		this.log.infof("All Books was deleted!");
+
+	}
+
 	/**
 	 * Returns all books with title containing given text
 	 * 
@@ -103,9 +100,9 @@ public class BookManager {
 	 * @return
 	 */
 	public List<Book> getBooksWithTitleContainingGivenText(String text) {
-		TypedQuery<Book> query 
-		= em.createQuery
-		("SELECT b FROM Book b WHERE LOWER(b.title) LIKE '%" + text.toLowerCase() + "%' ",Book.class);
+		TypedQuery<Book> query = this.em.createQuery(
+				"SELECT b FROM Book b WHERE LOWER(b.title) LIKE '%"
+						+ text.toLowerCase() + "%' ", Book.class);
 		return query.getResultList();
 	}
 
@@ -116,12 +113,12 @@ public class BookManager {
 	 * @return
 	 */
 	public List<Book> getBooksWithTitleStartingWithGivenText(String text) {
-		TypedQuery<Book> query 
-		= em.createQuery
-		("SELECT b FROM Book b WHERE LOWER(b.title) LIKE  '" + text.toLowerCase() + "%' ",Book.class);
+		TypedQuery<Book> query = this.em.createQuery(
+				"SELECT b FROM Book b WHERE LOWER(b.title) LIKE  '"
+						+ text.toLowerCase() + "%' ", Book.class);
 		return query.getResultList();
 	}
-	
+
 	/**
 	 * Returns all books with author's name starting with given text
 	 * 
@@ -129,22 +126,22 @@ public class BookManager {
 	 * @return
 	 */
 	public List<Book> getBooksWithAuthorStartingWithGivenText(String text) {
-		TypedQuery<Book> query 
-		= em.createQuery
-		("SELECT b FROM Book b WHERE LOWER(b.author) LIKE  '" + text.toLowerCase() + "%' ",Book.class);
+		TypedQuery<Book> query = this.em.createQuery(
+				"SELECT b FROM Book b WHERE LOWER(b.author) LIKE  '"
+						+ text.toLowerCase() + "%' ", Book.class);
 		return query.getResultList();
 	}
-	
+
 	/**
 	 * Returns book with given id
 	 * 
 	 * @param id
 	 * @return
 	 */
-	public Book getBookById(Long id){
-		Query query = em.createQuery("SELECT b FROM Book b WHERE b.bookId=" + id);
+	public Book getBookById(Long id) {
+		Query query = this.em
+				.createQuery("SELECT b FROM Book b WHERE b.bookId=" + id);
 		return (Book) query.getSingleResult();
 	}
-	
-	
+
 }

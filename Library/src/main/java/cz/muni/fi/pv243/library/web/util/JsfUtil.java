@@ -10,7 +10,7 @@ import javax.faces.model.SelectItem;
  * A support class for displaying the messages and items hadnling.
  */
 public class JsfUtil {
-	
+
 	private JsfUtil() {
 	}
 
@@ -25,26 +25,23 @@ public class JsfUtil {
 				msg, msg);
 		FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 	}
-	
-	public static SelectItem[] getSelectItems(
-	        List<?> entities,
-	        boolean selectOne) {
-	        int size = selectOne ? (entities.size() + 1) : entities.size();
-	        SelectItem[] items = new SelectItem[size];
-	        int i = 0;
 
-	        if (selectOne) {
-	            items[0] = new SelectItem("", "---");
-	            i++;
-	        }
+	public static SelectItem[] getSelectItems(List<?> entities,
+			boolean selectOne) {
+		int size = selectOne ? (entities.size() + 1) : entities.size();
+		SelectItem[] items = new SelectItem[size];
+		int i = 0;
 
-	        for (Object x : entities) {
-	            items[i++] = new SelectItem(
-	                    x,
-	                    x.toString());
-	        }
+		if (selectOne) {
+			items[0] = new SelectItem("", "---");
+			i++;
+		}
 
-	        return items;
-	    }
+		for (Object x : entities) {
+			items[i++] = new SelectItem(x, x.toString());
+		}
+
+		return items;
+	}
 
 }

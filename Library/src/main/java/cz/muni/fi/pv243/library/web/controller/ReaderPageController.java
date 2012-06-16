@@ -18,11 +18,15 @@ import cz.muni.fi.pv243.library.ejb.ReaderManager;
 import cz.muni.fi.pv243.library.entity.BookLoan;
 import cz.muni.fi.pv243.library.entity.Reader;
 import cz.muni.fi.pv243.library.web.util.AbstractPaginationHelper;
-import cz.muni.fi.pv243.library.web.util.JsfUtil;
 
 @ManagedBean
 @ViewScoped
 public class ReaderPageController implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private BookLoanManager bookLoanManager;
@@ -50,10 +54,10 @@ public class ReaderPageController implements Serializable {
 	 * @return data model of book loans
 	 */
 	public DataModel<BookLoan> getItems() {
-		if (items == null) {
-			items = getPagination().createPageDataModel();
+		if (this.items == null) {
+			this.items = getPagination().createPageDataModel();
 		}
-		return items;
+		return this.items;
 	}
 
 	/**
@@ -62,27 +66,31 @@ public class ReaderPageController implements Serializable {
 	 * @return AbstractPaginationHelper
 	 */
 	public AbstractPaginationHelper getPagination() {
-		currentReader = readerManager.getReaderByName(username);
-		if (pagination == null) {
-			pagination = new AbstractPaginationHelper(5) {
+		this.currentReader = this.readerManager.getReaderByName(this.username);
+		if (this.pagination == null) {
+			this.pagination = new AbstractPaginationHelper(5) {
 				@Override
 				public int getItemsCount() {
-					return bookLoanManager.count(currentReader);
+					return ReaderPageController.this.bookLoanManager
+							.count(ReaderPageController.this.currentReader);
 				}
 
 				@Override
 				public DataModel<BookLoan> createPageDataModel() {
 					return new ListDataModel<BookLoan>(
-							bookLoanManager.findRange(new int[] {
-									getPageFirstItem(),
-									getPageFirstItem() + getPageSize() },
-									currentReader));
+							ReaderPageController.this.bookLoanManager
+									.findRange(
+											new int[] {
+													getPageFirstItem(),
+													getPageFirstItem()
+															+ getPageSize() },
+											ReaderPageController.this.currentReader));
 				}
 
 			};
 		}
 
-		return pagination;
+		return this.pagination;
 	}
 
 	/**
@@ -113,7 +121,7 @@ public class ReaderPageController implements Serializable {
 	 * Recreates the model (list).
 	 */
 	private void recreateModel() {
-		items = null;
+		this.items = null;
 	}
 
 	/**
@@ -122,7 +130,7 @@ public class ReaderPageController implements Serializable {
 	 * @return reader loans page
 	 */
 	public String prolongLoan() {
-		BookLoan bl = (BookLoan) getItems().getRowData();
+		BookLoan bl = getItems().getRowData();
 		Date date = bl.getReturnDate().getTime();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 		SimpleDateFormat sdf2 = new SimpleDateFormat("MM");
@@ -134,12 +142,12 @@ public class ReaderPageController implements Serializable {
 						.format(date)));
 		bl.setReturnDate(cal);
 
-		bookLoanManager.update(bl);
+		this.bookLoanManager.update(bl);
 		return "/reader/readerLoans";
 	}
 
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setUsername(String username) {

@@ -27,6 +27,10 @@ import cz.muni.fi.pv243.library.web.util.JsfUtil;
 @SessionScoped
 public class BookLoanPaginationController implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Inject
 	private BookLoanManager bookLoanManager;
 	@Inject
@@ -64,16 +68,16 @@ public class BookLoanPaginationController implements Serializable {
 				.getExternalContext().getRequestParameterMap()
 				.get("readerUsername");
 		if (newCurrent == null) {
-			sessionPage = 0;
+			this.sessionPage = 0;
 			this.curentUserUsername = "";
-		} else if (!(newCurrent.equals(curentUserUsername))) {
+		} else if (!(newCurrent.equals(this.curentUserUsername))) {
 			this.curentUserUsername = newCurrent;
-			sessionPage = 0;
+			this.sessionPage = 0;
 		}
 	}
 
 	public int getSessionPage() {
-		return sessionPage;
+		return this.sessionPage;
 	}
 
 	public void setSessionPage(int sessionPage) {
@@ -86,7 +90,7 @@ public class BookLoanPaginationController implements Serializable {
 	 * @return reader detail page
 	 */
 	public String nextPage() {
-		sessionPage++;
+		this.sessionPage++;
 		return "/librarian/readerDetail";
 	}
 
@@ -96,7 +100,7 @@ public class BookLoanPaginationController implements Serializable {
 	 * @return reader detail page
 	 */
 	public String previousPage() {
-		sessionPage--;
+		this.sessionPage--;
 		return "/librarian/readerDetail";
 	}
 
@@ -108,18 +112,18 @@ public class BookLoanPaginationController implements Serializable {
 	public String loanBook() {
 		BookLoan bl = new BookLoan();
 		bl.setBeginDate(new GregorianCalendar());
-		bl.setEmployee(employeeManager.getEmployeeByName(username));
-		Reader r = readerManager.getReaderByName(readerUsername);
+		bl.setEmployee(this.employeeManager.getEmployeeByName(this.username));
+		Reader r = this.readerManager.getReaderByName(this.readerUsername);
 		if (r != null) {
 			bl.setReader(r);
 		} else {
 			JsfUtil.addErrorMessage("Čtenář neexistuje.");
 			return "/librarian/loanBook";
 		}
-		BookCopy bc = bookCopyManager.getBookCopyById(Long
-				.parseLong(currentBookCopyId));
+		BookCopy bc = this.bookCopyManager.getBookCopyById(Long
+				.parseLong(this.currentBookCopyId));
 		if (bc != null) {
-			if (bookLoanManager.getActiveBookLoanForBookCopy(bc) != null) {
+			if (this.bookLoanManager.getActiveBookLoanForBookCopy(bc) != null) {
 				JsfUtil.addErrorMessage("Výtisk knihy je půjčen.");
 				return "/librarian/loanBook";
 			}
@@ -136,14 +140,14 @@ public class BookLoanPaginationController implements Serializable {
 		sdf.format(date);
 		Calendar cal = new GregorianCalendar(
 				Integer.parseInt(sdf.format(date)), Integer.parseInt(sdf2
-						.format(date)) - 1 + loanLength, Integer.parseInt(sdf3
-						.format(date)) + 1);
+						.format(date)) - 1 + this.loanLength,
+				Integer.parseInt(sdf3.format(date)) + 1);
 		bl.setReturnDate(cal);
 
-		bookLoanManager.create(bl);
+		this.bookLoanManager.create(bl);
 		JsfUtil.addSuccessMessage("Výtisk byl vypůjčen.");
-		currentBookCopyId = null;
-		loanLength = 1;
+		this.currentBookCopyId = null;
+		this.loanLength = 1;
 		return "/librarian/loanBook";
 
 	}
@@ -154,15 +158,15 @@ public class BookLoanPaginationController implements Serializable {
 	 * @return loan book page
 	 */
 	public String cleanAndShowLoan() {
-		readerUsername = null;
-		currentBookCopyId = null;
-		loanLength = 1;
+		this.readerUsername = null;
+		this.currentBookCopyId = null;
+		this.loanLength = 1;
 		return "/librarian/loanBook";
 
 	}
 
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setUsername(String username) {
@@ -170,7 +174,7 @@ public class BookLoanPaginationController implements Serializable {
 	}
 
 	public String getReaderUsername() {
-		return readerUsername;
+		return this.readerUsername;
 	}
 
 	public void setReaderUsername(String readerUsername) {
@@ -178,7 +182,7 @@ public class BookLoanPaginationController implements Serializable {
 	}
 
 	public String getCurrentBookCopyId() {
-		return currentBookCopyId;
+		return this.currentBookCopyId;
 	}
 
 	public void setCurrentBookCopyId(String currentBookCopyId) {
@@ -186,7 +190,7 @@ public class BookLoanPaginationController implements Serializable {
 	}
 
 	public int getLoanLength() {
-		return loanLength;
+		return this.loanLength;
 	}
 
 	public void setLoanLength(int loanLength) {

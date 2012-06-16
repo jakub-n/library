@@ -30,10 +30,9 @@ public class BookCopyManager {
 	 * @param copy
 	 */
 	public void create(BookCopy copy) {
-		em.persist(copy);
-		log.infof("BookCopy created: %d", copy.getId());
+		this.em.persist(copy);
+		this.log.infof("BookCopy created: %d", copy.getId());
 	}
-
 
 	/**
 	 * Removes bookCopy with given id
@@ -41,8 +40,8 @@ public class BookCopyManager {
 	 * @param bookCopyId
 	 */
 	public void delete(Long bookCopyId) {
-		em.remove(em.find(BookCopy.class, bookCopyId));
-		log.infof("BookCopy deleted: %d", bookCopyId);
+		this.em.remove(this.em.find(BookCopy.class, bookCopyId));
+		this.log.infof("BookCopy deleted: %d", bookCopyId);
 	}
 
 	/**
@@ -51,8 +50,8 @@ public class BookCopyManager {
 	 * @param copy
 	 */
 	public void update(BookCopy copy) {
-		em.merge(copy);
-		log.infof("BookCopy updated: %d", copy.getId());
+		this.em.merge(copy);
+		this.log.infof("BookCopy updated: %d", copy.getId());
 	}
 
 	/**
@@ -61,8 +60,8 @@ public class BookCopyManager {
 	 * @return all bookCopies
 	 */
 	public List<BookCopy> getAllBookCopies() {
-		TypedQuery<BookCopy> query = em.createQuery("SELECT c FROM BookCopy c",
-				BookCopy.class);
+		TypedQuery<BookCopy> query = this.em.createQuery(
+				"SELECT c FROM BookCopy c", BookCopy.class);
 		return query.getResultList();
 	}
 
@@ -72,11 +71,11 @@ public class BookCopyManager {
 	 * @return book copy
 	 */
 	public BookCopy getBookCopyById(Long id) {
-		TypedQuery<BookCopy> query = em.createQuery(
+		TypedQuery<BookCopy> query = this.em.createQuery(
 				"SELECT c FROM BookCopy c WHERE id='" + id + "'",
 				BookCopy.class);
 		if (query.getResultList().size() > 0) {
-			return (BookCopy) query.getSingleResult();
+			return query.getSingleResult();
 		} else {
 			return null;
 		}
@@ -87,7 +86,7 @@ public class BookCopyManager {
 	 */
 	@Deprecated
 	public void deleteAllBookCopies() {
-		Query q = em.createQuery("DELETE FROM BookCopy");
+		Query q = this.em.createQuery("DELETE FROM BookCopy");
 		q.executeUpdate();
 	}
 
@@ -97,7 +96,7 @@ public class BookCopyManager {
 	 * @return count
 	 */
 	public int countOfBookCopiesByBook(Book book) {
-		Query query = em
+		Query query = this.em
 				.createQuery("SELECT count(c) FROM BookCopy c WHERE book.id='"
 						+ book.getBookId() + "'");
 		return ((Long) query.getSingleResult()).intValue();
@@ -110,7 +109,7 @@ public class BookCopyManager {
 	 * @return book copies by given range
 	 */
 	public List<BookCopy> findRangeBookCopies(int[] range, Book book) {
-		TypedQuery<BookCopy> query = em.createQuery(
+		TypedQuery<BookCopy> query = this.em.createQuery(
 				"SELECT c FROM BookCopy c WHERE book.id='" + book.getBookId()
 						+ "'", BookCopy.class);
 		query.setFirstResult(range[0]);
@@ -125,7 +124,7 @@ public class BookCopyManager {
 	 * @return book copies
 	 */
 	public List<BookCopy> findBookCopies(Book book) {
-		TypedQuery<BookCopy> query = em.createQuery(
+		TypedQuery<BookCopy> query = this.em.createQuery(
 				"SELECT c FROM BookCopy c WHERE book.id='" + book.getBookId()
 						+ "'", BookCopy.class);
 		return query.getResultList();
