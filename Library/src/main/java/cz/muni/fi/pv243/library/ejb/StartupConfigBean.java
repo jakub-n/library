@@ -26,7 +26,7 @@ import cz.muni.fi.pv243.library.resource.LibraryDatabase;
 
 @Singleton
 // TODO upravit
-//@Startup
+@Startup
 public class StartupConfigBean {
 
 
