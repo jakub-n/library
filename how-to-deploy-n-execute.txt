@@ -1,0 +1,22 @@
+Pro nasazení aplikace je třeba:
+    * mysql datasource pojmenovaný "mysqltest"
+      mysql databáze musí mít jako výchozí typ tabulkového stroje nastaven InnoDB
+    * do standalone.xml souboru do tagu <security-domains>
+                <security-domain name="library">
+                    <authentication>
+                        <login-module code="Database" flag="required">
+                            <module-option name="dsJndiName" value="java:jboss/datasources/mysqltest"/>
+                            <module-option name="principalsQuery" value="select password from User where username=?"/>
+                            <module-option name="rolesQuery" value="select role,'Roles' from UserRoles where User_username=?"/>
+                            <module-option name="hashAlgorithm" value="SHA-256"/>
+                            <module-option name="hashEncoding" value="base64"/>
+                            <module-option name="unauthenticatedIdentity" value="guest"/>
+                            <module-option name="allowEmptyPasswords" value="false"/>
+                        </login-module>
+                    </authentication>
+                </security-domain>
+Aplikace se zpřstupňuje pod prefixem Library, tedy například http://localhost:8080/Library/
+Aplikace je nasazena v prostředí Openshift na https://lib-czerny.rhcloud.com/
+Pro vyzkoušní přežití session při pádu stoje v clusteru je třeva v souboru Library/src/main/resources/META-INF/persistence.xml změnit hodnotu vlastnosti hibernate.hbm2ddl.auto na "create".
+Poznámka ke struktuře projektu: samotný projekt je umístěn ve složce Library, protože git repozitář byl využíván i ke sdílení materiálů vztahujících se k analýze a návrhu. Protože Openshift používá k nasazování git, byl celý repozitář upraven tak, aby mohl být použit s timto prostředím.
+    
