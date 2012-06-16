@@ -15,8 +15,19 @@ Pro nasazení aplikace je třeba:
                         </login-module>
                     </authentication>
                 </security-domain>
+                
 Aplikace se zpřstupňuje pod prefixem Library, tedy například http://localhost:8080/Library/
 Aplikace je nasazena v prostředí Openshift na https://lib-czerny.rhcloud.com/
 Pro vyzkoušní přežití session při pádu stoje v clusteru je třeva v souboru Library/src/main/resources/META-INF/persistence.xml změnit hodnotu vlastnosti hibernate.hbm2ddl.auto na "create".
+
+Modeloví uživatelé:
+    librarianuser:password
+    manageruser:password
+    readeruser:password
+
+Modelová data:
+    The Java EE 6 Tutorial: Basic Concepts od Jendrock Eric
+    The Java EE 6 Tutorial: Advanced Topics od Jendrock Eric 		
+
 Poznámka ke struktuře projektu: samotný projekt je umístěn ve složce Library, protože git repozitář byl využíván i ke sdílení materiálů vztahujících se k analýze a návrhu. Protože Openshift používá k nasazování git, byl celý repozitář upraven tak, aby mohl být použit s timto prostředím.
     
