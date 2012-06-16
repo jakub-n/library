@@ -1,1 +1,3 @@
 target
+deployments
+!deployments/.gitkeep
