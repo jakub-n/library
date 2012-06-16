@@ -1,7 +1,6 @@
 package cz.muni.fi.pv243.library.web.controller;
 
 import java.io.Serializable;
-import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,9 +12,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
-import javax.persistence.PersistenceException;
-
-import org.hibernate.exception.ConstraintViolationException;
 
 import cz.muni.fi.pv243.library.ejb.BookCopyManager;
 import cz.muni.fi.pv243.library.ejb.BookLoanManager;
@@ -30,6 +26,7 @@ import cz.muni.fi.pv243.library.web.util.JsfUtil;
 @ManagedBean
 public class BookDetailController implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	@Inject
 	private BookManager bookManager;
 	@Inject
@@ -63,20 +60,20 @@ public class BookDetailController implements Serializable {
 	public void init() {
 		String newBookId = FacesContext.getCurrentInstance()
 				.getExternalContext().getRequestParameterMap().get("book");
-		if (!newBookId.equals(bookId)) {
-			sessionPage = 0;
+		if (!newBookId.equals(this.bookId)) {
+			this.sessionPage = 0;
 		}
 		if (newBookId != null) {
-			this.book = bookManager.getBookById(Long.parseLong(newBookId));
+			this.book = this.bookManager.getBookById(Long.parseLong(newBookId));
 		}
 	}
 
 	public BookManager getBookManager() {
-		return bookManager;
+		return this.bookManager;
 	}
 
 	public Book getBook() {
-		return book;
+		return this.book;
 	}
 
 	public void setBook(Book book) {
@@ -94,10 +91,10 @@ public class BookDetailController implements Serializable {
 	 */
 	public String deleteBook() {
 		try {
-			bookManager.delete(book);
+			this.bookManager.delete(this.book);
 			JsfUtil.addSuccessMessage("Kniha byla smazána.");
 			return "/libraryIndex";
-		}catch (EJBTransactionRolledbackException e){
+		} catch (EJBTransactionRolledbackException e) {
 			JsfUtil.addErrorMessage("Kniha s existujícími výtisky nelze smazat.");
 			return "/libraryIndex";
 		} catch (Exception ex) {
@@ -113,16 +110,16 @@ public class BookDetailController implements Serializable {
 	 * @return data model of book loans
 	 */
 	public DataModel<BookCopyWithLoan> getItems() {
-		if (items == null) {
-			items = getPagination().createPageDataModel();
+		if (this.items == null) {
+			this.items = getPagination().createPageDataModel();
 		}
-		return items;
+		return this.items;
 	}
 
 	private List<BookCopyWithLoan> getBookLoansForItems(List<BookCopy> bcList) {
 		List<BookCopyWithLoan> bcwlList = new LinkedList<BookCopyWithLoan>();
 		for (BookCopy bc : bcList) {
-			bcwlList.add(new BookCopyWithLoan(bc, bookLoanManager
+			bcwlList.add(new BookCopyWithLoan(bc, this.bookLoanManager
 					.getActiveBookLoanForBookCopy(bc)));
 		}
 
@@ -135,38 +132,42 @@ public class BookDetailController implements Serializable {
 	 * @return AbstractPaginationHelper
 	 */
 	public AbstractPaginationHelper getPagination() {
-		if (pagination == null) {
-			pagination = new AbstractPaginationHelper(5) {
+		if (this.pagination == null) {
+			this.pagination = new AbstractPaginationHelper(5) {
 				@Override
 				public int getItemsCount() {
-					return bookCopyManager.countOfBookCopiesByBook(book);
+					return BookDetailController.this.bookCopyManager
+							.countOfBookCopiesByBook(BookDetailController.this.book);
 				}
 
 				@Override
 				public DataModel<BookCopyWithLoan> createPageDataModel() {
-					List<BookCopy> bcList = bookCopyManager
-							.findRangeBookCopies(new int[] {
-									(sessionPage * getPageSize()),
-									(sessionPage * getPageSize())
-											+ getPageSize() }, book);
+					List<BookCopy> bcList = BookDetailController.this.bookCopyManager
+							.findRangeBookCopies(
+									new int[] {
+											(BookDetailController.this.sessionPage * getPageSize()),
+											(BookDetailController.this.sessionPage * getPageSize())
+													+ getPageSize() },
+									BookDetailController.this.book);
 					return new ListDataModel<BookCopyWithLoan>(
 							getBookLoansForItems(bcList));
 				}
 
 				@Override
 				public boolean isHasNextPage() {
-					return ((sessionPage + 1) * getPageSize() + 1) <= getItemsCount();
+					return ((BookDetailController.this.sessionPage + 1)
+							* getPageSize() + 1) <= getItemsCount();
 				}
 
 				@Override
 				public boolean isHasPreviousPage() {
-					return sessionPage > 0;
+					return BookDetailController.this.sessionPage > 0;
 				}
 
 			};
 		}
 
-		return pagination;
+		return this.pagination;
 	}
 
 	/**
@@ -175,12 +176,12 @@ public class BookDetailController implements Serializable {
 	 * @return book detail page
 	 */
 	public String deleteBookCopy() {
-		BookCopyWithLoan bcwl = (BookCopyWithLoan) getItems().getRowData();
-		currentCopy = bcwl.getBc();
+		BookCopyWithLoan bcwl = getItems().getRowData();
+		this.currentCopy = bcwl.getBc();
 		try {
-			bookCopyManager.delete(currentCopy.getId());
+			this.bookCopyManager.delete(this.currentCopy.getId());
 			JsfUtil.addSuccessMessage("Výtisk byl smazán.");
-		}catch (EJBTransactionRolledbackException e){
+		} catch (EJBTransactionRolledbackException e) {
 			JsfUtil.addErrorMessage("Výtisk, který byl vypůjčen, nelze smazat.");
 			return "/libraryIndex";
 		} catch (Exception ex) {
@@ -191,10 +192,10 @@ public class BookDetailController implements Serializable {
 	}
 
 	public int getCountOfActiveBookLoans() {
-		List<BookCopy> bcList = bookCopyManager.findBookCopies(book);
+		List<BookCopy> bcList = this.bookCopyManager.findBookCopies(this.book);
 		int count = 0;
 		for (BookCopy bc : bcList) {
-			if (bookLoanManager.getActiveBookLoanForBookCopy(bc) != null) {
+			if (this.bookLoanManager.getActiveBookLoanForBookCopy(bc) != null) {
 				count++;
 			}
 		}
@@ -203,23 +204,23 @@ public class BookDetailController implements Serializable {
 	}
 
 	public int getCountOfBookCopies() {
-		if (book != null) {
-			return bookCopyManager.countOfBookCopiesByBook(book);
+		if (this.book != null) {
+			return this.bookCopyManager.countOfBookCopiesByBook(this.book);
 		} else
 			return 0;
 	}
 
 	public String addBookCopy() {
 		BookCopy bc = new BookCopy();
-		bc.setBook(book);
-		bookCopyManager.create(bc);
+		bc.setBook(this.book);
+		this.bookCopyManager.create(bc);
 		JsfUtil.addSuccessMessage("Výtisk byl přidán.");
 		return "/libraryIndex";
 
 	}
 
 	public int getSessionPage() {
-		return sessionPage;
+		return this.sessionPage;
 	}
 
 	public void setSessionPage(int sessionPage) {
@@ -227,7 +228,7 @@ public class BookDetailController implements Serializable {
 	}
 
 	public String getBookId() {
-		return bookId;
+		return this.bookId;
 	}
 
 	public void setBookId(String bookId) {
@@ -244,7 +245,7 @@ public class BookDetailController implements Serializable {
 		}
 
 		public BookCopy getBc() {
-			return bc;
+			return this.bc;
 		}
 
 		public void setBc(BookCopy bc) {
@@ -252,7 +253,7 @@ public class BookDetailController implements Serializable {
 		}
 
 		public BookLoan getBl() {
-			return bl;
+			return this.bl;
 		}
 
 		public void setBl(BookLoan bl) {
