@@ -13,23 +13,23 @@ import javax.sql.DataSource;
 @Startup
 public class OpenshiftStartupTestBean {
 	
-	@Resource(name="jdbc/mysqltest")
-	private DataSource datasource;
-	
-	@PostConstruct
-	public void init() {
-		final boolean isDatasourceNull = this.datasource == null;
-		System.out.println("");
-		System.out.println("OpenshiftStartupTestBean.init()");
-		System.out.println("datasource je null: " + isDatasourceNull);
-		try {
-			Connection connection = this.datasource.getConnection();
-			System.out.println("aktivni spojeni: " + connection);
-			connection.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-	}
+//	@Resource
+//	private DataSource datasource;
+//	
+//	@PostConstruct
+//	public void init() {
+//		final boolean isDatasourceNull = this.datasource == null;
+//		System.out.println("");
+//		System.out.println("OpenshiftStartupTestBean.init()");
+//		System.out.println("datasource je null: " + isDatasourceNull);
+//		try {
+//			Connection connection = this.datasource.getConnection();
+//			System.out.println("aktivni spojeni: " + connection);
+//			connection.close();
+//		} catch (Exception ex) {
+//			ex.printStackTrace();
+//		}
+//		
+//	}
 
 }
